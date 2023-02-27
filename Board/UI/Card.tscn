@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://df74k33olyi04"]
+
+[ext_resource type="Script" path="res://Board/UI/Card.cs" id="1_cacc0"]
+[ext_resource type="Texture2D" uid="uid://bt5hifs7bo82d" path="res://Board/UI/Card.png" id="2_63rhc"]
+[ext_resource type="Texture2D" uid="uid://bfymb37jrpnl0" path="res://Board/Weapons/Dispenser/Dispenser.png" id="3_v6jtp"]
+
+[sub_resource type="RectangleShape2D" id="3"]
+size = Vector2(65, 95)
+
+[node name="Card" type="Node2D" groups=["Card"]]
+script = ExtResource("1_cacc0")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+position = Vector2(32.5, 47.5)
+shape = SubResource("3")
+
+[node name="Card" type="Sprite2D" parent="."]
+texture = ExtResource("2_63rhc")
+centered = false
+
+[node name="Content" type="Sprite2D" parent="."]
+position = Vector2(33, 48)
+scale = Vector2(0.586458, 0.586458)
+texture = ExtResource("3_v6jtp")
+
+[node name="ShadowMask" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 0.619608)
+position = Vector2(0, 3.8147e-06)
+texture = ExtResource("2_63rhc")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 0)
+region_filter_clip_enabled = true

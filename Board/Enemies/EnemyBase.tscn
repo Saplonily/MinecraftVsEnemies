@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://befpimk1sa7qp"]
+
+[ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Board/ShadowGradient.tres" id="1_v408m"]
+
+[node name="Enemy" type="Node2D"]
+texture_filter = 1
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+scale = Vector2(1, 0.25)
+texture = ExtResource("1_v408m")

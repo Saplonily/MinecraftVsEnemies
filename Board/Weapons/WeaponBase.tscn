@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3t0q8lb8ual1"]
+
+[ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Board/ShadowGradient.tres" id="1_glbq7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e0cyl"]
+size = Vector2(57, 64)
+
+[node name="WeaponBase" type="Node2D" groups=["Weapon"]]
+texture_filter = 1
+
+[node name="HitArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_e0cyl")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+scale = Vector2(1, 0.25)
+texture = ExtResource("1_glbq7")

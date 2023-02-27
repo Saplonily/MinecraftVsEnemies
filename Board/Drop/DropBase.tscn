@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnfhyrovo3hrk"]
+
+[ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Board/ShadowGradient.tres" id="1_2denn"]
+
+[node name="DropBase" type="Node2D"]
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+scale = Vector2(1, 0.381)
+texture = ExtResource("1_2denn")

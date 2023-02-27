@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://dsm32grc4bhdm"]
+
+[ext_resource type="Script" path="res://Board/Weapons/Furnace/Furnace.cs" id="1_83cm5"]
+[ext_resource type="Texture2D" uid="uid://c8wgcfvj55mah" path="res://Board/Weapons/Furnace/Furnace.png" id="1_ysy1d"]
+[ext_resource type="PackedScene" uid="uid://b3t0q8lb8ual1" path="res://Board/Weapons/WeaponBase.tscn" id="1_yxwi7"]
+[ext_resource type="Texture2D" uid="uid://dl6q6shiolgau" path="res://Board/Weapons/Furnace/Flame.png" id="4_2gd3g"]
+[ext_resource type="Script" path="res://SalParticleSys.cs" id="4_gir36"]
+[ext_resource type="Texture2D" uid="uid://d0a6t80bouis2" path="res://Board/Weapons/Furnace/Flame2.png" id="5_3hiaw"]
+
+[sub_resource type="Gradient" id="Gradient_xxmat"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[node name="Furnace" groups=["Furnace"] instance=ExtResource("1_yxwi7")]
+script = ExtResource("1_83cm5")
+
+[node name="CollisionShape2D" parent="HitArea" index="0"]
+position = Vector2(0.5, -33.5)
+
+[node name="Furnace" type="Sprite2D" parent="." index="2"]
+texture = ExtResource("1_ysy1d")
+centered = false
+offset = Vector2(-37, -71)
+metadata/_edit_lock_ = true
+
+[node name="FlameParticles" type="Node2D" parent="." index="3"]
+script = ExtResource("4_gir36")
+LongShootingShootAmount = 0.01
+ParticleLifetimeRandomness = 2.0
+ParticleTexture = [ExtResource("4_2gd3g")]
+ParticleTextureOrginal = Vector2(-0.5, -0.5)
+ParticleGradient = SubResource("Gradient_xxmat")
+ParticleAnimationSpeed = 0.02
+ParticleAnimationSpeedRandomness = 0.2
+ParticlePosition = Vector2(0, -8)
+ParticlePositionRandomness = Vector2(16, 5)
+ParticleSpeed = Vector2(0, -0.05)
+ParticleGravity = Vector2(0, 0)
+
+[node name="Flame2Particles" type="Node2D" parent="." index="4"]
+script = ExtResource("4_gir36")
+ParticleLifetimeRandomness = 2.0
+ParticleTexture = [ExtResource("5_3hiaw")]
+ParticleTextureOrginal = Vector2(-0.5, -0.5)
+ParticleGradient = SubResource("Gradient_xxmat")
+ParticlePosition = Vector2(0, -8)
+ParticlePositionRandomness = Vector2(16, 5)
+ParticleSpeed = Vector2(0, -0.05)
+ParticleGravity = Vector2(0, 0)
+
+[node name="FlameTimer" type="Timer" parent="." index="5"]
+wait_time = 4.0
+autostart = true
+
+[node name="ProduceTimer" type="Timer" parent="." index="6"]
+wait_time = 15.0
+autostart = true

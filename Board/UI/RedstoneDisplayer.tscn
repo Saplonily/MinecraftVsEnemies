@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://dybr4mypcw41w"]
+
+[ext_resource type="Texture2D" uid="uid://cikfrutlgvc8w" path="res://Board/UI/RedstoneDisplayer.png" id="1_by2go"]
+[ext_resource type="Script" path="res://Board/UI/RedstoneDisplayer.cs" id="1_ma7eu"]
+[ext_resource type="Texture2D" uid="uid://ddhhpfws8dtok" path="res://Board/Drop/Redstone.png" id="2_6qont"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7550g"]
+font_color = Color(0.8, 0.2, 0.2, 1)
+outline_size = 1
+outline_color = Color(1, 1, 1, 0.380392)
+shadow_color = Color(1, 1, 1, 0.0470588)
+
+[node name="RedstoneDisplayer" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_ma7eu")
+
+[node name="RedstoneDisplayer" type="Sprite2D" parent="."]
+texture = ExtResource("1_by2go")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Redstone" type="Sprite2D" parent="."]
+position = Vector2(32, 30)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_6qont")
+metadata/_edit_lock_ = true
+
+[node name="TextLabel" type="Label" parent="."]
+texture_filter = 2
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 60.0
+offset_right = 64.0
+offset_bottom = 86.0
+grow_vertical = 2
+text = "100"
+label_settings = SubResource("LabelSettings_7550g")
+horizontal_alignment = 1
