@@ -2,11 +2,10 @@ using Godot;
 
 namespace MVE;
 
-public partial class Card : Node2D
+public partial class Card : BoardUI
 {
     protected Sprite2D shadowMask = null!;
     protected Sprite2D contentSprite = null!;
-    protected Board boardNode = null!;
     protected Area2D area = null!;
 
     protected bool mouseIn = false;
@@ -29,7 +28,6 @@ public partial class Card : Node2D
         shadowMask = GetNode<Sprite2D>("ShadowMask");
         area = GetNode<Area2D>("Area2D");
         contentSprite = GetNode<Sprite2D>("Content");
-        boardNode = this.FindParent<Board>()!;
 
         area.InputEvent += this.Area_InputEvent;
         area.MouseEntered += () => mouseIn = true;
@@ -44,9 +42,9 @@ public partial class Card : Node2D
     public override void _Process(double delta)
     {
         base._Process(delta);
-        if(mouseIn)
+        if (mouseIn)
         {
-            boardNode.ExpectCursorShape = Game.Instance.Config.ReadyToPickCard;
+            Board.ExpectCursorShape = Game.Instance.Config.ReadyToPickCard;
         }
         switch (State)
         {
@@ -77,7 +75,7 @@ public partial class Card : Node2D
         {
             if (ie.IsActionPressed("pick_card"))
             {
-                if (boardNode.Picking == PickingType.Idle)
+                if (Board.Picking == PickingType.Idle)
                 {
                     this.Pick();
                 }
@@ -96,15 +94,15 @@ public partial class Card : Node2D
 
     public void Pick()
     {
-        boardNode.DoPick(PickingType.Card);
-        boardNode.PickedCard = this;
+        Board.DoPick(PickingType.Card);
+        Board.PickedCard = this;
         State = CardState.Picked;
     }
 
     public void UnPick()
     {
-        boardNode.DoPick(PickingType.Idle);
-        boardNode.PickedCard = null;
+        Board.DoPick(PickingType.Idle);
+        Board.PickedCard = null;
         State = CardState.Idle;
     }
 

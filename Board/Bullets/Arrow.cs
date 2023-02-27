@@ -8,6 +8,11 @@ public partial class Arrow : Bullet
 
     public float Speed { get; set; } = 400.0f;
 
+    public Arrow()
+    {
+        EnableGravity = false;
+    }
+
     public override void _Process(double delta)
     {
         base._Process(delta);

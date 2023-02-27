@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x4mdt"]
 size = Vector2(50, 45)
 
-[node name="DropBase" instance=ExtResource("1_e7g5l")]
+[node name="Redstone" instance=ExtResource("1_e7g5l")]
 texture_filter = 1
 script = ExtResource("1_xvv5u")
 
@@ -16,6 +16,7 @@ position = Vector2(0, -25)
 texture = ExtResource("2_6jj24")
 
 [node name="CollisionShape2D" parent="HitBox" index="0"]
+visible = false
 position = Vector2(0, -22.5)
 shape = SubResource("RectangleShape2D_x4mdt")
 

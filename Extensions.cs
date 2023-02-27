@@ -2,6 +2,7 @@ namespace MVE;
 
 public static class Extensions
 {
+    #region misc
     public static T Cast<T>(this object obj)
     {
         return (T)obj;
@@ -11,7 +12,9 @@ public static class Extensions
     {
         return obj as T;
     }
+    #endregion
 
+    #region gd
     public static Vector3 ToVec3WithZ0(this Vector2 vector2)
     {
         return new Vector3(vector2.X, vector2.Y, 0);
@@ -28,6 +31,16 @@ public static class Extensions
         return p is null ? null : p is T target ? target : FindParent<T>(p);
     }
 
+    public static Vector2 GetPositionAndFree(this Marker2D marker2D)
+    {
+        var pos = marker2D.Position;
+        marker2D.Free();
+        return pos;
+    }
+
+    #endregion
+
+    #region math
     public static double NextDouble(this Random r, double min, double max)
         => r.NextDouble() * (max - min) + min;
 
@@ -45,4 +58,33 @@ public static class Extensions
 
     public static float NextFloat(this Random r, float max)
         => r.NextFloat(0f, max);
+
+    #endregion
+}
+
+public static class Calculate
+{
+    public static float Approach(float val, float target, float maxMove)
+        => val <= target ? Math.Min(val + maxMove, target) : Math.Max(val - maxMove, target);
+
+    public static Vector2 Approach(Vector2 val, Vector2 target, float maxMove)
+    {
+        if (val == target) return target;
+        var diff = target - val;
+        return diff.LengthSquared() <= maxMove * maxMove ? target : val + diff.Normalized() * maxMove;
+    }
+
+    public static Vector3 Approach(Vector3 val, Vector3 target, float maxMove)
+    {
+        if (val == target) return target;
+        var diff = target - val;
+        return diff.LengthSquared() <= maxMove * maxMove ? target : val + diff.Normalized() * maxMove;
+    }
+
+    public static Vector3 ApproachNonZ(Vector3 val, Vector3 target, float maxMove)
+    {
+        if (val == target) return target;
+        var diff = (target - val) with { Z = 0 };
+        return diff.LengthSquared() <= maxMove * maxMove ? target with { Z = val.Z } : val + diff.Normalized() * maxMove;
+    }
 }

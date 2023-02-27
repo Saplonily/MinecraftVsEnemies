@@ -7,7 +7,9 @@ namespace MVE;
 public abstract partial class BoardEntity : Node2D
 {
     [Export]
-    public Vector3 LevelPos { get; set; } = Vector3.Zero;
+    protected Vector3 levelPos;
+
+    public ref Vector3 LevelPos => ref levelPos;
 
     public Board Board { get; protected set; } = null!;
 

@@ -20,7 +20,12 @@ public partial class Furnace : Weapon
         produceTimer = GetNode<Godot.Timer>("ProduceTimer");
 
         flameTimer.Timeout += EmitParticle;
-        produceTimer.Timeout += Produce;
+        produceTimer.Timeout += () =>
+        {
+            flameSalPSys.EmitMany(30);
+            Produce();
+            produceTimer.WaitTime = Game.Instance.Random.NextDouble(14d, 16d);
+        };
 
         EmitParticle();
         void EmitParticle()
@@ -34,6 +39,7 @@ public partial class Furnace : Weapon
     public void Produce()
     {
         var redstone = RedstoneScene.Instantiate<Redstone>();
+        redstone.ApplyVelocity(new Vector3(Game.Instance.Random.NextFloat(-250, 250), 0, Game.Instance.Random.NextFloat(300)));
         Lawn.AddBoardEntity(redstone, LevelPos);
     }
 }

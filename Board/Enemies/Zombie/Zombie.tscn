@@ -237,6 +237,7 @@ transitions = ["Walking", "Die", SubResource("AnimationNodeStateMachineTransitio
 graph_offset = Vector2(-10.9009, 13)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b2r40"]
+graph_offset = Vector2(-711, 27)
 nodes/HitOneShot/node = SubResource("AnimationNodeOneShot_elov4")
 nodes/HitOneShot/position = Vector2(0, 168)
 nodes/HitOntShot/node = SubResource("AnimationNodeAnimation_0u160")

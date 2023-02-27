@@ -9,6 +9,8 @@ public partial class Board
     protected Control controlOverlay = null!;
     protected RedstoneDisplayer redstoneDisplayer = null!;
 
+    public readonly Vector3 Gravity = new(0, 0, -1000);
+
     [Export(PropertyHint.MultilineText)]
     public string StartUpCmds { get; set; } = null!;
 
@@ -22,7 +24,15 @@ public partial class Board
 
     public Control.CursorShape ExpectCursorShape { get; set; }
 
+    public BoardBank Bank { get; protected set; }
+
+
     public int ShadowZIndex => -1;
+
+    public Board()
+    {
+        Bank = new();
+    }
 
     public override void _Ready()
     {
@@ -62,6 +72,16 @@ public partial class Board
 
         controlOverlay.MouseDefaultCursorShape = ExpectCursorShape;
         ExpectCursorShape = Control.CursorShape.Arrow;
+
+#if DEBUG
+        if (Input.IsKeyPressed(Key.P))
+        {
+            foreach (Furnace f in GetTree().GetNodesInGroup("Furnace"))
+            {
+                f.Produce();
+            }
+        }
+#endif
     }
 
     public override void _Input(InputEvent @event)
@@ -110,6 +130,11 @@ public partial class Board
             return DropPickResult.ToRedstoneDisplayer;
         }
         return DropPickResult.SelfDisappear;
+    }
+
+    public Vector2 GetRedstoneDisplayerSlotPos()
+    {
+        return redstoneDisplayer.Position + redstoneDisplayer.RedstoneOffset;
     }
 }
 

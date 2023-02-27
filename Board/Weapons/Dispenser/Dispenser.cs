@@ -7,7 +7,7 @@ public partial class Dispenser : Weapon
     public static readonly PackedScene ArrowScene = GD.Load<PackedScene>("res://Board/Bullets/Arrow.tscn");
 
     protected Godot.Timer shootTimer = null!;
-    protected Marker2D shootOffset = null!;
+    protected Vector2 shootOffset;
     protected RayCast2D rayCast = null!;
     protected SalParticleSys shootParticleSys = null!;
 
@@ -15,7 +15,9 @@ public partial class Dispenser : Weapon
     {
         base._Ready();
         shootTimer = GetNode<Godot.Timer>("ShootTimer");
-        shootOffset = GetNode<Marker2D>("ShootOffsetPosition");
+        var marker2D = GetNode<Marker2D>("ShootOffsetMarker");
+        shootOffset = marker2D.Position;
+        marker2D.Free();
         rayCast = GetNode<RayCast2D>("RayCast2D");
         shootParticleSys = GetNode<SalParticleSys>("ShootPtSys");
 
@@ -37,6 +39,6 @@ public partial class Dispenser : Weapon
 
     public void Shoot()
     {
-        Lawn.AddBoardEntity(ArrowScene.Instantiate<Arrow>(), LevelPos + new Vector3(shootOffset.Position.X, 0, -shootOffset.Position.Y));
+        Lawn.AddBoardEntity(ArrowScene.Instantiate<Arrow>(), LevelPos + new Vector3(shootOffset.X, 0, -shootOffset.Y));
     }
 }

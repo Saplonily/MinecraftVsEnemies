@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup>
     <StartAction>Program</StartAction>
-    <StartProgram>D:\MyGodotSpace\4.0 rc3\Godot_v4.0-rc3_mono_win64.exe</StartProgram>
+    <StartProgram>D:\MyGodotSpace\4.0 rc5\Godot_v4.0-rc5_mono_win64.exe</StartProgram>
     <StartArguments>--path D:\Projects\MinecraftVsEnemies</StartArguments>
   </PropertyGroup>
 </Project>
