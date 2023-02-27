@@ -23,10 +23,11 @@ public partial class SalParticleSys : Node2D
     [Export]
     public float LongShootingShootAmount { get; set; } = 1f;
 
+#endif
+
     [Export]
     public bool EndOnAnimationEnd { get; set; } = false;
 
-#endif
 
     [Export]
     public bool LocalCoord { get; set; }

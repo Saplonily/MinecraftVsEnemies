@@ -27,13 +27,16 @@ public partial class Dispenser : Weapon
 
     public void OnShootTimerTimeout()
     {
-        shootTimer.WaitTime = Game.Instance.Random.NextDouble(0.5, 3);
         GodotObject collider = rayCast.GetCollider();
         if (collider is Node node && node.Owner is BoardEntity levelEntity && levelEntity is Enemy)
         {
             Shoot();
             shootTimer.WaitTime = Game.Instance.Random.NextDouble(0.75, 1);
             shootParticleSys.EmitMany(20);
+        }
+        else
+        {
+            shootTimer.WaitTime = Game.Instance.Random.NextDouble(0.5, 3);
         }
     }
 
