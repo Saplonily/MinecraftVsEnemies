@@ -53,6 +53,12 @@ public class Game
         LoadEnemyProperties();
     }
 
+    public static bool OnInterval(int frames)
+        => Engine.GetProcessFrames() % (ulong)frames == 0;
+
+    public static bool OnPhysicsInterval(int frames)
+        => Engine.GetPhysicsFrames() % (ulong)frames == 0;
+
     public void LoadEnemyProperties()
     {
         EnemyProperties = new();

@@ -35,7 +35,8 @@ public partial class Lawn : Node2D
                 {
                     float v = n is BoardEntity entity ? entity.LevelPos.Y : float.MinValue;
                     if (n is Enemy) v += 0.1f;
-                    if (n is Bullet) v += 0.2f;
+                    if (n is Drop) v += 0.2f;
+                    if (n is Bullet) v += 0.3f;
                     return v;
                 })
                 .Select(n => (node: n, index: ind++));

@@ -78,8 +78,10 @@ public partial class PlantingArea : Area2D
             var prop = board.PickedCard.WeaponProperty;
             var gridPos = hintBox.GridRegion.Position;
 
-            if (TryPlantAt(gridPos, prop, out _))
+            if (TryPlantAt(gridPos, prop, out var weapon))
+            {
                 board.PickedCard.OnUsed();
+            }
         }
     }
 
@@ -131,13 +133,15 @@ public partial class PlantingArea : Area2D
 
                 gridWeapons[gridPosition.X, gridPosition.Y] = ins;
                 weapon = ins;
+                weapon!.OnDestroyed += () =>
+                {
+                    gridWeapons[gridPosition.X, gridPosition.Y] = null;
+                };
                 return true;
             }
         }
-        {
-            weapon = null;
-            return false;
-        }
+        weapon = null;
+        return false;
     }
 
     public bool TryGetWeaponAt(Vector2I gridPosition, out Weapon? weapon)

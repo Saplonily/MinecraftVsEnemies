@@ -15,9 +15,7 @@ public partial class Dispenser : Weapon
     {
         base._Ready();
         shootTimer = GetNode<Godot.Timer>("ShootTimer");
-        var marker2D = GetNode<Marker2D>("ShootOffsetMarker");
-        shootOffset = marker2D.Position;
-        marker2D.Free();
+        shootOffset = GetNode<Marker2D>("ShootOffsetMarker").GetPositionAndFree();
         rayCast = GetNode<RayCast2D>("RayCast2D");
         shootParticleSys = GetNode<SalParticleSys>("ShootPtSys");
 

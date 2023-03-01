@@ -1,21 +1,65 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3t0q8lb8ual1"]
+[gd_scene load_steps=9 format=3 uid="uid://b3t0q8lb8ual1"]
 
 [ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Board/ShadowGradient.tres" id="1_glbq7"]
+[ext_resource type="Script" path="res://SalParticleSys.cs" id="2_bu466"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e0cyl"]
-size = Vector2(57, 64)
+size = Vector2(60, 70)
+
+[sub_resource type="Gradient" id="Gradient_7y0h1"]
+offsets = PackedFloat32Array(0.00588235)
+colors = PackedColorArray(0.247059, 0.243137, 0.243137, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rhdgh"]
+gradient = SubResource("Gradient_7y0h1")
+width = 5
+height = 5
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Gradient" id="Gradient_2i04h"]
+offsets = PackedFloat32Array(0, 0.88, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.223103, 0.223103, 0.223103, 1, 1, 1, 1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhw5h"]
+size = Vector2(3, 3)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_vli53"]
+a = Vector2(-1000, 0)
+b = Vector2(1000, 0)
 
 [node name="WeaponBase" type="Node2D" groups=["Weapon"]]
 texture_filter = 1
 
 [node name="HitArea" type="Area2D" parent="."]
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
-position = Vector2(0, -32)
+position = Vector2(0, -38)
 shape = SubResource("RectangleShape2D_e0cyl")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]
 scale = Vector2(1, 0.25)
 texture = ExtResource("1_glbq7")
+metadata/_edit_lock_ = true
+
+[node name="DamagingParticleSys" type="Node2D" parent="."]
+script = ExtResource("2_bu466")
+LongShootingShootAmount = 0.1
+DebugDraw = true
+ParticleLifetime = 1.2
+ParticleTexture = [SubResource("GradientTexture2D_rhdgh")]
+ParticleTextureOrginal = Vector2(-0.5, -0.5)
+ParticleGradient = SubResource("Gradient_2i04h")
+ParticleEnableCollision = true
+ParticleSelfShape = SubResource("RectangleShape2D_xhw5h")
+ParticleSelfShapeTransform = Transform2D(1, 0, 0, 1, 0, 0)
+ParticleBounceRadio = 20.0
+ParticleCollideShapeWiths = Array[Shape2D]([SubResource("SegmentShape2D_vli53")])
+ParticleCollideShapeWithsTransforms = Array[Transform2D]([Transform2D(1, 0, 0, 1, 0, 0)])
+ParticlePosition = Vector2(0, -45)
+ParticlePositionRandomness = Vector2(25, 15)
+ParticleSpeed = Vector2(0, -10)
+ParticleSpeedRandomness = Vector2(40, 50)
+ParticleGravity = Vector2(0, 300)

@@ -75,9 +75,10 @@ public partial class Board
         ExpectCursorShape = Control.CursorShape.Arrow;
 
 #if DEBUG
+
         if (Input.IsKeyPressed(Key.P))
         {
-            foreach (Furnace f in GetTree().GetNodesInGroup("Furnace"))
+            foreach (Furnace f in GetTree().GetNodesInGroup("Furnace").Cast<Furnace>())
             {
                 f.Produce();
             }

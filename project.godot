@@ -25,6 +25,7 @@ Game="res://GameNode.cs"
 
 [debug]
 
+settings/stdout/print_fps=true
 settings/stdout/verbose_stdout=true
 
 [display]
@@ -113,5 +114,4 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
-driver/threads/thread_model=2
 environment/defaults/default_clear_color=Color(0.211765, 0.239216, 0.290196, 1)

@@ -39,7 +39,7 @@ public partial class Furnace : Weapon
     public void Produce()
     {
         var redstone = RedstoneScene.Instantiate<Redstone>();
-        redstone.ApplyVelocity(new Vector3(Game.Instance.Random.NextFloat(-250, 250), 0, Game.Instance.Random.NextFloat(300)));
+        redstone.ApplyVelocity(new Vector3(Game.Instance.Random.NextFloat(-200, 200), 0, Game.Instance.Random.NextFloat(300)));
         Lawn.AddBoardEntity(redstone, LevelPos);
     }
 }

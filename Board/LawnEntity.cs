@@ -21,11 +21,13 @@ public abstract partial class LawnEntity : BoardEntity
 
     public bool EnableGravity { get; protected set; } = true;
 
+    public float Thickess { get; protected set; } = 35f;
+
     public override void _Ready()
     {
         base._Ready();
         Lawn = this.FindParent<Lawn>() ?? throw new NodeNotFoundException(nameof(MVE.Lawn));
-        shadowSprite = GetNode<Sprite2D>("ShadowSprite");
+        shadowSprite = GetNode<Sprite2D>("ShadowSprite") ?? throw new NodeNotFoundException(nameof(Sprite2D));
         shadowSpriteOffset = shadowSprite?.Position ?? Vector2.Zero;
     }
 
@@ -48,6 +50,20 @@ public abstract partial class LawnEntity : BoardEntity
             LevelPos.Z = 0;
             Velocity.Z = 0;
         }
+    }
+
+    /// <summary>
+    /// 是否在厚度上碰撞
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool IsCollidedInThicknessWith(LawnEntity other)
+    {
+        float thisY = LevelPos.Y;
+        float otherY = other.LevelPos.Y;
+        float thisY2 = LevelPos.Y + Thickess;
+        float otherY2 = other.LevelPos.Y + other.Thickess;
+        return thisY < otherY ? thisY2 >= otherY : thisY < otherY2;
     }
 
     public void ApplyVelocity(Vector3 velocity)

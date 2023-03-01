@@ -1,6 +1,7 @@
 using Godot;
 using Microsoft.Extensions.ObjectPool;
 using System;
+using System.Runtime.InteropServices;
 
 namespace Saladim.GodotParticle;
 
@@ -23,11 +24,13 @@ public partial class SalParticleSys : Node2D
     [Export]
     public float LongShootingShootAmount { get; set; } = 1f;
 
+    [Export]
+    public bool DebugDraw { get; set; }
+
 #endif
 
     [Export]
     public bool EndOnAnimationEnd { get; set; } = false;
-
 
     [Export]
     public bool LocalCoord { get; set; }
@@ -55,6 +58,28 @@ public partial class SalParticleSys : Node2D
 
     #endregion
 
+    #region Collision
+
+    [Export, ExportGroup("Collision", "Particle")]
+    public bool ParticleEnableCollision { get; set; }
+
+    [Export]
+    public Shape2D ParticleSelfShape { get; set; } = null!;
+
+    [Export]
+    public Transform2D ParticleSelfShapeTransform { get; set; }
+
+    [Export]
+    public float ParticleBounceRadio { get; set; } = 2f;
+
+    [Export]
+    public Godot.Collections.Array<Shape2D> ParticleCollideShapeWiths { get; set; } = null!;
+
+    [Export]
+    public Godot.Collections.Array<Transform2D> ParticleCollideShapeWithsTransforms { get; set; } = null!;
+
+    #endregion
+
     #region Animation
 
     [Export(PropertyHint.Range, "0,10,or_greater"), ExportGroup("Animation", "Particle")]
@@ -62,6 +87,9 @@ public partial class SalParticleSys : Node2D
 
     [Export(PropertyHint.Range, "0,10,or_greater"), ExportGroup("Animation", "Particle")]
     public float ParticleAnimationSpeedRandomness { get; set; }
+
+    [Export]
+    public bool ParticleRandomTexture { get; set; }
 
     #endregion
 
@@ -111,8 +139,9 @@ public partial class SalParticleSys : Node2D
         this.r = r;
     }
 
-    public SalParticleSys() : this(new())
+    public SalParticleSys() : this(Random.Shared)
     {
+
     }
 
     public ParticleUnit Emit()
@@ -124,7 +153,7 @@ public partial class SalParticleSys : Node2D
 
         u.Position = VectorRandomize(ParticlePosition, ParticlePositionRandomness, r);
 
-        u.Speed = VectorRandomize(ParticleSpeed, ParticleSpeedRandomness, r);
+        u.Velocity = VectorRandomize(ParticleSpeed, ParticleSpeedRandomness, r);
 
         u.Rotation = FloatRandomize(ParticleRotation, ParticleRotationRandomness, r);
         u.RotationSpeed = FloatRandomize(ParticleRotationSpeed, ParticleRotationSpeedRandomness, r);
@@ -137,7 +166,7 @@ public partial class SalParticleSys : Node2D
             u.Position = u.Position.Rotated(Transform.Rotation);
             u.Position += Transform.Origin;
             u.Rotation += Transform.Rotation;
-            u.Speed = u.Speed.Rotated(Transform.Rotation);
+            u.Velocity = u.Velocity.Rotated(Transform.Rotation);
         }
         particles.Add(u);
         return u;
@@ -187,9 +216,42 @@ public partial class SalParticleSys : Node2D
         for (int i = particles.Count - 1; i >= 0; i--)
         {
             var p = particles[i];
-            p.Speed += ParticleGravity * (float)delta;
-            p.Speed += ParticleAccelerate * (float)delta;
-            p.Position += p.Speed * (float)delta;
+            p.Velocity += ParticleGravity * (float)delta;
+            p.Velocity += ParticleAccelerate * (float)delta;
+            Vector2 moveV = p.Velocity * (float)delta;
+            if (ParticleEnableCollision)
+            {
+                var trans = Transform2D.Identity;
+                if (!LocalCoord) trans *= Transform.AffineInverse();
+                trans *= new Transform2D(p.Rotation, Vector2.One, 0, p.Position);
+                trans *= ParticleSelfShapeTransform;
+                int index = 0;
+                foreach (var shape in ParticleCollideShapeWiths)
+                {
+                    Vector2[] points;
+                    points = ParticleSelfShape.CollideWithMotionAndGetContacts(
+                        trans,
+                        moveV,
+                        shape, 
+                        ParticleCollideShapeWithsTransforms[index],
+                        Vector2.Zero
+                        );
+                    if (points.Length != 0)
+                    {
+                        p.Velocity /= ParticleBounceRadio;
+                        p.Velocity = p.Velocity.Reflect((ParticleSelfShapeTransform.Origin - points[0]).Normalized());
+                    }
+                    else
+                    {
+                        p.Position += moveV;
+                    }
+                    index++;
+                }
+            }
+            else
+            {
+                p.Position += moveV;
+            }
             p.LifeTime -= (float)delta;
             p.Color = ParticleGradient.Sample(1f - p.LifeTime / p.MaxLifeTime);
             p.Rotation += p.RotationSpeed;
@@ -223,7 +285,7 @@ public partial class SalParticleSys : Node2D
     public override void _Draw()
     {
 #if TOOLS
-        if (Engine.IsEditorHint())
+        if (Engine.IsEditorHint() && DebugDraw)
         {
             if (ParticleTexture is null) return;
             DrawCircle(ParticlePosition, 2, Color.Color8(100, 100, 255, 50));
@@ -233,6 +295,15 @@ public partial class SalParticleSys : Node2D
                 false,
                 2
                 );
+
+            DrawSetTransformMatrix(ParticleSelfShapeTransform);
+            ParticleSelfShape?.Draw(GetCanvasItem(), Color.Color8(255, 255, 255, 127));
+            if (ParticleCollideShapeWiths is not null)
+                for (int i = 0; i < ParticleCollideShapeWiths.Count; i++)
+                {
+                    DrawSetTransformMatrix(ParticleCollideShapeWithsTransforms[i]);
+                    ParticleCollideShapeWiths[i].Draw(GetCanvasItem(), Color.Color8(127, 127, 127, 127));
+                }
         }
 #endif
         foreach (var p in particles)
@@ -253,7 +324,7 @@ public partial class SalParticleSys : Node2D
 
         public float LifeTime { get; set; }
 
-        public Vector2 Speed { get; set; }
+        public Vector2 Velocity { get; set; }
 
         public Vector2 Position { get; set; }
 
@@ -274,7 +345,7 @@ public partial class SalParticleSys : Node2D
             public override bool Return(ParticleUnit p)
             {
                 p.LifeTime = default;
-                p.Speed = default;
+                p.Velocity = default;
                 p.Position = default;
                 p.MaxLifeTime = default;
                 p.Rotation = default;

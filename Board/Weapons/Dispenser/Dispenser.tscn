@@ -23,11 +23,8 @@ colors = PackedColorArray(0.0646965, 0.0646965, 0.0646965, 1, 0.262932, 0.262932
 [node name="Dispenser" groups=["Dispenser"] instance=ExtResource("1_at4h7")]
 script = ExtResource("1_ccvxu")
 
-[node name="HitArea" parent="." index="0"]
-visible = false
-
 [node name="CollisionShape2D" parent="HitArea" index="0"]
-position = Vector2(0, -38)
+visible = false
 shape = SubResource("RectangleShape2D_stnu5")
 
 [node name="ShadowSprite" parent="." index="1"]
@@ -60,6 +57,8 @@ EndOnAnimationEnd = true
 ParticleTexture = Array[Texture2D]([ExtResource("5_j0kwd"), ExtResource("6_yias2"), ExtResource("7_wt771"), ExtResource("8_n8h4n"), ExtResource("9_7tqsp"), ExtResource("10_025wv"), ExtResource("11_8wlk3"), ExtResource("12_5o0sj")])
 ParticleTextureOrginal = Vector2(-0.5, -0.5)
 ParticleGradient = SubResource("Gradient_ns4r8")
+ParticleCollideShapeWiths = []
+ParticleCollideShapeWithsTransforms = []
 ParticleAnimationSpeed = 10.0
 ParticleAnimationSpeedRandomness = 1.0
 ParticlePosition = Vector2(-5, 2)

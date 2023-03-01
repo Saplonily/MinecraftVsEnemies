@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bmtmrfl2rhphp"]
+[gd_scene load_steps=38 format=3 uid="uid://bmtmrfl2rhphp"]
 
 [ext_resource type="PackedScene" uid="uid://befpimk1sa7qp" path="res://Board/Enemies/EnemyBase.tscn" id="1_o4wry"]
 [ext_resource type="Script" path="res://Board/Enemies/Zombie/Zombie.cs" id="1_okrin"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://xfkbx68vq7yh" path="res://Board/Enemies/Zombie/Body.png" id="4_sjk8f"]
 [ext_resource type="Texture2D" uid="uid://cm8tiiwbnmp15" path="res://Board/Enemies/Zombie/Head.png" id="5_fma25"]
 [ext_resource type="Script" path="res://SalParticleSys.cs" id="7_op2yc"]
+[ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="7_yqo61"]
 [ext_resource type="Texture2D" uid="uid://bj76cemuvreko" path="res://Board/SmokeParticle/0.png" id="8_mx5a4"]
 [ext_resource type="Texture2D" uid="uid://bb2fbq5p05jms" path="res://Board/SmokeParticle/1.png" id="9_wb8iw"]
 [ext_resource type="Texture2D" uid="uid://crdns5gujb62u" path="res://Board/SmokeParticle/2.png" id="10_howjw"]
@@ -16,14 +17,8 @@
 [ext_resource type="Texture2D" uid="uid://j2wyk56ktof6" path="res://Board/SmokeParticle/6.png" id="14_m80c3"]
 [ext_resource type="Texture2D" uid="uid://wf8xon8iu03j" path="res://Board/SmokeParticle/7.png" id="15_1ctv7"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qchk1"]
-size = Vector2(25, 15)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6ww8"]
-size = Vector2(20, 55)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fdiv0"]
-size = Vector2(45, 15.5)
+size = Vector2(25, 90)
 
 [sub_resource type="Animation" id="4"]
 resource_name = "BeHit"
@@ -170,6 +165,30 @@ tracks/4/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprites/HandRight:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprites/HandLeft:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="6"]
 resource_name = "Walking"
@@ -200,8 +219,38 @@ tracks/1/keys = {
 "values": [-30.0, 30.0]
 }
 
+[sub_resource type="Animation" id="Animation_74g6l"]
+resource_name = "Attack"
+loop_mode = 1
+step = 0.3333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/HandRight:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3333, 0.6666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.191986, -0.261799]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/HandLeft:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3333, 0.6666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.191986, -0.261799]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5cxuh"]
 _data = {
+"Attack": SubResource("Animation_74g6l"),
 "BeHit": SubResource("4"),
 "Die": SubResource("11"),
 "RESET": SubResource("5"),
@@ -215,6 +264,9 @@ filters = ["Sprites:modulate"]
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0u160"]
 animation = &"BeHit"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rt1bg"]
+animation = &"Attack"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jn4ow"]
 animation = &"Die"
 
@@ -223,21 +275,36 @@ animation = &"Walking"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gec5y"]
 xfade_time = 0.1
+xfade_curve = ExtResource("7_yqo61")
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_56wpr"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_twmo0"]
+xfade_time = 0.2
+xfade_curve = ExtResource("7_yqo61")
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gxu4n"]
+xfade_time = 0.1
+xfade_curve = ExtResource("7_yqo61")
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wfeyh"]
+xfade_time = 0.2
+xfade_curve = ExtResource("7_yqo61")
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_li5pa"]
+states/Attack/node = SubResource("AnimationNodeAnimation_rt1bg")
+states/Attack/position = Vector2(381, 8)
 states/Die/node = SubResource("AnimationNodeAnimation_jn4ow")
 states/Die/position = Vector2(594, 100)
 states/End/position = Vector2(848, 100)
 states/Start/position = Vector2(163, 100)
 states/Walking/node = SubResource("AnimationNodeAnimation_wenc1")
 states/Walking/position = Vector2(381, 100)
-transitions = ["Walking", "Die", SubResource("AnimationNodeStateMachineTransition_gec5y"), "Start", "Walking", SubResource("AnimationNodeStateMachineTransition_56wpr")]
-graph_offset = Vector2(-10.9009, 13)
+transitions = ["Walking", "Die", SubResource("AnimationNodeStateMachineTransition_gec5y"), "Start", "Walking", SubResource("AnimationNodeStateMachineTransition_56wpr"), "Walking", "Attack", SubResource("AnimationNodeStateMachineTransition_twmo0"), "Attack", "Die", SubResource("AnimationNodeStateMachineTransition_gxu4n"), "Attack", "Walking", SubResource("AnimationNodeStateMachineTransition_wfeyh")]
+graph_offset = Vector2(-44.9009, -37)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b2r40"]
-graph_offset = Vector2(-711, 27)
+graph_offset = Vector2(-525, 151)
 nodes/HitOneShot/node = SubResource("AnimationNodeOneShot_elov4")
 nodes/HitOneShot/position = Vector2(0, 168)
 nodes/HitOntShot/node = SubResource("AnimationNodeAnimation_0u160")
@@ -255,13 +322,13 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 script = ExtResource("1_okrin")
 
 [node name="ShadowSprite" parent="." index="0"]
-position = Vector2(0, -3)
+position = Vector2(7, -2)
 
 [node name="Sprites" type="Node2D" parent="." index="1"]
-metadata/_edit_group_ = true
+position = Vector2(8, 0)
 
 [node name="HandLeft" type="Sprite2D" parent="Sprites" index="0"]
-position = Vector2(7, -65)
+position = Vector2(8, -65)
 texture = ExtResource("2_71thr")
 offset = Vector2(-21, 0)
 
@@ -269,42 +336,38 @@ offset = Vector2(-21, 0)
 position = Vector2(-2, -43)
 texture = ExtResource("3_oked3")
 offset = Vector2(0, 21)
+metadata/_edit_lock_ = true
 
 [node name="LegLeft" type="Sprite2D" parent="Sprites" index="2"]
 position = Vector2(1, -40)
 texture = ExtResource("3_oked3")
 offset = Vector2(0, 21)
+metadata/_edit_lock_ = true
 
 [node name="Body" type="Sprite2D" parent="Sprites" index="3"]
 position = Vector2(0, -54)
 texture = ExtResource("4_sjk8f")
+metadata/_edit_lock_ = true
 
-[node name="HandRight" type="Sprite2D" parent="Sprites" index="4"]
+[node name="Head" type="Sprite2D" parent="Sprites" index="4"]
+position = Vector2(0, -80)
+texture = ExtResource("5_fma25")
+metadata/_edit_lock_ = true
+
+[node name="HandRight" type="Sprite2D" parent="Sprites" index="5"]
 position = Vector2(11, -63)
 texture = ExtResource("2_71thr")
 offset = Vector2(-21, 0)
 
-[node name="Head" type="Sprite2D" parent="Sprites" index="5"]
-position = Vector2(0, -80)
-texture = ExtResource("5_fma25")
-
 [node name="Area2D" type="Area2D" parent="." index="2"]
-visible = false
 position = Vector2(0, -45)
 collision_layer = 2
 collision_mask = 5
 
-[node name="HeadHitBox" type="CollisionShape2D" parent="Area2D" index="0"]
-position = Vector2(0, -35)
-shape = SubResource("RectangleShape2D_qchk1")
-
-[node name="BodyAndLegHitBox" type="CollisionShape2D" parent="Area2D" index="1"]
-position = Vector2(0, 17.5)
+[node name="BodyShape" type="CollisionShape2D" parent="Area2D" index="0"]
+visible = false
+position = Vector2(7.5, 0)
 shape = SubResource("RectangleShape2D_a6ww8")
-
-[node name="HandHitBox" type="CollisionShape2D" parent="Area2D" index="2"]
-position = Vector2(-12, -18.25)
-shape = SubResource("RectangleShape2D_fdiv0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
 libraries = {
@@ -326,6 +389,8 @@ EndOnAnimationEnd = true
 ParticleTexture = Array[Texture2D]([ExtResource("8_mx5a4"), ExtResource("9_wb8iw"), ExtResource("10_howjw"), ExtResource("11_2q5ky"), ExtResource("12_63hdy"), ExtResource("13_3f1j3"), ExtResource("14_m80c3"), ExtResource("15_1ctv7")])
 ParticleTextureOrginal = Vector2(-0.5, -0.5)
 ParticleGradient = SubResource("Gradient_0q1ei")
+ParticleCollideShapeWiths = []
+ParticleCollideShapeWithsTransforms = []
 ParticleAnimationSpeed = 5.0
 ParticleAnimationSpeedRandomness = 2.0
 ParticlePosition = Vector2(0, -30)

@@ -1,7 +1,21 @@
-﻿using Godot;
+﻿using System.Diagnostics;
+using Godot;
 using Saladim.GodotParticle;
 
 namespace MVE;
+
+public record struct ZombieAttackInfo(Weapon? Attacking)
+{
+    public bool IsAttacking
+    {
+        get => Attacking is not null;
+        set
+        {
+            Debug.Assert(!value);
+            if (!value) Attacking = null;
+        }
+    }
+}
 
 public partial class Zombie : Enemy
 {
@@ -10,11 +24,11 @@ public partial class Zombie : Enemy
     protected AnimationNodeStateMachinePlayback mainAtSmPlayBack = null!;
     protected SalParticleSys deathParticleSys = null!;
 
-    public Vector3 WalkingDirection = new(-1.0f, 0.0f, 0.0f);
-    public float WalkingSpeed = 20.0f;
-    public ZombieState State;
-    public float Hp = 200.0f;
-    public float MaxHp = 200.0f;
+    protected ZombieAttackInfo attackInfo;
+
+    public Vector3 WalkingDirection { get; protected set; } = new(-1.0f, 0.0f, 0.0f);
+    public float WalkingSpeed { get; protected set; } = 20.0f;
+    public ZombieState State { get; protected set; }
 
     public override void _Ready()
     {
@@ -25,21 +39,102 @@ public partial class Zombie : Enemy
         deathParticleSys = GetNode<SalParticleSys>("DeathParticle");
         RemoveChild(deathParticleSys);
 
-        area2D.AreaShapeEntered += Area2D_AreaShapeEntered;
+        area2D.AreaEntered += Area2D_AreaEntered;
         animationTree.Active = true;
-        State = ZombieState.Walking;
-
-        mainAtSmPlayBack.Travel("Walking");
-
+        RequestStateChange(ZombieState.Walking);
     }
 
-    private void Area2D_AreaShapeEntered(Rid areaRid, Area2D area2d, long areaShapeIndex, long localShapeIndex)
+    public override void OnHpUseUp()
     {
-        if (State != ZombieState.Dying && area2d.Owner is Arrow arrow && !arrow.IsQueuedForDeletion())
+        if (State != ZombieState.Dying)
+            Die(DieReason.None);
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+        switch (State)
+        {
+            case ZombieState.Walking:
+            {
+                LevelPos += WalkingDirection * WalkingSpeed * (float)delta;
+                var collidedWeapons = GetCollidedWeapons();
+                Debug.Assert(!attackInfo.IsAttacking);
+
+                if (collidedWeapons.Any())
+                {
+                    attackInfo.Attacking = collidedWeapons.First();
+                    RequestStateChange(ZombieState.Attacking);
+                }
+            }
+            break;
+            case ZombieState.Attacking:
+            {
+                var collidedWeapons = GetCollidedWeapons();
+                Debug.Assert(attackInfo.IsAttacking);
+
+                attackInfo.Attacking!.BeHurt(this, 50 * delta);
+
+                if (!collidedWeapons.Contains(attackInfo.Attacking))
+                {
+                    if (!collidedWeapons.Any())
+                    {
+                        attackInfo.IsAttacking = false;
+                        RequestStateChange(ZombieState.Walking);
+                    }
+                    else
+                    {
+                        attackInfo.Attacking = collidedWeapons.First();
+                    }
+                }
+            }
+            break;
+        }
+        IEnumerable<Weapon> GetCollidedWeapons()
+            => area2D.GetOverlappingAreas()
+                .Where(a => a.Owner is Weapon wea && wea.IsCollidedInThicknessWith(this))
+                .Select(a => (Weapon)a.Owner);
+    }
+
+    public void RequestStateChange(ZombieState target)
+    {
+        var preState = State;
+        var targetState = target;
+        State = targetState;
+        if (target is ZombieState.Walking)
+        {
+            mainAtSmPlayBack.Travel("Walking");
+        }
+        else if (target is ZombieState.Attacking)
+        {
+            mainAtSmPlayBack.Travel("Attack");
+        }
+    }
+
+    public void BeHit(Bullet sourceBullet)
+    {
+        if (sourceBullet is Arrow arrow)
         {
             arrow.QueueFree();
-            Hp -= arrow.Damage;
-            animationTree.Set("parameters/HitOneShot/request", 1);
+            BeHurt(arrow.Damage);
+        }
+    }
+
+    public void BeHurt(double amount)
+    {
+        hp -= amount;
+        animationTree.Set("parameters/HitOneShot/request", 1);
+    }
+
+    protected void Area2D_AreaEntered(Area2D area2d)
+    {
+        var nodeOwner = area2d.Owner;
+        if (State != ZombieState.Dying)
+        {
+            if (nodeOwner is Bullet bullet)
+            {
+                BeHit(bullet);
+            }
         }
     }
 
@@ -53,12 +148,9 @@ public partial class Zombie : Enemy
 
     public void OnDieAnimationEnded()
     {
-        QueueFree();
-        LeftParticle lp = new(deathParticleSys)
-        {
-            LevelPos = this.LevelPos
-        };
-        for(int i = 0; i < 100;  i++) 
+        LeftParticle lp = new(deathParticleSys);
+        lp.LevelPos = LevelPos + deathParticleSys.Position.ToVec3WithZ0();
+        for (int i = 0; i < 100; i++)
         {
             var r = Game.Instance.Random;
             Vector2 pos = new();
@@ -70,27 +162,7 @@ public partial class Zombie : Enemy
             deathParticleSys.EmitAt(pos);
         }
         Lawn.AddChild(lp);
-    }
-
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
-        Hp = Mathf.Clamp(Hp, 0.0f, MaxHp);
-        if (Hp == 0.0f)
-        {
-            Die(DieReason.None);
-        }
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
-        switch (State)
-        {
-            case ZombieState.Walking:
-            LevelPos += WalkingDirection * WalkingSpeed * (float)delta;
-            break;
-        }
+        QueueFree();
     }
 }
 
@@ -98,7 +170,8 @@ public enum ZombieState
 {
     Idle,
     Walking,
-    Dying
+    Dying,
+    Attacking
 }
 
 public enum DieReason

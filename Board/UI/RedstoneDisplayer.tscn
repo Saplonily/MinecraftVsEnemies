@@ -40,4 +40,4 @@ label_settings = SubResource("LabelSettings_7550g")
 horizontal_alignment = 1
 
 [node name="RedstoneMarker" type="Marker2D" parent="."]
-position = Vector2(32, 48)
+position = Vector2(32, 54)

@@ -3,11 +3,6 @@ namespace MVE;
 public static class Extensions
 {
     #region misc
-    public static T Cast<T>(this object obj)
-    {
-        return (T)obj;
-    }
-
     public static T? AsCast<T>(this object obj) where T : class
     {
         return obj as T;

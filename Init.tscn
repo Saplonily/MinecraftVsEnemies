@@ -55,13 +55,13 @@ WeaponPropertyId = 0
 
 [node name="Lawn" parent="Board/LayerMain" index="9"]
 Rows = 6
+Column = 10
 
 [node name="PlantingArea" parent="Board/LayerMain/Lawn" index="0"]
-position = Vector2(180, 195)
+position = Vector2(50, 175)
 script = ExtResource("4_7bqpd")
 PlaceAllowColor = Color(0, 0.968627, 0.294118, 0.662745)
 PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)
-metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" parent="Board/LayerMain/Lawn/PlantingArea" index="0"]
 position = Vector2(375, 187.5)
