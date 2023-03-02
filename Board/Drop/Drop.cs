@@ -29,7 +29,7 @@ public partial class Drop : LawnEntity
         base._Process(delta);
         if (mouseIn && OnHover())
         {
-            Board.ExpectCursorShape = Game.Instance.Config.ReadyToPick;
+            Board.ExpectCursorShape = Game.Instance.Config.CursorShapeReadyToPick;
         }
     }
 

@@ -1,84 +1,137 @@
 using Godot;
+using SalState;
 
 namespace MVE;
 
 public partial class Card : BoardUI
 {
-    protected Sprite2D shadowMask = null!;
+    protected Sprite2D cardSprite = null!;
     protected Sprite2D contentSprite = null!;
+    protected Sprite2D shadowMask = null!;
     protected Area2D area = null!;
 
+    protected StateMachine<CardState> stateMachine = null!;
     protected bool mouseIn = false;
+
+    [Export]
+    public Color SelfMaskColor { get; set; } = Color.Color8(143, 143, 143, 255);
 
     [Export]
     public int WeaponPropertyId { get; set; } = -1;
 
-    public CardState State { get; protected set; }
+    public double Cooldown { get; protected set; } = 1.0;
 
-    public float Cooldown { get; protected set; } = 1.0f;
-
-    public float CooldownStep { get; protected set; } = 1.0f / 100.0f;
+    public double CooldownStep { get; protected set; } = 1.0 / 100.0;
 
     public WeaponProperty WeaponProperty { get; protected set; } = null!;
 
     public override void _Ready()
     {
         base._Ready();
-
-        shadowMask = GetNode<Sprite2D>("ShadowMask");
         area = GetNode<Area2D>("Area2D");
         contentSprite = GetNode<Sprite2D>("Content");
+        cardSprite = GetNode<Sprite2D>("Card");
+        shadowMask = GetNode<Sprite2D>("ShadowMask");
 
         area.InputEvent += this.Area_InputEvent;
         area.MouseEntered += () => mouseIn = true;
         area.MouseExited += () => mouseIn = false;
 
-        State = CardState.Cooldown;
+        stateMachine = new(CardState.Cooldown);
+        stateMachine.RegisterState(CardState.Idle,
+            enter: IdleEnter,
+            update: IdleUpdate
+            );
+        stateMachine.RegisterState(CardState.Cooldown,
+            enter: _ => MakeMasked(),
+            exit: _ => RestoreMask(),
+            update: CooldownUpdate
+            );
+        stateMachine.RegisterState(CardState.Picked,
+            enter: _ => Modulate = SelfMaskColor,
+            exit: _ => Modulate = Color.Color8(255, 255, 255, 255)
+            );
 
         Cooldown = 0.0f;
         UpdateFromPropertyId(WeaponPropertyId);
     }
 
-    public override void _Process(double delta)
+    protected void MakeMasked()
     {
-        base._Process(delta);
-        if (mouseIn)
+        (shadowMask.Visible, Modulate) = (true, SelfMaskColor);
+        UpdateMaskRegion(0f);
+    }
+
+    protected void RestoreMask()
+    {
+        (shadowMask.Visible, Modulate) = (false, Color.Color8(255, 255, 255, 255));
+        UpdateMaskRegion(0f);
+    }
+
+    protected bool IsAvailable()
+    {
+        if (Board.Bank.Redstone < WeaponProperty.Cost)
         {
-            Board.ExpectCursorShape = Game.Instance.Config.ReadyToPickCard;
+            return false;
         }
-        switch (State)
+        return true;
+    }
+
+    protected void IdleEnter(CardState s)
+    {
+        if (IsAvailable())
         {
-            case CardState.Idle:
-            shadowMask.Visible = false;
-            break;
-
-            case CardState.Cooldown:
-            shadowMask.Visible = true;
-            Vector2 spriteSize = shadowMask.Texture.GetSize();
-            shadowMask.RegionRect = new Rect2(Vector2.Zero, new Vector2(spriteSize.X, spriteSize.Y * Cooldown));
-            Cooldown -= CooldownStep * (float)delta;
-            if (Cooldown <= 0.0f)
-                State = CardState.Idle;
-            break;
-
-            case CardState.Picked:
-            shadowMask.Visible = true;
-            Vector2 spriteSize2 = shadowMask.Texture.GetSize();
-            shadowMask.RegionRect = new Rect2(Vector2.Zero, spriteSize2);
-            break;
+            RestoreMask();
+        }
+        else
+        {
+            MakeMasked();
         }
     }
 
-    private void Area_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
+    protected void IdleUpdate(double delta)
     {
-        if (State == CardState.Idle)
+        if (!IsAvailable())
         {
-            if (ie.IsActionPressed("pick_card"))
+            MakeMasked();
+        }
+        else
+        {
+            RestoreMask();
+        }
+    }
+
+    protected void UpdateMaskRegion(float percent)
+    {
+        var rect = cardSprite.GetRect();
+        shadowMask.RegionRect = rect with { Size = new(rect.Size.X, rect.Size.Y * percent) };
+    }
+
+    protected void CooldownUpdate(double delta)
+    {
+        Cooldown -= CooldownStep * delta;
+        if (Cooldown <= 0.0f)
+            stateMachine.State = CardState.Idle;
+        UpdateMaskRegion((float)Cooldown);
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+        stateMachine.Update(delta);
+        if (mouseIn && stateMachine.State is CardState.Idle or CardState.Cooldown)
+        {
+            Board.ExpectCursorShape = Game.Instance.Config.CursorShapeReadyToPickCard;
+        }
+    }
+
+    protected void Area_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
+    {
+        if (stateMachine.State is CardState.Idle && ie.IsActionPressed(InputNames.PickCard))
+        {
+            if (IsAvailable() && Board.Picking == PickingType.Idle)
             {
-                if (Board.Picking == PickingType.Idle)
-                {
-                    this.Pick();
-                }
+                this.Pick();
             }
         }
     }
@@ -96,21 +149,22 @@ public partial class Card : BoardUI
     {
         Board.DoPick(PickingType.Card);
         Board.PickedCard = this;
-        State = CardState.Picked;
+        stateMachine.State = CardState.Picked;
     }
 
     public void UnPick()
     {
         Board.DoPick(PickingType.Idle);
         Board.PickedCard = null;
-        State = CardState.Idle;
+        stateMachine.State = CardState.Idle;
     }
 
     public void OnUsed()
     {
         this.UnPick();
         Cooldown = 1.0f;
-        State = CardState.Cooldown;
+        stateMachine.State = CardState.Cooldown;
+        Board.Bank.ReduceRedstone(WeaponProperty.Cost);
     }
 
     public Texture2D GetShownTexture()
@@ -122,7 +176,7 @@ public partial class Card : BoardUI
 public enum CardState
 {
     Idle,
+    Disabled,
     Cooldown,
-    Banned,
     Picked
 }

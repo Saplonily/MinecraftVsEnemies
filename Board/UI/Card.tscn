@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://df74k33olyi04"]
+[gd_scene load_steps=7 format=3 uid="uid://df74k33olyi04"]
 
 [ext_resource type="Script" path="res://Board/UI/Card.cs" id="1_cacc0"]
 [ext_resource type="Texture2D" uid="uid://bt5hifs7bo82d" path="res://Board/UI/Card.png" id="2_63rhc"]
@@ -6,6 +6,16 @@
 
 [sub_resource type="RectangleShape2D" id="3"]
 size = Vector2(65, 95)
+
+[sub_resource type="Gradient" id="Gradient_3fbjk"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 0.392157)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ehxow"]
+gradient = SubResource("Gradient_3fbjk")
+width = 1
+height = 1
+fill_to = Vector2(0, 0)
 
 [node name="Card" type="Node2D" groups=["Card"]]
 script = ExtResource("1_cacc0")
@@ -24,16 +34,14 @@ texture = ExtResource("2_63rhc")
 centered = false
 
 [node name="Content" type="Sprite2D" parent="."]
+texture_filter = 1
 position = Vector2(33, 48)
 scale = Vector2(0.586458, 0.586458)
 texture = ExtResource("3_v6jtp")
 
 [node name="ShadowMask" type="Sprite2D" parent="."]
 visible = false
-modulate = Color(0, 0, 0, 0.619608)
-position = Vector2(0, 3.8147e-06)
-texture = ExtResource("2_63rhc")
+texture = SubResource("GradientTexture2D_ehxow")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 64, 0)
-region_filter_clip_enabled = true
+region_rect = Rect2(0, 0, 64, 96)
