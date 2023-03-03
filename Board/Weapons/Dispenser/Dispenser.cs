@@ -30,11 +30,13 @@ public partial class Dispenser : Weapon
         {
             Shoot();
             shootTimer.WaitTime = Game.Instance.Random.NextDouble(0.75, 1);
+            shootTimer.Start();
             shootParticleSys.EmitMany(20);
         }
         else
         {
-            shootTimer.WaitTime = Game.Instance.Random.NextDouble(0.5, 3);
+            shootTimer.WaitTime = Game.Instance.Random.NextDouble(0.5, 2);
+            shootTimer.Start();
         }
     }
 

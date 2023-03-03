@@ -1,5 +1,0 @@
-[gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://dgg88kn8sf3r8"]
-
-[resource]
-graph_offset = Vector2(17.528, 74)
-nodes/output/position = Vector2(640, 160)

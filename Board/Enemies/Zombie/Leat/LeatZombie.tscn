@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdrd5bqqj1u44"]
+
+[ext_resource type="PackedScene" path="res://Board/Enemies/Zombie/Zombie.tscn" id="1_7ajfd"]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_gxsvp"]
+
+[node name="LeatZombie" groups=["LeatZombie"] instance=ExtResource("1_7ajfd")]
+
+[node name="AnimationTree" parent="." index="4"]
+parameters/MainStateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_gxsvp")
