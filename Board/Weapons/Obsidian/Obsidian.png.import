@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://daftse73d0m5u"
-path="res://.godot/imported/4.png-fd13b0728252cacbaaf790eaee85cfc8.ctex"
+uid="uid://cldhhldmm7qti"
+path="res://.godot/imported/Obsidian.png-a0f6b76278613cfe36c800d3b0b69ff4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Board/SmokeParticle/4.png"
-dest_files=["res://.godot/imported/4.png-fd13b0728252cacbaaf790eaee85cfc8.ctex"]
+source_file="res://Board/Weapons/Obsidian/Obsidian.png"
+dest_files=["res://.godot/imported/Obsidian.png-a0f6b76278613cfe36c800d3b0b69ff4.ctex"]
 
 [params]
 

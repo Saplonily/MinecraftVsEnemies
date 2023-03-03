@@ -78,10 +78,12 @@ public partial class Board
 
         if (Input.IsKeyPressed(Key.P))
         {
-            foreach (Furnace f in GetTree().GetNodesInGroup("Furnace").Cast<Furnace>())
-            {
-                f.Produce();
-            }
+            Command.TargetInstance.Produce();
+        }
+
+        if (Input.IsKeyPressed(Key.K))
+        {
+            Command.TargetInstance.KillAll();
         }
 
 #endif

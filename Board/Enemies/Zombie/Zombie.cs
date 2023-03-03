@@ -115,14 +115,14 @@ public partial class Zombie : Enemy
     {
         if (sourceBullet is Arrow arrow)
         {
-            arrow.QueueFree();
+            arrow.Free();
             BeHurt(arrow.Damage);
         }
     }
 
     public void BeHurt(double amount)
     {
-        hp -= amount;
+        Hp -= amount;
         animationTree.Set("parameters/HitOneShot/request", 1);
     }
 

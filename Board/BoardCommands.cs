@@ -30,12 +30,28 @@ public partial class Board : Node
         [Command(CommandName = "produce")]
         public void Produce()
         {
-            foreach(var node in lawn.GetTree().GetNodesInGroup("Furnace"))
+            foreach (var node in lawn.GetTree().GetNodesInGroup("Furnace"))
             {
-                if(node is Furnace furnace)
+                if (node is Furnace furnace)
                 {
                     furnace.Produce();
                 }
+            }
+        }
+
+        [Command(CommandName = "set_redstone")]
+        public void SetRedstone(double amount)
+        {
+            board.Bank.AddRedstone(amount - board.Bank.Redstone);
+        }
+
+        [Command(CommandName = "kill_all")]
+        public void KillAll()
+        {
+            var enemies = board.GetTree().GetNodesInGroup("Enemy").Cast<Enemy>();
+            foreach (var e in enemies)
+            {
+                e.Hp = 0d;
             }
         }
     }

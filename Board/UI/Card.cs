@@ -9,6 +9,7 @@ public partial class Card : BoardUI
     protected Sprite2D contentSprite = null!;
     protected Sprite2D shadowMask = null!;
     protected Area2D area = null!;
+    protected Label costLabel = null!;
 
     protected StateMachine<CardState> stateMachine = null!;
     protected bool mouseIn = false;
@@ -32,6 +33,7 @@ public partial class Card : BoardUI
         contentSprite = GetNode<Sprite2D>("Content");
         cardSprite = GetNode<Sprite2D>("Card");
         shadowMask = GetNode<Sprite2D>("ShadowMask");
+        costLabel = GetNode<Label>("CostLabel");
 
         area.InputEvent += this.Area_InputEvent;
         area.MouseEntered += () => mouseIn = true;
@@ -91,13 +93,13 @@ public partial class Card : BoardUI
 
     protected void IdleUpdate(double delta)
     {
-        if (!IsAvailable())
+        if (IsAvailable())
         {
-            MakeMasked();
+            RestoreMask();
         }
         else
         {
-            RestoreMask();
+            MakeMasked();
         }
     }
 
@@ -143,6 +145,7 @@ public partial class Card : BoardUI
         CooldownStep = 1.0f / property.Cooldown;
         contentSprite.Texture = property.ContentTexture;
         WeaponProperty = Game.Instance.WeaponProperties[WeaponPropertyId];
+        costLabel.Text = property.Cost.ToString();
     }
 
     public void Pick()

@@ -18,7 +18,7 @@ fill_to = Vector2(0, 0)
 
 [sub_resource type="Gradient" id="Gradient_2i04h"]
 offsets = PackedFloat32Array(0, 0.88, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0.223103, 0.223103, 0.223103, 1, 1, 1, 1, 0)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.901961, 1, 1, 1, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhw5h"]
 size = Vector2(3, 3)

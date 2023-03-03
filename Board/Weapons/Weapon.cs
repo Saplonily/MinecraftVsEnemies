@@ -4,11 +4,13 @@ namespace MVE;
 
 public abstract partial class Weapon : LawnEntity
 {
-    protected double maxHp = 200f;
-    protected double hp = 200f;
     protected Area2D hitBoxArea = null!;
     protected SalParticleSys damagingParticleSys = null!;
     protected bool enableHpLock = true;
+
+    public double MaxHp { get; set; } = 200f;
+
+    public double Hp { get; set; } = 200f;
 
     public event Action? OnDestroyed;
 
@@ -24,8 +26,8 @@ public abstract partial class Weapon : LawnEntity
     public override void _Process(double delta)
     {
         base._Process(delta);
-        hp = Math.Clamp(hp, 0d, maxHp);
-        if (hp == 0d)
+        Hp = Math.Clamp(Hp, 0d, MaxHp);
+        if (Hp == 0d)
         {
             OnHpUseUp();
         }
@@ -48,6 +50,6 @@ public abstract partial class Weapon : LawnEntity
     {
         if (Game.OnPhysicsInterval(8))
             damagingParticleSys.Emit();
-        hp -= amount;
+        Hp -= amount;
     }
 }

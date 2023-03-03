@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Board/ShadowGradient.tres" id="1_v408m"]
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy" type="Node2D" groups=["Enemy"]]
 texture_filter = 1
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]

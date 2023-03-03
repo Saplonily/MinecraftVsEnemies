@@ -160,6 +160,9 @@ public partial class SalParticleSys : Node2D
 
         u.AnimationSpeed = FloatRandomize(ParticleAnimationSpeed, ParticleAnimationSpeedRandomness, r);
 
+        if (ParticleRandomTexture)
+            u.AnimationProcess = r.NextSingle() * ParticleTexture.Count;
+
         if (!LocalCoord)
         {
             u.Position *= Transform.Scale;

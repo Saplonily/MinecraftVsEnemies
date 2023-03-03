@@ -80,6 +80,11 @@ public class Game
             GD.Load<Texture2D>("res://Board/Weapons/Furnace/Furnace.png"),
             50, 5)
             );
+        p.Add(new WeaponProperty(
+            GD.Load<PackedScene>("res://Board/Weapons/Obsidian/Obsidian.tscn"),
+            GD.Load<Texture2D>("res://Board/Weapons/Obsidian/Obsidian.png"),
+            50, 50
+            ));
     }
 
     public static class Weapons

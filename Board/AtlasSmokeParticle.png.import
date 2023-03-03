@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bb2fbq5p05jms"
-path="res://.godot/imported/1.png-ed8b26493a7a846f031f95036265419e.ctex"
+uid="uid://cvbkhjm22srht"
+path="res://.godot/imported/AtlasSmokeParticle.png-d2a40ffc6634972cbadeb048c0c37e25.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Board/SmokeParticle/1.png"
-dest_files=["res://.godot/imported/1.png-ed8b26493a7a846f031f95036265419e.ctex"]
+source_file="res://Board/AtlasSmokeParticle.png"
+dest_files=["res://.godot/imported/AtlasSmokeParticle.png-d2a40ffc6634972cbadeb048c0c37e25.ctex"]
 
 [params]
 

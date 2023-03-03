@@ -1,0 +1,63 @@
+[gd_scene load_steps=12 format=3 uid="uid://methn2wewdnh"]
+
+[ext_resource type="PackedScene" uid="uid://b3t0q8lb8ual1" path="res://Board/Weapons/WeaponBase.tscn" id="1_s3h0n"]
+[ext_resource type="Script" path="res://Board/Weapons/Obsidian/Obsidian.cs" id="2_0ettc"]
+[ext_resource type="Texture2D" uid="uid://cldhhldmm7qti" path="res://Board/Weapons/Obsidian/Obsidian.png" id="2_88abf"]
+[ext_resource type="Texture2D" uid="uid://c2bt4m3f0nchq" path="res://Board/AtlasBreakStates.png" id="4_43ggw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x8yup"]
+size = Vector2(61, 71)
+
+[sub_resource type="Gradient" id="Gradient_7y0h1"]
+offsets = PackedFloat32Array(0.00588235)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rhdgh"]
+gradient = SubResource("Gradient_7y0h1")
+width = 5
+height = 5
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Gradient" id="Gradient_gfjvk"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.172549, 0.113725, 0.247059, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vuxqr"]
+gradient = SubResource("Gradient_gfjvk")
+width = 5
+height = 5
+
+[sub_resource type="Gradient" id="Gradient_xyv2i"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.117647, 0.0901961, 0.184314, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dyakc"]
+gradient = SubResource("Gradient_xyv2i")
+width = 5
+height = 5
+
+[node name="Obsidian" instance=ExtResource("1_s3h0n")]
+script = ExtResource("2_0ettc")
+
+[node name="CollisionShape2D" parent="HitArea" index="0"]
+position = Vector2(-0.5, -35.5)
+shape = SubResource("RectangleShape2D_x8yup")
+metadata/_edit_lock_ = true
+
+[node name="Obsidian" type="Sprite2D" parent="." index="1"]
+position = Vector2(-38, -73)
+texture = ExtResource("2_88abf")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="BreakState" type="Sprite2D" parent="." index="2"]
+position = Vector2(-38, -68)
+texture = ExtResource("4_43ggw")
+centered = false
+hframes = 10
+
+[node name="DamagingParticleSys" parent="." index="4"]
+DebugDraw = false
+ParticleTexture = [SubResource("GradientTexture2D_rhdgh"), SubResource("GradientTexture2D_vuxqr"), SubResource("GradientTexture2D_dyakc")]
+ParticleRandomTexture = true
+metadata/_edit_lock_ = true

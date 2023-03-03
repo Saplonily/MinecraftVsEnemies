@@ -9,12 +9,6 @@
 		<RootNamespace>MVE</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup>
-		<TrimmerRootAssembly Include="GodotSharp" />
-		<TrimmerRootAssembly Include="MinecraftVsEnemies" />
-		<TrimmerRootAssembly Include="NullLib.CommandLine" />
-		<None Include=".editorconfig" />
-	</ItemGroup>
-	<ItemGroup>
 		<Using Include="Godot" />
 	</ItemGroup>
 	<ItemGroup>
@@ -27,5 +21,4 @@
 		<StartProgram>D:\MyGodotSpace\4.0\Godot_v4.0-stable_mono_win64.exe</StartProgram>
 		<StartArguments>--path D:\Projects\MinecraftVsEnemies</StartArguments>
 	</PropertyGroup>
-	<Import Project="SalState\SalState.projitems" Label="Shared" />
 </Project>

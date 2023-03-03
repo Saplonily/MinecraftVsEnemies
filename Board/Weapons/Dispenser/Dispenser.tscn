@@ -1,30 +1,88 @@
-[gd_scene load_steps=15 format=3 uid="uid://sj2rplw8jrqm"]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="PackedScene" uid="uid://b3t0q8lb8ual1" path="res://Board/Weapons/WeaponBase.tscn" id="1_at4h7"]
 [ext_resource type="Script" path="res://Board/Weapons/Dispenser/Dispenser.cs" id="1_ccvxu"]
 [ext_resource type="Texture2D" uid="uid://bfymb37jrpnl0" path="res://Board/Weapons/Dispenser/Dispenser.png" id="2_lhya1"]
 [ext_resource type="Script" path="res://SalParticleSys.cs" id="4_y4byp"]
-[ext_resource type="Texture2D" uid="uid://bj76cemuvreko" path="res://Board/SmokeParticle/0.png" id="5_j0kwd"]
-[ext_resource type="Texture2D" uid="uid://bb2fbq5p05jms" path="res://Board/SmokeParticle/1.png" id="6_yias2"]
-[ext_resource type="Texture2D" uid="uid://crdns5gujb62u" path="res://Board/SmokeParticle/2.png" id="7_wt771"]
-[ext_resource type="Texture2D" uid="uid://dwr88h3imniqn" path="res://Board/SmokeParticle/3.png" id="8_n8h4n"]
-[ext_resource type="Texture2D" uid="uid://daftse73d0m5u" path="res://Board/SmokeParticle/4.png" id="9_7tqsp"]
-[ext_resource type="Texture2D" uid="uid://bvycxm1h8cp50" path="res://Board/SmokeParticle/5.png" id="10_025wv"]
-[ext_resource type="Texture2D" uid="uid://j2wyk56ktof6" path="res://Board/SmokeParticle/6.png" id="11_8wlk3"]
-[ext_resource type="Texture2D" uid="uid://wf8xon8iu03j" path="res://Board/SmokeParticle/7.png" id="12_5o0sj"]
+[ext_resource type="Texture2D" uid="uid://cvbkhjm22srht" path="res://Board/AtlasSmokeParticle.png" id="5_mfrip"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_stnu5"]
 size = Vector2(50, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tm83x"]
+atlas = ExtResource("5_mfrip")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hq53a"]
+atlas = ExtResource("5_mfrip")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bq4xs"]
+atlas = ExtResource("5_mfrip")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhjfo"]
+atlas = ExtResource("5_mfrip")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dnb0k"]
+atlas = ExtResource("5_mfrip")
+region = Rect2(32, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_piwed"]
+atlas = ExtResource("5_mfrip")
+region = Rect2(40, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ncpst"]
+atlas = ExtResource("5_mfrip")
+region = Rect2(48, 0, 8, 8)
 
 [sub_resource type="Gradient" id="Gradient_ns4r8"]
 offsets = PackedFloat32Array(0, 0.16)
 colors = PackedColorArray(0.0646965, 0.0646965, 0.0646965, 1, 0.262932, 0.262932, 0.262932, 1)
 
+[sub_resource type="Gradient" id="Gradient_7y0h1"]
+offsets = PackedFloat32Array(0.00588235)
+colors = PackedColorArray(0.141176, 0.137255, 0.137255, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rhdgh"]
+gradient = SubResource("Gradient_7y0h1")
+width = 5
+height = 5
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Gradient" id="Gradient_3iyqi"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.458824, 0.458824, 0.458824, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7ytjb"]
+gradient = SubResource("Gradient_3iyqi")
+width = 5
+height = 5
+
+[sub_resource type="Gradient" id="Gradient_r2vpb"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.278431, 0.278431, 0.278431, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_o3j1g"]
+gradient = SubResource("Gradient_r2vpb")
+width = 5
+height = 5
+
+[sub_resource type="Gradient" id="Gradient_c1ate"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.388235, 0.317647, 0.188235, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_f3484"]
+gradient = SubResource("Gradient_c1ate")
+width = 5
+height = 5
+
 [node name="Dispenser" groups=["Dispenser"] instance=ExtResource("1_at4h7")]
 script = ExtResource("1_ccvxu")
 
 [node name="CollisionShape2D" parent="HitArea" index="0"]
-visible = false
+position = Vector2(0, -37)
 shape = SubResource("RectangleShape2D_stnu5")
 
 [node name="ShadowSprite" parent="." index="1"]
@@ -54,7 +112,7 @@ collide_with_bodies = false
 position = Vector2(20, -50)
 script = ExtResource("4_y4byp")
 EndOnAnimationEnd = true
-ParticleTexture = Array[Texture2D]([ExtResource("5_j0kwd"), ExtResource("6_yias2"), ExtResource("7_wt771"), ExtResource("8_n8h4n"), ExtResource("9_7tqsp"), ExtResource("10_025wv"), ExtResource("11_8wlk3"), ExtResource("12_5o0sj")])
+ParticleTexture = Array[Texture2D]([SubResource("AtlasTexture_tm83x"), SubResource("AtlasTexture_hq53a"), SubResource("AtlasTexture_bq4xs"), SubResource("AtlasTexture_bhjfo"), SubResource("AtlasTexture_dnb0k"), SubResource("AtlasTexture_piwed"), SubResource("AtlasTexture_ncpst")])
 ParticleTextureOrginal = Vector2(-0.5, -0.5)
 ParticleGradient = SubResource("Gradient_ns4r8")
 ParticleCollideShapeWiths = []
@@ -66,3 +124,8 @@ ParticleSpeed = Vector2(30, 3)
 ParticleSpeedRandomness = Vector2(15, 20)
 ParticleAccelerate = Vector2(10, 0)
 ParticleGravity = Vector2(0, 0)
+
+[node name="DamagingParticleSys" parent="." index="7"]
+DebugDraw = false
+ParticleTexture = [SubResource("GradientTexture2D_rhdgh"), SubResource("GradientTexture2D_7ytjb"), SubResource("GradientTexture2D_o3j1g"), SubResource("GradientTexture2D_f3484")]
+ParticleRandomTexture = true

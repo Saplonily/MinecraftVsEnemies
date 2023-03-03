@@ -14,7 +14,16 @@ size = Vector2(750, 375)
 StartUpCmds = "place_weapon 0 0 1
 place_weapon 1 0 1
 place_weapon 2 0 1
-produce"
+produce
+set_redstone 50
+place_weapon 0 1 0
+place_weapon 0 2 0
+place_weapon 0 3 0
+place_weapon 0 4 0
+place_weapon 7 1 2
+place_weapon 7 2 2
+place_weapon 7 3 2
+place_weapon 7 4 2"
 
 [node name="LayerMain" parent="Board" index="0"]
 follow_viewport_enabled = true
@@ -31,11 +40,11 @@ WeaponPropertyId = 1
 
 [node name="Card3" parent="Board/LayerMain" index="3" instance=ExtResource("4")]
 position = Vector2(184, 0)
-WeaponPropertyId = 1
+WeaponPropertyId = 2
 
 [node name="Card2" parent="Board/LayerMain" index="4" instance=ExtResource("4")]
 position = Vector2(248, 0)
-WeaponPropertyId = 1
+WeaponPropertyId = 2
 
 [node name="Card4" parent="Board/LayerMain" index="5" instance=ExtResource("4")]
 position = Vector2(310, 0)
@@ -47,11 +56,11 @@ WeaponPropertyId = 0
 
 [node name="Card6" parent="Board/LayerMain" index="7" instance=ExtResource("4")]
 position = Vector2(430, 0)
-WeaponPropertyId = 0
+WeaponPropertyId = 2
 
 [node name="Card7" parent="Board/LayerMain" index="8" instance=ExtResource("4")]
 position = Vector2(490, 0)
-WeaponPropertyId = 0
+WeaponPropertyId = 2
 
 [node name="Lawn" parent="Board/LayerMain" index="9"]
 Rows = 6

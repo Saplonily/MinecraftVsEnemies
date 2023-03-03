@@ -33,7 +33,6 @@ Global
 		SolutionGuid = {4E2A4B3C-23FF-469D-890E-CD64D0F6F86D}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SalState\SalState.projitems*{55e3b026-fbd0-4d43-9f98-fe7cb981d20e}*SharedItemsImports = 5
 		SalState\SalState.projitems*{840ca580-1ce6-453d-b28f-a71f30ff3233}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

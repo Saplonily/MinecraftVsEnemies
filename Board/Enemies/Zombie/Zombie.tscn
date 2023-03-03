@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bmtmrfl2rhphp"]
+[gd_scene load_steps=38 format=3]
 
 [ext_resource type="PackedScene" uid="uid://befpimk1sa7qp" path="res://Board/Enemies/EnemyBase.tscn" id="1_o4wry"]
 [ext_resource type="Script" path="res://Board/Enemies/Zombie/Zombie.cs" id="1_okrin"]
@@ -8,17 +8,39 @@
 [ext_resource type="Texture2D" uid="uid://cm8tiiwbnmp15" path="res://Board/Enemies/Zombie/Head.png" id="5_fma25"]
 [ext_resource type="Script" path="res://SalParticleSys.cs" id="7_op2yc"]
 [ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="7_yqo61"]
-[ext_resource type="Texture2D" uid="uid://bj76cemuvreko" path="res://Board/SmokeParticle/0.png" id="8_mx5a4"]
-[ext_resource type="Texture2D" uid="uid://bb2fbq5p05jms" path="res://Board/SmokeParticle/1.png" id="9_wb8iw"]
-[ext_resource type="Texture2D" uid="uid://crdns5gujb62u" path="res://Board/SmokeParticle/2.png" id="10_howjw"]
-[ext_resource type="Texture2D" uid="uid://dwr88h3imniqn" path="res://Board/SmokeParticle/3.png" id="11_2q5ky"]
-[ext_resource type="Texture2D" uid="uid://daftse73d0m5u" path="res://Board/SmokeParticle/4.png" id="12_63hdy"]
-[ext_resource type="Texture2D" uid="uid://bvycxm1h8cp50" path="res://Board/SmokeParticle/5.png" id="13_3f1j3"]
-[ext_resource type="Texture2D" uid="uid://j2wyk56ktof6" path="res://Board/SmokeParticle/6.png" id="14_m80c3"]
-[ext_resource type="Texture2D" uid="uid://wf8xon8iu03j" path="res://Board/SmokeParticle/7.png" id="15_1ctv7"]
+[ext_resource type="Texture2D" uid="uid://cvbkhjm22srht" path="res://Board/AtlasSmokeParticle.png" id="9_b8fhj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6ww8"]
 size = Vector2(25, 90)
+
+[sub_resource type="Animation" id="Animation_74g6l"]
+resource_name = "Attack"
+loop_mode = 1
+step = 0.3333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/HandRight:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3333, 0.6666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.191986, -0.261799]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/HandLeft:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3333, 0.6666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.191986, -0.261799]
+}
 
 [sub_resource type="Animation" id="4"]
 resource_name = "BeHit"
@@ -219,35 +241,6 @@ tracks/1/keys = {
 "values": [-30.0, 30.0]
 }
 
-[sub_resource type="Animation" id="Animation_74g6l"]
-resource_name = "Attack"
-loop_mode = 1
-step = 0.3333
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprites/HandRight:rotation")
-tracks/0/interp = 4
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.3333, 0.6666),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.191986, -0.261799]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprites/HandLeft:rotation")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.3333, 0.6666),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.191986, -0.261799]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5cxuh"]
 _data = {
 "Attack": SubResource("Animation_74g6l"),
@@ -315,10 +308,38 @@ node_connections = [&"output", 0, &"HitOneShot", &"HitOneShot", 0, &"MainStateMa
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_bk2fe"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_tm83x"]
+atlas = ExtResource("9_b8fhj")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hq53a"]
+atlas = ExtResource("9_b8fhj")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bq4xs"]
+atlas = ExtResource("9_b8fhj")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhjfo"]
+atlas = ExtResource("9_b8fhj")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dnb0k"]
+atlas = ExtResource("9_b8fhj")
+region = Rect2(32, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_piwed"]
+atlas = ExtResource("9_b8fhj")
+region = Rect2(40, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ncpst"]
+atlas = ExtResource("9_b8fhj")
+region = Rect2(48, 0, 8, 8)
+
 [sub_resource type="Gradient" id="Gradient_0q1ei"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
-[node name="Zombie" instance=ExtResource("1_o4wry")]
+[node name="Zombie" groups=["Zombie"] instance=ExtResource("1_o4wry")]
 script = ExtResource("1_okrin")
 
 [node name="ShadowSprite" parent="." index="0"]
@@ -386,7 +407,7 @@ position = Vector2(48, 0)
 script = ExtResource("7_op2yc")
 LongShootingShootAmount = 2.0
 EndOnAnimationEnd = true
-ParticleTexture = Array[Texture2D]([ExtResource("8_mx5a4"), ExtResource("9_wb8iw"), ExtResource("10_howjw"), ExtResource("11_2q5ky"), ExtResource("12_63hdy"), ExtResource("13_3f1j3"), ExtResource("14_m80c3"), ExtResource("15_1ctv7")])
+ParticleTexture = Array[Texture2D]([SubResource("AtlasTexture_tm83x"), SubResource("AtlasTexture_hq53a"), SubResource("AtlasTexture_bq4xs"), SubResource("AtlasTexture_bhjfo"), SubResource("AtlasTexture_dnb0k"), SubResource("AtlasTexture_piwed"), SubResource("AtlasTexture_ncpst")])
 ParticleTextureOrginal = Vector2(-0.5, -0.5)
 ParticleGradient = SubResource("Gradient_0q1ei")
 ParticleCollideShapeWiths = []

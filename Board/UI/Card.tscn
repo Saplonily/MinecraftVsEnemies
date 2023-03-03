@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://df74k33olyi04"]
+[gd_scene load_steps=8 format=3 uid="uid://df74k33olyi04"]
 
 [ext_resource type="Script" path="res://Board/UI/Card.cs" id="1_cacc0"]
 [ext_resource type="Texture2D" uid="uid://bt5hifs7bo82d" path="res://Board/UI/Card.png" id="2_63rhc"]
@@ -17,7 +17,12 @@ width = 1
 height = 1
 fill_to = Vector2(0, 0)
 
+[sub_resource type="LabelSettings" id="LabelSettings_xsf6d"]
+font_size = 13
+font_color = Color(0.929412, 0.929412, 0.929412, 1)
+
 [node name="Card" type="Node2D" groups=["Card"]]
+texture_filter = 1
 script = ExtResource("1_cacc0")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -45,3 +50,15 @@ texture = SubResource("GradientTexture2D_ehxow")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 64, 96)
+
+[node name="CostLabel" type="Label" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 74.0
+offset_right = 56.0
+offset_bottom = 97.0
+grow_vertical = 2
+text = "-1"
+label_settings = SubResource("LabelSettings_xsf6d")

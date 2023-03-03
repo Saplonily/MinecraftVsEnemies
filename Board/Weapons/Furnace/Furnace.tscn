@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dsm32grc4bhdm"]
+[gd_scene load_steps=15 format=3 uid="uid://dsm32grc4bhdm"]
 
 [ext_resource type="Script" path="res://Board/Weapons/Furnace/Furnace.cs" id="1_83cm5"]
 [ext_resource type="Texture2D" uid="uid://c8wgcfvj55mah" path="res://Board/Weapons/Furnace/Furnace.png" id="1_ysy1d"]
@@ -7,12 +7,15 @@
 [ext_resource type="Script" path="res://SalParticleSys.cs" id="4_gir36"]
 [ext_resource type="Texture2D" uid="uid://d0a6t80bouis2" path="res://Board/Weapons/Furnace/Flame2.png" id="5_3hiaw"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ed5pf"]
+size = Vector2(57, 67)
+
 [sub_resource type="Gradient" id="Gradient_xxmat"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="Gradient" id="Gradient_7y0h1"]
 offsets = PackedFloat32Array(0.00588235)
-colors = PackedColorArray(0.247059, 0.243137, 0.243137, 1)
+colors = PackedColorArray(0.184314, 0.184314, 0.184314, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ufn6b"]
 gradient = SubResource("Gradient_7y0h1")
@@ -20,11 +23,30 @@ width = 5
 height = 5
 fill_to = Vector2(0, 0)
 
+[sub_resource type="Gradient" id="Gradient_7yb5d"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.0509804, 0.0509804, 0.0509804, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_l25kb"]
+gradient = SubResource("Gradient_7yb5d")
+width = 5
+height = 5
+
+[sub_resource type="Gradient" id="Gradient_ar0bq"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.545098, 0.545098, 0.545098, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sad7k"]
+gradient = SubResource("Gradient_ar0bq")
+width = 5
+height = 5
+
 [node name="Furnace" groups=["Furnace"] instance=ExtResource("1_yxwi7")]
 script = ExtResource("1_83cm5")
 
 [node name="CollisionShape2D" parent="HitArea" index="0"]
-position = Vector2(0, -35)
+position = Vector2(0.5, -33.5)
+shape = SubResource("RectangleShape2D_ed5pf")
 
 [node name="Furnace" type="Sprite2D" parent="." index="2"]
 texture = ExtResource("1_ysy1d")
@@ -71,4 +93,5 @@ autostart = true
 
 [node name="DamagingParticleSys" parent="." index="7"]
 DebugDraw = false
-ParticleTexture = [SubResource("GradientTexture2D_ufn6b")]
+ParticleTexture = [SubResource("GradientTexture2D_ufn6b"), SubResource("GradientTexture2D_l25kb"), SubResource("GradientTexture2D_sad7k")]
+ParticleRandomTexture = true
