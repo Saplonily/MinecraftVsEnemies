@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3]
+[gd_scene load_steps=38 format=3 uid="uid://301afcm4h2av"]
 
 [ext_resource type="PackedScene" uid="uid://befpimk1sa7qp" path="res://Board/Enemies/EnemyBase.tscn" id="1_o4wry"]
 [ext_resource type="Script" path="res://Board/Enemies/Zombie/Zombie.cs" id="1_okrin"]
@@ -9,9 +9,6 @@
 [ext_resource type="Script" path="res://SalParticleSys.cs" id="7_op2yc"]
 [ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="7_yqo61"]
 [ext_resource type="Texture2D" uid="uid://cvbkhjm22srht" path="res://Board/AtlasSmokeParticle.png" id="9_b8fhj"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_a6ww8"]
-size = Vector2(25, 90)
 
 [sub_resource type="Animation" id="Animation_74g6l"]
 resource_name = "Attack"
@@ -57,72 +54,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 0.396078, 0.396078, 1), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="11"]
-resource_name = "Die"
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprites/LegRight:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprites:modulate")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.75),
-"transitions": PackedFloat32Array(1, 0.233258, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 0.309804, 0.309804, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprites:rotation")
-tracks/2/interp = 3
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.75),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [0.0, 1.5708]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprites/LegLeft:rotation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"OnDieAnimationEnded"
-}]
 }
 
 [sub_resource type="Animation" id="5"]
@@ -211,6 +142,18 @@ tracks/6/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sprites:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="6"]
 resource_name = "Walking"
@@ -241,11 +184,65 @@ tracks/1/keys = {
 "values": [-30.0, 30.0]
 }
 
+[sub_resource type="Animation" id="Animation_pwp2l"]
+resource_name = "Die"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/LegRight:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.75),
+"transitions": PackedFloat32Array(1, 0.233258, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 0.309804, 0.309804, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprites:rotation")
+tracks/2/interp = 3
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.5708]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnDieAnimationEnded"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5cxuh"]
 _data = {
 "Attack": SubResource("Animation_74g6l"),
 "BeHit": SubResource("4"),
-"Die": SubResource("11"),
+"Die": SubResource("Animation_pwp2l"),
 "RESET": SubResource("5"),
 "Walking": SubResource("6")
 }
@@ -339,6 +336,9 @@ region = Rect2(48, 0, 8, 8)
 [sub_resource type="Gradient" id="Gradient_0q1ei"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a6ww8"]
+size = Vector2(25, 90)
+
 [node name="Zombie" groups=["Zombie"] instance=ExtResource("1_o4wry")]
 script = ExtResource("1_okrin")
 
@@ -380,29 +380,19 @@ position = Vector2(11, -63)
 texture = ExtResource("2_71thr")
 offset = Vector2(-21, 0)
 
-[node name="Area2D" type="Area2D" parent="." index="2"]
-position = Vector2(0, -45)
-collision_layer = 2
-collision_mask = 5
-
-[node name="BodyShape" type="CollisionShape2D" parent="Area2D" index="0"]
-visible = false
-position = Vector2(7.5, 0)
-shape = SubResource("RectangleShape2D_a6ww8")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_5cxuh")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="." index="4"]
+[node name="AnimationTree" type="AnimationTree" parent="." index="3"]
 tree_root = SubResource("AnimationNodeBlendTree_b2r40")
 anim_player = NodePath("../AnimationPlayer")
 parameters/HitOneShot/active = false
 parameters/HitOneShot/request = 0
 parameters/MainStateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_bk2fe")
 
-[node name="DeathParticle" type="Node2D" parent="." index="5"]
+[node name="DeathParticle" type="Node2D" parent="." index="4"]
 position = Vector2(48, 0)
 script = ExtResource("7_op2yc")
 LongShootingShootAmount = 2.0
@@ -418,3 +408,8 @@ ParticlePosition = Vector2(0, -30)
 ParticlePositionRandomness = Vector2(75, 50)
 ParticleSpeed = Vector2(0, -40)
 ParticleGravity = Vector2(0, 0)
+
+[node name="BodyShape" type="CollisionShape2D" parent="HitBox" index="0"]
+visible = false
+position = Vector2(7.5, -45)
+shape = SubResource("RectangleShape2D_a6ww8")

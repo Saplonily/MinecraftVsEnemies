@@ -63,7 +63,9 @@ public class Game
     {
         EnemyProperties = new();
         var p = EnemyProperties;
-        p.Add(new EnemyProperty(GD.Load<PackedScene>("res://Board/Enemies/Zombie/Zombie.tscn"), 200, 200));
+        p.Add(new EnemyProperty(GD.Load<PackedScene>("res://Board/Enemies/Zombie/Zombie.tscn")));
+        p.Add(new EnemyProperty(GD.Load<PackedScene>("res://Board/Enemies/Zombie/Leat/LeatZombie.tscn")));
+        p.Add(new EnemyProperty(GD.Load<PackedScene>("res://Board/Enemies/Zombie/Iron/IronZombie.tscn")));
     }
 
     public void LoadWeaponProperties()

@@ -1,24 +1,24 @@
 namespace MVE;
 
-public partial class LeatZombie : Zombie
+public partial class IronZombie : Zombie
 {
-    protected Sprite2D leatCapSprite = null!;
+    protected Sprite2D ironCapSprite = null!;
 
-    public double CapHp { get; set; } = 400d;
+    public double CapHp { get; set; } = 1000d;
 
-    public double CapMaxHp { get; set; } = 400d;
+    public double CapMaxHp { get; set; } = 1000d;
 
     public override void _Ready()
     {
         base._Ready();
-        leatCapSprite = GetNode<Sprite2D>("Sprites/LeatCap");
+        ironCapSprite = GetNode<Sprite2D>("Sprites/IronCap");
     }
 
     public override void _Process(double delta)
     {
         base._Process(delta);
         CapHp = Math.Clamp(CapHp, 0d, CapMaxHp);
-        leatCapSprite.Visible = CapHp > 0;
+        ironCapSprite.Visible = CapHp > 0;
     }
 
     public override void BeHurt(double amount)

@@ -21,9 +21,12 @@ place_weapon 0 2 0
 place_weapon 0 3 0
 place_weapon 0 4 0
 place_weapon 7 1 2
-place_weapon 7 2 2
-place_weapon 7 3 2
-place_weapon 7 4 2"
+place_enemy  7 3 0
+place_enemy  7 3 0
+place_enemy  7 2 0
+place_enemy  7 3 1
+place_enemy  7 4 2
+"
 
 [node name="LayerMain" parent="Board" index="0"]
 follow_viewport_enabled = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=23 format=3 uid="uid://bxdnr03ub0177"]
 
 [ext_resource type="PackedScene" uid="uid://b3t0q8lb8ual1" path="res://Board/Weapons/WeaponBase.tscn" id="1_at4h7"]
 [ext_resource type="Script" path="res://Board/Weapons/Dispenser/Dispenser.cs" id="1_ccvxu"]
@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cvbkhjm22srht" path="res://Board/AtlasSmokeParticle.png" id="5_mfrip"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_stnu5"]
-size = Vector2(50, 74)
+size = Vector2(49, 74)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tm83x"]
 atlas = ExtResource("5_mfrip")
@@ -82,7 +82,7 @@ height = 5
 script = ExtResource("1_ccvxu")
 
 [node name="CollisionShape2D" parent="HitArea" index="0"]
-position = Vector2(0, -37)
+position = Vector2(-0.5, -37)
 shape = SubResource("RectangleShape2D_stnu5")
 
 [node name="ShadowSprite" parent="." index="1"]

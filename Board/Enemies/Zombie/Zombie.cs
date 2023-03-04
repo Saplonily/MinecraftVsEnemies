@@ -19,7 +19,6 @@ public record struct ZombieAttackInfo(Weapon? Attacking)
 
 public partial class Zombie : Enemy
 {
-    protected Area2D area2D = null!;
     protected AnimationTree animationTree = null!;
     protected AnimationNodeStateMachinePlayback mainAtSmPlayBack = null!;
     protected SalParticleSys deathParticleSys = null!;
@@ -27,19 +26,20 @@ public partial class Zombie : Enemy
     protected ZombieAttackInfo attackInfo;
 
     public Vector3 WalkingDirection { get; protected set; } = new(-1.0f, 0.0f, 0.0f);
+
     public float WalkingSpeed { get; protected set; } = 20.0f;
+
     public ZombieState State { get; protected set; }
 
     public override void _Ready()
     {
         base._Ready();
-        area2D = GetNode<Area2D>("Area2D");
         animationTree = GetNode<AnimationTree>("AnimationTree");
         mainAtSmPlayBack = animationTree.Get("parameters/MainStateMachine/playback").As<AnimationNodeStateMachinePlayback>();
         deathParticleSys = GetNode<SalParticleSys>("DeathParticle");
         RemoveChild(deathParticleSys);
 
-        area2D.AreaEntered += Area2D_AreaEntered;
+        hitBox.AreaEntered += Area2D_AreaEntered;
         animationTree.Active = true;
         RequestStateChange(ZombieState.Walking);
     }
@@ -91,7 +91,7 @@ public partial class Zombie : Enemy
             break;
         }
         IEnumerable<Weapon> GetCollidedWeapons()
-            => area2D.GetOverlappingAreas()
+            => hitBox.GetOverlappingAreas()
                 .Where(a => a.Owner is Weapon wea && wea.IsCollidedInThicknessWith(this))
                 .Select(a => (Weapon)a.Owner);
     }
@@ -111,7 +111,7 @@ public partial class Zombie : Enemy
         }
     }
 
-    public void BeHit(Bullet sourceBullet)
+    public override void BeHit(Bullet sourceBullet)
     {
         if (sourceBullet is Arrow arrow)
         {
@@ -120,10 +120,10 @@ public partial class Zombie : Enemy
         }
     }
 
-    public void BeHurt(double amount)
+    public override void BeHurt(double amount)
     {
         Hp -= amount;
-        animationTree.Set("parameters/HitOneShot/request", 1);
+        animationTree.Set("parameters/HitOneShot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
     }
 
     protected void Area2D_AreaEntered(Area2D area2d)
@@ -142,8 +142,8 @@ public partial class Zombie : Enemy
     {
         State = ZombieState.Dying;
         mainAtSmPlayBack.Travel("Die");
-        area2D.CollisionLayer &= 1 << 0;
-        area2D.CollisionLayer |= 1 << 5;
+        hitBox.CollisionLayer &= 1 << 0;
+        hitBox.CollisionLayer |= 1 << 5;
     }
 
     public void OnDieAnimationEnded()

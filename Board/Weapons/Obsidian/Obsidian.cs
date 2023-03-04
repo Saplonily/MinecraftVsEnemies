@@ -10,8 +10,8 @@ public partial class Obsidian : Weapon
 
         breakStateSprite = GetNode<Sprite2D>("BreakState");
 
-        Hp = 3000f;
-        MaxHp = 3000f;
+        Hp = 1500f;
+        MaxHp = 1500f;
     }
 
     public override void _Process(double delta)

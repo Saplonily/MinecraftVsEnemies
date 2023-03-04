@@ -1,11 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://cdrd5bqqj1u44"]
+[gd_scene load_steps=27 format=3 uid="uid://t14lsoxyyc35"]
 
-[ext_resource type="PackedScene" uid="uid://301afcm4h2av" path="res://Board/Enemies/Zombie/Zombie.tscn" id="1_7ajfd"]
-[ext_resource type="Texture2D" uid="uid://de74gj4yfmn7e" path="res://Board/Enemies/Zombie/Leat/LeatCap.png" id="2_4sj1i"]
-[ext_resource type="Script" path="res://Board/Enemies/Zombie/Leat/LeatZombie.cs" id="2_smcpo"]
-[ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="4_2x4gq"]
+[ext_resource type="PackedScene" uid="uid://301afcm4h2av" path="res://Board/Enemies/Zombie/Zombie.tscn" id="1_k8324"]
+[ext_resource type="Texture2D" uid="uid://bnwrihvg3is53" path="res://Board/Enemies/Zombie/Iron/IronCap.png" id="2_1mv8q"]
+[ext_resource type="Script" path="res://Board/Enemies/Zombie/Iron/IronZombie.cs" id="2_dhg0i"]
+[ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="3_c6cnc"]
 
-[sub_resource type="Animation" id="Animation_74g6l"]
+[sub_resource type="Animation" id="Animation_85m6g"]
 resource_name = "Attack"
 loop_mode = 1
 step = 0.3333
@@ -34,7 +34,7 @@ tracks/1/keys = {
 "values": [0.191986, -0.261799]
 }
 
-[sub_resource type="Animation" id="4"]
+[sub_resource type="Animation" id="Animation_snoas"]
 resource_name = "BeHit"
 length = 0.05
 step = 0.05
@@ -51,14 +51,14 @@ tracks/0/keys = {
 "values": [Color(1, 0.396078, 0.396078, 1), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_5f7yi"]
+[sub_resource type="Animation" id="Animation_30j76"]
 resource_name = "CapBeHit"
 length = 0.05
 step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprites/LeatCap:modulate")
+tracks/0/path = NodePath("Sprites/IronCap:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -68,7 +68,7 @@ tracks/0/keys = {
 "values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_pwp2l"]
+[sub_resource type="Animation" id="Animation_kb1ie"]
 resource_name = "Die"
 step = 0.05
 tracks/0/type = "value"
@@ -122,7 +122,7 @@ tracks/3/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="5"]
+[sub_resource type="Animation" id="Animation_wly61"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -223,7 +223,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Sprites/LeatCap:modulate")
+tracks/8/path = NodePath("Sprites/IronCap:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -233,7 +233,7 @@ tracks/8/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="6"]
+[sub_resource type="Animation" id="Animation_rwhej"]
 resource_name = "Walking"
 length = 2.0
 loop_mode = 1
@@ -262,27 +262,25 @@ tracks/1/keys = {
 "values": [-30.0, 30.0]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_kjvtm"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r0gou"]
 _data = {
-"Attack": SubResource("Animation_74g6l"),
-"BeHit": SubResource("4"),
-"CapBeHit": SubResource("Animation_5f7yi"),
-"Die": SubResource("Animation_pwp2l"),
-"RESET": SubResource("5"),
-"Walking": SubResource("6")
+"Attack": SubResource("Animation_85m6g"),
+"BeHit": SubResource("Animation_snoas"),
+"CapBeHit": SubResource("Animation_30j76"),
+"Die": SubResource("Animation_kb1ie"),
+"RESET": SubResource("Animation_wly61"),
+"Walking": SubResource("Animation_rwhej")
 }
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_f60o7"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cxtk2"]
-animation = &"CapBeHit"
-
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_5h0fw"]
-filter_enabled = true
-filters = ["Sprites/LeatCap:modulate"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0u160"]
 animation = &"BeHit"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5awnk"]
+animation = &"CapBeHit"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_6yk5t"]
+filter_enabled = true
+filters = ["Sprites/IronCap:modulate"]
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_elov4"]
 filter_enabled = true
@@ -299,21 +297,21 @@ animation = &"Walking"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gec5y"]
 xfade_time = 0.1
-xfade_curve = ExtResource("4_2x4gq")
+xfade_curve = ExtResource("3_c6cnc")
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_56wpr"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_twmo0"]
 xfade_time = 0.2
-xfade_curve = ExtResource("4_2x4gq")
+xfade_curve = ExtResource("3_c6cnc")
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gxu4n"]
 xfade_time = 0.1
-xfade_curve = ExtResource("4_2x4gq")
+xfade_curve = ExtResource("3_c6cnc")
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wfeyh"]
 xfade_time = 0.2
-xfade_curve = ExtResource("4_2x4gq")
+xfade_curve = ExtResource("3_c6cnc")
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_li5pa"]
 states/Attack/node = SubResource("AnimationNodeAnimation_rt1bg")
@@ -327,41 +325,39 @@ states/Walking/position = Vector2(381, 100)
 transitions = ["Walking", "Die", SubResource("AnimationNodeStateMachineTransition_gec5y"), "Start", "Walking", SubResource("AnimationNodeStateMachineTransition_56wpr"), "Walking", "Attack", SubResource("AnimationNodeStateMachineTransition_twmo0"), "Attack", "Die", SubResource("AnimationNodeStateMachineTransition_gxu4n"), "Attack", "Walking", SubResource("AnimationNodeStateMachineTransition_wfeyh")]
 graph_offset = Vector2(-44.9009, -37)
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_2pq8j"]
-graph_offset = Vector2(-277, 93)
-nodes/CapHit/node = SubResource("AnimationNodeAnimation_cxtk2")
-nodes/CapHit/position = Vector2(0, 380)
-nodes/CapHitOneShot/node = SubResource("AnimationNodeOneShot_5h0fw")
-nodes/CapHitOneShot/position = Vector2(220, 160)
-nodes/Hit/node = SubResource("AnimationNodeAnimation_0u160")
-nodes/Hit/position = Vector2(-300, 300)
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_fl8au"]
+graph_offset = Vector2(-322, 194)
+nodes/BeHit/node = SubResource("AnimationNodeAnimation_0u160")
+nodes/BeHit/position = Vector2(-294, 315)
+nodes/CapBeHit/node = SubResource("AnimationNodeAnimation_5awnk")
+nodes/CapBeHit/position = Vector2(0, 400)
+nodes/CapHitOneShot/node = SubResource("AnimationNodeOneShot_6yk5t")
+nodes/CapHitOneShot/position = Vector2(280, 180)
 nodes/HitOneShot/node = SubResource("AnimationNodeOneShot_elov4")
 nodes/HitOneShot/position = Vector2(0, 160)
 nodes/MainStateMachine/node = SubResource("AnimationNodeStateMachine_li5pa")
-nodes/MainStateMachine/position = Vector2(-300, 160)
-nodes/output/position = Vector2(500, 180)
-node_connections = [&"output", 0, &"CapHitOneShot", &"CapHitOneShot", 0, &"HitOneShot", &"CapHitOneShot", 1, &"CapHit", &"HitOneShot", 0, &"MainStateMachine", &"HitOneShot", 1, &"Hit"]
+nodes/MainStateMachine/position = Vector2(-294, 168)
+nodes/output/position = Vector2(480, 180)
+node_connections = [&"output", 0, &"CapHitOneShot", &"HitOneShot", 0, &"MainStateMachine", &"HitOneShot", 1, &"BeHit", &"CapHitOneShot", 0, &"HitOneShot", &"CapHitOneShot", 1, &"CapBeHit"]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_gxsvp"]
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_t7qdq"]
 
-[node name="LeatZombie" groups=["LeatZombie"] instance=ExtResource("1_7ajfd")]
-script = ExtResource("2_smcpo")
+[node name="IronZombie" instance=ExtResource("1_k8324")]
+script = ExtResource("2_dhg0i")
 
-[node name="LeatCap" type="Sprite2D" parent="Sprites" index="6"]
-position = Vector2(0, -85)
-scale = Vector2(1.06034, 1)
-texture = ExtResource("2_4sj1i")
+[node name="IronCap" type="Sprite2D" parent="Sprites" index="6"]
+position = Vector2(0, -86)
+scale = Vector2(1.07112, 1)
+texture = ExtResource("2_1mv8q")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
-"": SubResource("AnimationLibrary_kjvtm"),
-"leat": SubResource("AnimationLibrary_f60o7")
+"": SubResource("AnimationLibrary_r0gou")
 }
 
 [node name="AnimationTree" parent="." index="3"]
-tree_root = SubResource("AnimationNodeBlendTree_2pq8j")
-advance_expression_base_node = NodePath("")
+tree_root = SubResource("AnimationNodeBlendTree_fl8au")
 active = true
 parameters/CapHitOneShot/active = false
 parameters/CapHitOneShot/request = 0
-parameters/MainStateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_gxsvp")
+parameters/MainStateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_t7qdq")

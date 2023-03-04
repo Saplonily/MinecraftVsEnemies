@@ -8,3 +8,7 @@ texture_filter = 1
 [node name="ShadowSprite" type="Sprite2D" parent="."]
 scale = Vector2(1, 0.25)
 texture = ExtResource("1_v408m")
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 5

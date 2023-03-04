@@ -12,6 +12,8 @@ public abstract partial class Weapon : LawnEntity
 
     public double Hp { get; set; } = 200f;
 
+    public event Action<double>? OnHpChanged;
+
     public event Action? OnDestroyed;
 
     public override void _Ready()
@@ -51,5 +53,6 @@ public abstract partial class Weapon : LawnEntity
         if (Game.OnPhysicsInterval(8))
             damagingParticleSys.Emit();
         Hp -= amount;
+        OnHpChanged?.Invoke(-amount);
     }
 }
