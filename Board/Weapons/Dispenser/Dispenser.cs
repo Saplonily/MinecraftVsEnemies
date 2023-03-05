@@ -1,11 +1,15 @@
+using MVE.SalExt;
 using Saladim.GodotParticle;
 
 namespace MVE;
 
 public partial class Dispenser : Weapon
 {
+    [Export]
     public static readonly PackedScene ArrowScene = GD.Load<PackedScene>("res://Board/Bullets/Arrow.tscn");
 
+    [Export] protected AudioStream clickAudio = null!;
+    protected AudioStreamPlayer clickAudioPlayer = null!;
     protected Godot.Timer shootTimer = null!;
     protected Vector2 shootOffset;
     protected RayCast2D rayCast = null!;
@@ -18,6 +22,7 @@ public partial class Dispenser : Weapon
         shootOffset = GetNode<Marker2D>("ShootOffsetMarker").GetPositionAndFree();
         rayCast = GetNode<RayCast2D>("RayCast2D");
         shootParticleSys = GetNode<SalParticleSys>("ShootPtSys");
+        clickAudioPlayer = SalAudioPool.GetPlayer(new(clickAudio, Bus: "Board"));
 
         shootTimer.Timeout += OnShootTimerTimeout;
         shootTimer.Start();
@@ -42,6 +47,7 @@ public partial class Dispenser : Weapon
 
     public void Shoot()
     {
+        clickAudioPlayer.Play();
         Lawn.AddBoardEntity(ArrowScene.Instantiate<Arrow>(), LevelPos + new Vector3(shootOffset.X, 0, -shootOffset.Y));
     }
 }

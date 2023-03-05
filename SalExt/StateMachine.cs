@@ -1,4 +1,4 @@
-﻿namespace SalState;
+﻿namespace SalExt;
 
 /// <summary>
 /// SalStateMachine, 十分简单的状态机实现

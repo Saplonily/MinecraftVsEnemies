@@ -14,14 +14,21 @@ size = Vector2(750, 375)
 StartUpCmds = "place_weapon 0 0 1
 place_weapon 1 0 1
 place_weapon 2 0 1
+place_weapon 3 0 1
+place_weapon 4 0 1
+place_weapon 5 0 1
+place_weapon 6 0 1
+place_weapon 7 0 1
 produce
 set_redstone 50
 place_weapon 0 1 0
 place_weapon 0 2 0
 place_weapon 0 3 0
 place_weapon 0 4 0
+place_weapon 1 4 0
+place_weapon 2 4 0
+place_weapon 3 4 0
 place_weapon 7 1 2
-place_enemy  7 3 0
 place_enemy  7 3 0
 place_enemy  7 2 0
 place_enemy  7 3 1

@@ -1,7 +1,11 @@
+using MVE.SalExt;
+
 namespace MVE;
 
 public partial class Redstone : Drop
 {
+    [Export] protected AudioStream pickAudio = null!;
+    protected AudioStreamPlayer pickAudioPlayer = null!;
     protected Sprite2D sprite = null!;
 
     public double Value { get => 25; }
@@ -10,11 +14,13 @@ public partial class Redstone : Drop
     {
         base._Ready();
         sprite = GetNode<Sprite2D>("Redstone");
+        pickAudioPlayer = SalAudioPool.GetPlayer(new(pickAudio, Bus: "Board"));
     }
 
     public override void OnPicking()
     {
         base.OnPicking();
+        pickAudioPlayer.Play();
         shadowSprite.Visible = false;
         var tween =
              CreateTween()
@@ -40,7 +46,7 @@ public partial class Redstone : Drop
                     Vector2.Zero,
                     0.25
                     );
-                tween.TweenCallback(Callable.From(() => this.QueueFree()));
+                tween.TweenCallback(Callable.From(QueueFree));
             }));
         }
     }

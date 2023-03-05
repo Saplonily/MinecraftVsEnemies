@@ -1,13 +1,15 @@
 using NullLib.CommandLine;
+using SalExt;
 
 namespace MVE;
 
 public partial class Board
 {
-    protected PickingType picking;
     protected Sprite2D pickingSprite = null!;
     protected Control controlOverlay = null!;
     protected RedstoneDisplayer redstoneDisplayer = null!;
+
+    protected PickingType picking;
 
     public readonly Vector3 Gravity = new(0, 0, -1000);
 
@@ -40,6 +42,7 @@ public partial class Board
         pickingSprite = GetNode<Sprite2D>("LayerPicking/Picking");
         controlOverlay = GetNode<Control>("LayerPicking/ControlOverlay");
         redstoneDisplayer = GetNode<RedstoneDisplayer>("LayerMain/RedstoneDisplayer");
+        InitAudios();
 
         Lawn = GetNode<Lawn>("LayerMain/Lawn");
 

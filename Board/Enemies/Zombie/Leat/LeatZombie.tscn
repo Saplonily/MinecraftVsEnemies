@@ -1,9 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://cdrd5bqqj1u44"]
+[gd_scene load_steps=30 format=3 uid="uid://cdrd5bqqj1u44"]
 
 [ext_resource type="PackedScene" uid="uid://301afcm4h2av" path="res://Board/Enemies/Zombie/Zombie.tscn" id="1_7ajfd"]
 [ext_resource type="Texture2D" uid="uid://de74gj4yfmn7e" path="res://Board/Enemies/Zombie/Leat/LeatCap.png" id="2_4sj1i"]
 [ext_resource type="Script" path="res://Board/Enemies/Zombie/Leat/LeatZombie.cs" id="2_smcpo"]
+[ext_resource type="AudioStream" uid="uid://tot4gvwhmut4" path="res://Board/Enemies/Zombie/Leat/Hit1.ogg" id="3_lpxuo"]
 [ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="4_2x4gq"]
+[ext_resource type="AudioStream" uid="uid://dj3h2bud4pdg5" path="res://Board/Enemies/Zombie/Leat/Hit2.ogg" id="4_pgg04"]
 
 [sub_resource type="Animation" id="Animation_74g6l"]
 resource_name = "Attack"
@@ -346,6 +348,7 @@ node_connections = [&"output", 0, &"CapHitOneShot", &"CapHitOneShot", 0, &"HitOn
 
 [node name="LeatZombie" groups=["LeatZombie"] instance=ExtResource("1_7ajfd")]
 script = ExtResource("2_smcpo")
+leatBeHitAudios = Array[AudioStream]([ExtResource("3_lpxuo"), ExtResource("4_pgg04")])
 
 [node name="LeatCap" type="Sprite2D" parent="Sprites" index="6"]
 position = Vector2(0, -85)

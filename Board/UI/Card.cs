@@ -1,5 +1,6 @@
 using Godot;
-using SalState;
+using MVE.SalExt;
+using SalExt;
 
 namespace MVE;
 
@@ -10,6 +11,8 @@ public partial class Card : BoardUI
     protected Sprite2D shadowMask = null!;
     protected Area2D area = null!;
     protected Label costLabel = null!;
+    [Export] protected AudioStream pickAudio = null!;
+    protected AudioStreamPlayer pickAudioPlayer = null!;
 
     protected StateMachine<CardState> stateMachine = null!;
     protected bool mouseIn = false;
@@ -34,6 +37,7 @@ public partial class Card : BoardUI
         cardSprite = GetNode<Sprite2D>("Card");
         shadowMask = GetNode<Sprite2D>("ShadowMask");
         costLabel = GetNode<Label>("CostLabel");
+        pickAudioPlayer = SalAudioPool.GetPlayer(new(pickAudio, Bus: "UI"));
 
         area.InputEvent += this.Area_InputEvent;
         area.MouseEntered += () => mouseIn = true;
@@ -50,12 +54,18 @@ public partial class Card : BoardUI
             update: CooldownUpdate
             );
         stateMachine.RegisterState(CardState.Picked,
-            enter: _ => Modulate = SelfMaskColor,
+            enter: PickedEnter,
             exit: _ => Modulate = Color.Color8(255, 255, 255, 255)
             );
 
         Cooldown = 0.0f;
         UpdateFromPropertyId(WeaponPropertyId);
+    }
+
+    protected void PickedEnter(CardState s)
+    {
+        Modulate = SelfMaskColor;
+        pickAudioPlayer.Play();
     }
 
     protected void MakeMasked()

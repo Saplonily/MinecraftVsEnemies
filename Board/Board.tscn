@@ -1,14 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqf2xdjc1q2rg"]
+[gd_scene load_steps=9 format=3 uid="uid://bqf2xdjc1q2rg"]
 
 [ext_resource type="Script" path="res://Board/Board.cs" id="1"]
 [ext_resource type="Script" path="res://Board/Lawn.cs" id="2"]
 [ext_resource type="Texture2D" uid="uid://beewi8ladent6" path="res://Board/Background/ChapterGrasswalk.png" id="3"]
+[ext_resource type="AudioStream" uid="uid://ixu4wmfk2lre" path="res://Board/Weapons/Sounds/Stone1.ogg" id="4_16c0y"]
+[ext_resource type="AudioStream" uid="uid://dilqy3yo0ro3o" path="res://Board/Weapons/Sounds/Stone2.ogg" id="5_u554h"]
+[ext_resource type="AudioStream" uid="uid://bf5xqph8ctymc" path="res://Board/Weapons/Sounds/Stone3.ogg" id="6_1se0y"]
+[ext_resource type="AudioStream" uid="uid://dtxe0ebmrpw1v" path="res://Board/Weapons/Sounds/Stone4.ogg" id="7_33uif"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2u03"]
 size = Vector2(750, 375)
 
 [node name="Board" type="Node"]
 script = ExtResource("1")
+audioStones = Array[AudioStream]([ExtResource("4_16c0y"), ExtResource("5_u554h"), ExtResource("6_1se0y"), ExtResource("7_33uif")])
 
 [node name="LayerMain" type="CanvasLayer" parent="."]
 

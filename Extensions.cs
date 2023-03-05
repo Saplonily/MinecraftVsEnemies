@@ -1,3 +1,5 @@
+using MVE.SalExt;
+
 namespace MVE;
 
 public static class Extensions
@@ -55,6 +57,14 @@ public static class Extensions
         => r.NextFloat(0f, max);
 
     #endregion
+
+    public static Chooser<AudioStreamPlayer> GetChooser(this Godot.Collections.Array<AudioStream> streamArray, SalAudioConfig baseConfig)
+    {
+        return new Chooser<AudioStreamPlayer>(
+            Game.Instance.Random,
+            streamArray.Select(s => SalAudioPool.GetPlayer(baseConfig with { Stream = s }))
+            );
+    }
 }
 
 public static class Calculate

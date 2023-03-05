@@ -137,6 +137,7 @@ public partial class PlantingArea : Area2D
                 {
                     gridWeapons[gridPosition.X, gridPosition.Y] = null;
                 };
+                weapon.OnPlaced(this);
                 return true;
             }
         }

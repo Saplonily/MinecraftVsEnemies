@@ -35,6 +35,11 @@ public abstract partial class Weapon : LawnEntity
         }
     }
 
+    public virtual void OnPlaced(PlantingArea plantingArea)
+    {
+        Board.StoneSoundPlayerChooser.Choose().Play();
+    }
+
     public virtual void OnHpUseUp()
     {
         RemoveChild(damagingParticleSys);
@@ -42,6 +47,8 @@ public abstract partial class Weapon : LawnEntity
         LeftParticle lp = new(damagingParticleSys);
         lp.LevelPos = LevelPos;
         damagingParticleSys.EmitMany(50);
+
+        Board.StoneSoundPlayerChooser.Choose().Play();
 
         Lawn.AddChild(lp);
         QueueFree();

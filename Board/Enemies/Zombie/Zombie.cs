@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using Godot;
+using MVE.SalExt;
 using Saladim.GodotParticle;
+using SalExt;
 
 namespace MVE;
 
@@ -19,17 +21,21 @@ public record struct ZombieAttackInfo(Weapon? Attacking)
 
 public partial class Zombie : Enemy
 {
+    [Export] protected Godot.Collections.Array<AudioStream> beHitAudios = null!;
+    protected Chooser<AudioStreamPlayer> beHitAudioPlayerChooser = null!;
+    [Export] protected AudioStream deathAudio = null!;
+    protected AudioStreamPlayer deathAudioPlayer = null!;
     protected AnimationTree animationTree = null!;
     protected AnimationNodeStateMachinePlayback mainAtSmPlayBack = null!;
     protected SalParticleSys deathParticleSys = null!;
 
     protected ZombieAttackInfo attackInfo;
 
+    protected StateMachine<ZombieState> stateMachine = null!;
+
     public Vector3 WalkingDirection { get; protected set; } = new(-1.0f, 0.0f, 0.0f);
 
     public float WalkingSpeed { get; protected set; } = 20.0f;
-
-    public ZombieState State { get; protected set; }
 
     public override void _Ready()
     {
@@ -37,79 +43,78 @@ public partial class Zombie : Enemy
         animationTree = GetNode<AnimationTree>("AnimationTree");
         mainAtSmPlayBack = animationTree.Get("parameters/MainStateMachine/playback").As<AnimationNodeStateMachinePlayback>();
         deathParticleSys = GetNode<SalParticleSys>("DeathParticle");
+        beHitAudioPlayerChooser = beHitAudios.GetChooser(new(null!, Bus: "Board"));
+        deathAudioPlayer = SalAudioPool.GetPlayer(new(deathAudio, Bus: "Board"));
+
         RemoveChild(deathParticleSys);
 
         hitBox.AreaEntered += Area2D_AreaEntered;
         animationTree.Active = true;
-        RequestStateChange(ZombieState.Walking);
-    }
 
-    public override void OnHpUseUp()
-    {
-        if (State != ZombieState.Dying)
-            Die(DieReason.None);
+        stateMachine = new();
+        stateMachine.RegisterState(ZombieState.Idle);
+        stateMachine.RegisterState(ZombieState.Walking, physicsUpdate: WalkingUpdate, enter: _ => mainAtSmPlayBack.Travel("Walking"));
+        stateMachine.RegisterState(ZombieState.Attacking, physicsUpdate: AttackingUpdate, enter: _ => mainAtSmPlayBack.Travel("Attack"));
+        stateMachine.RegisterState(ZombieState.Dying);
+        stateMachine.State = ZombieState.Walking;
     }
 
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-        switch (State)
-        {
-            case ZombieState.Walking:
-            {
-                LevelPos += WalkingDirection * WalkingSpeed * (float)delta;
-                var collidedWeapons = GetCollidedWeapons();
-                Debug.Assert(!attackInfo.IsAttacking);
-
-                if (collidedWeapons.Any())
-                {
-                    attackInfo.Attacking = collidedWeapons.First();
-                    RequestStateChange(ZombieState.Attacking);
-                }
-            }
-            break;
-            case ZombieState.Attacking:
-            {
-                var collidedWeapons = GetCollidedWeapons();
-                Debug.Assert(attackInfo.IsAttacking);
-
-                attackInfo.Attacking!.BeHurt(this, 50 * delta);
-
-                if (!collidedWeapons.Contains(attackInfo.Attacking))
-                {
-                    if (!collidedWeapons.Any())
-                    {
-                        attackInfo.IsAttacking = false;
-                        RequestStateChange(ZombieState.Walking);
-                    }
-                    else
-                    {
-                        attackInfo.Attacking = collidedWeapons.First();
-                    }
-                }
-            }
-            break;
-        }
-        IEnumerable<Weapon> GetCollidedWeapons()
-            => hitBox.GetOverlappingAreas()
-                .Where(a => a.Owner is Weapon wea && wea.IsCollidedInThicknessWith(this))
-                .Select(a => (Weapon)a.Owner);
+        stateMachine.PhysicsUpdate(delta);
     }
 
-    public void RequestStateChange(ZombieState target)
+    public override void _Process(double delta)
     {
-        var preState = State;
-        var targetState = target;
-        State = targetState;
-        if (target is ZombieState.Walking)
+        base._Process(delta);
+        stateMachine.Update(delta);
+    }
+
+    public override void OnHpUseUp()
+    {
+        if (stateMachine.State != ZombieState.Dying)
+            Die(DieReason.None);
+    }
+
+    public void WalkingUpdate(double delta)
+    {
+        LevelPos += WalkingDirection * WalkingSpeed * (float)delta;
+        var collidedWeapons = GetCollidedWeapons();
+        Debug.Assert(!attackInfo.IsAttacking);
+
+        if (collidedWeapons.Any())
         {
-            mainAtSmPlayBack.Travel("Walking");
-        }
-        else if (target is ZombieState.Attacking)
-        {
-            mainAtSmPlayBack.Travel("Attack");
+            attackInfo.Attacking = collidedWeapons.First();
+            stateMachine.TravelTo(ZombieState.Attacking);
         }
     }
+
+    public void AttackingUpdate(double delta)
+    {
+        var collidedWeapons = GetCollidedWeapons();
+        Debug.Assert(attackInfo.IsAttacking);
+
+        attackInfo.Attacking!.BeHurt(this, 50 * delta);
+
+        if (!collidedWeapons.Contains(attackInfo.Attacking))
+        {
+            if (!collidedWeapons.Any())
+            {
+                attackInfo.IsAttacking = false;
+                stateMachine.TravelTo(ZombieState.Walking);
+            }
+            else
+            {
+                attackInfo.Attacking = collidedWeapons.First();
+            }
+        }
+    }
+
+    protected IEnumerable<Weapon> GetCollidedWeapons()
+        => hitBox.GetOverlappingAreas()
+            .Where(a => a.Owner is Weapon wea && wea.IsCollidedInThicknessWith(this))
+            .Select(a => (Weapon)a.Owner);
 
     public override void BeHit(Bullet sourceBullet)
     {
@@ -123,13 +128,14 @@ public partial class Zombie : Enemy
     public override void BeHurt(double amount)
     {
         Hp -= amount;
+        beHitAudioPlayerChooser.Choose().Play();
         animationTree.Set("parameters/HitOneShot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
     }
 
     protected void Area2D_AreaEntered(Area2D area2d)
     {
         var nodeOwner = area2d.Owner;
-        if (State != ZombieState.Dying)
+        if (stateMachine.State != ZombieState.Dying)
         {
             if (nodeOwner is Bullet bullet)
             {
@@ -140,10 +146,11 @@ public partial class Zombie : Enemy
 
     public void Die(DieReason reason)
     {
-        State = ZombieState.Dying;
+        stateMachine.State = ZombieState.Dying;
         mainAtSmPlayBack.Travel("Die");
         hitBox.CollisionLayer &= 1 << 0;
         hitBox.CollisionLayer |= 1 << 5;
+        deathAudioPlayer.Play();
     }
 
     public void OnDieAnimationEnded()

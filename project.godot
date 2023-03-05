@@ -19,9 +19,14 @@ boot_splash/bg_color=Color(0.113725, 0.133333, 0.160784, 1)
 boot_splash/show_image=false
 config/icon="res://Board/Weapons/Dispenser/Dispenser.png"
 
+[audio]
+
+buses/default_bus_layout="res://MainBusLayout.tres"
+
 [autoload]
 
 Game="res://GameNode.cs"
+SalAudioPool="*res://SalExt/SalAudioPool.cs"
 
 [debug]
 

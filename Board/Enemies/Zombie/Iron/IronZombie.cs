@@ -1,7 +1,11 @@
+using MVE.SalExt;
+
 namespace MVE;
 
 public partial class IronZombie : Zombie
 {
+    [Export] protected Godot.Collections.Array<AudioStream> ironBeHitAudios = null!;
+    protected Chooser<AudioStreamPlayer> ironBeHitAudioPlayerChooser = null!;
     protected Sprite2D ironCapSprite = null!;
 
     public double CapHp { get; set; } = 1000d;
@@ -12,6 +16,8 @@ public partial class IronZombie : Zombie
     {
         base._Ready();
         ironCapSprite = GetNode<Sprite2D>("Sprites/IronCap");
+
+        ironBeHitAudioPlayerChooser = ironBeHitAudios.GetChooser(new(null!, Bus: "Board"));
     }
 
     public override void _Process(double delta)
@@ -30,6 +36,7 @@ public partial class IronZombie : Zombie
         else
         {
             CapHp -= amount;
+            ironBeHitAudioPlayerChooser.Choose().Play();
             animationTree.Set("parameters/CapHitOneShot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
         }
     }

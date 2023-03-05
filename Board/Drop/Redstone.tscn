@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bty32rgm4g18j"]
+[gd_scene load_steps=6 format=3 uid="uid://bty32rgm4g18j"]
 
 [ext_resource type="PackedScene" uid="uid://cnfhyrovo3hrk" path="res://Board/Drop/DropBase.tscn" id="1_e7g5l"]
 [ext_resource type="Script" path="res://Board/Drop/Redstone.cs" id="1_xvv5u"]
 [ext_resource type="Texture2D" uid="uid://ddhhpfws8dtok" path="res://Board/Drop/Redstone.png" id="2_6jj24"]
+[ext_resource type="AudioStream" uid="uid://35b7wbhun68d" path="res://Board/Drop/Pick.ogg" id="4_e8pm3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x4mdt"]
 size = Vector2(50, 45)
@@ -10,6 +11,7 @@ size = Vector2(50, 45)
 [node name="Redstone" instance=ExtResource("1_e7g5l")]
 texture_filter = 1
 script = ExtResource("1_xvv5u")
+pickAudio = ExtResource("4_e8pm3")
 
 [node name="Redstone" type="Sprite2D" parent="." index="0"]
 position = Vector2(0, -25)

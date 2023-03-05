@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://bxdnr03ub0177"]
+[gd_scene load_steps=24 format=3 uid="uid://bxdnr03ub0177"]
 
 [ext_resource type="PackedScene" uid="uid://b3t0q8lb8ual1" path="res://Board/Weapons/WeaponBase.tscn" id="1_at4h7"]
 [ext_resource type="Script" path="res://Board/Weapons/Dispenser/Dispenser.cs" id="1_ccvxu"]
 [ext_resource type="Texture2D" uid="uid://bfymb37jrpnl0" path="res://Board/Weapons/Dispenser/Dispenser.png" id="2_lhya1"]
+[ext_resource type="AudioStream" uid="uid://dikb6jtbu428y" path="res://Click.ogg" id="3_m2jo4"]
 [ext_resource type="Script" path="res://SalParticleSys.cs" id="4_y4byp"]
 [ext_resource type="Texture2D" uid="uid://cvbkhjm22srht" path="res://Board/AtlasSmokeParticle.png" id="5_mfrip"]
 
@@ -80,6 +81,7 @@ height = 5
 
 [node name="Dispenser" groups=["Dispenser"] instance=ExtResource("1_at4h7")]
 script = ExtResource("1_ccvxu")
+clickAudio = ExtResource("3_m2jo4")
 
 [node name="CollisionShape2D" parent="HitArea" index="0"]
 position = Vector2(-0.5, -37)

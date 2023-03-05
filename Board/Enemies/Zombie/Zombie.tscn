@@ -1,11 +1,15 @@
-[gd_scene load_steps=38 format=3 uid="uid://301afcm4h2av"]
+[gd_scene load_steps=42 format=3 uid="uid://301afcm4h2av"]
 
 [ext_resource type="PackedScene" uid="uid://befpimk1sa7qp" path="res://Board/Enemies/EnemyBase.tscn" id="1_o4wry"]
 [ext_resource type="Script" path="res://Board/Enemies/Zombie/Zombie.cs" id="1_okrin"]
 [ext_resource type="Texture2D" uid="uid://cq8oonp2yb7kv" path="res://Board/Enemies/Zombie/Hand.png" id="2_71thr"]
+[ext_resource type="AudioStream" uid="uid://ccs8vpps8ff37" path="res://Board/Enemies/Zombie/Hit1.ogg" id="3_402kt"]
 [ext_resource type="Texture2D" uid="uid://wbjt2je6slmq" path="res://Board/Enemies/Zombie/Leg.png" id="3_oked3"]
+[ext_resource type="AudioStream" uid="uid://uvj4welnju0l" path="res://Board/Enemies/Zombie/Hit2.ogg" id="4_k5urd"]
 [ext_resource type="Texture2D" uid="uid://xfkbx68vq7yh" path="res://Board/Enemies/Zombie/Body.png" id="4_sjk8f"]
 [ext_resource type="Texture2D" uid="uid://cm8tiiwbnmp15" path="res://Board/Enemies/Zombie/Head.png" id="5_fma25"]
+[ext_resource type="AudioStream" uid="uid://byah0021de53u" path="res://Board/Enemies/Zombie/Hit3.ogg" id="5_udpf0"]
+[ext_resource type="AudioStream" uid="uid://dhpswkkv55wib" path="res://Board/Enemies/Zombie/Death.ogg" id="6_o05td"]
 [ext_resource type="Script" path="res://SalParticleSys.cs" id="7_op2yc"]
 [ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="7_yqo61"]
 [ext_resource type="Texture2D" uid="uid://cvbkhjm22srht" path="res://Board/AtlasSmokeParticle.png" id="9_b8fhj"]
@@ -54,6 +58,60 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 0.396078, 0.396078, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pwp2l"]
+resource_name = "Die"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/LegRight:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.75),
+"transitions": PackedFloat32Array(1, 0.233258, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 0.309804, 0.309804, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprites:rotation")
+tracks/2/interp = 3
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.5708]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnDieAnimationEnded"
+}]
 }
 
 [sub_resource type="Animation" id="5"]
@@ -184,60 +242,6 @@ tracks/1/keys = {
 "values": [-30.0, 30.0]
 }
 
-[sub_resource type="Animation" id="Animation_pwp2l"]
-resource_name = "Die"
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprites/LegRight:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprites:modulate")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.75),
-"transitions": PackedFloat32Array(1, 0.233258, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 0.309804, 0.309804, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprites:rotation")
-tracks/2/interp = 3
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.75),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [0.0, 1.5708]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"OnDieAnimationEnded"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5cxuh"]
 _data = {
 "Attack": SubResource("Animation_74g6l"),
@@ -341,6 +345,8 @@ size = Vector2(25, 90)
 
 [node name="Zombie" groups=["Zombie"] instance=ExtResource("1_o4wry")]
 script = ExtResource("1_okrin")
+beHitAudios = Array[AudioStream]([ExtResource("3_402kt"), ExtResource("4_k5urd"), ExtResource("5_udpf0")])
+deathAudio = ExtResource("6_o05td")
 
 [node name="ShadowSprite" parent="." index="0"]
 position = Vector2(7, -2)

@@ -1,7 +1,11 @@
+using MVE.SalExt;
+
 namespace MVE;
 
 public partial class LeatZombie : Zombie
 {
+    [Export] protected Godot.Collections.Array<AudioStream> leatBeHitAudios = null!;
+    protected Chooser<AudioStreamPlayer> leatBeHitAudioPlayerChooser = null!;
     protected Sprite2D leatCapSprite = null!;
 
     public double CapHp { get; set; } = 400d;
@@ -12,6 +16,8 @@ public partial class LeatZombie : Zombie
     {
         base._Ready();
         leatCapSprite = GetNode<Sprite2D>("Sprites/LeatCap");
+
+        leatBeHitAudioPlayerChooser = leatBeHitAudios.GetChooser(new(null!, Bus: "Board"));
     }
 
     public override void _Process(double delta)
@@ -30,6 +36,7 @@ public partial class LeatZombie : Zombie
         else
         {
             CapHp -= amount;
+            leatBeHitAudioPlayerChooser.Choose().Play();
             animationTree.Set("parameters/CapHitOneShot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
         }
     }
