@@ -1,6 +1,6 @@
 {
     "TotalWaves": 20,
-    "Enemies": {
+    "EnemiesSpawning": {
         "PoolConfig": [
             {
                 "Marker": "normal",
