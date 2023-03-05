@@ -2,7 +2,6 @@
 using Godot;
 using MVE.SalExt;
 using Saladim.GodotParticle;
-using SalExt;
 
 namespace MVE;
 

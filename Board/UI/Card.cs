@@ -1,6 +1,5 @@
 using Godot;
 using MVE.SalExt;
-using SalExt;
 
 namespace MVE;
 

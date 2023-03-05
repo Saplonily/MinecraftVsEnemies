@@ -1,3 +1,6 @@
+global using FileAccess = System.IO.FileAccess;
+global using GodotFileAccess = Godot.FileAccess;
+
 using MVE.SalExt;
 
 namespace MVE;

@@ -1,9 +1,8 @@
 using NullLib.CommandLine;
-using SalExt;
 
 namespace MVE;
 
-public partial class Board
+public partial class Board : Node
 {
     protected Sprite2D pickingSprite = null!;
     protected Control controlOverlay = null!;

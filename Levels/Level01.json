@@ -1,0 +1,42 @@
+{
+    "TotalWaves": 20,
+    "Enemies": {
+        "PoolConfig": [
+            {
+                "Marker": "normal",
+                "InternalId": 0,
+                "Weight": 100,
+                "Cost": 200
+            },
+            {
+                "Marker": "leather",
+                "InternalId": 1,
+                "Weight": 200,
+                "Cost": 400
+            },
+            {
+                "Marker": "iron",
+                "InternalId": 2,
+                "Weight": 300,
+                "Cost": 600
+            }
+        ],
+        "PointsAddFactor": 100
+    },
+    "WavesEvent": {
+        "0": [
+            {
+                "$Event": "AttachedEnemies",
+                "Row": 1,
+                "Marker": "normal"
+            }
+        ],
+        "1": [
+            {
+                "$Event": "PointsModify",
+                "Set": 200
+            }
+        ]
+    },
+    "Meta": {}
+}
