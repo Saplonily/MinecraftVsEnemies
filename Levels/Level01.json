@@ -23,7 +23,7 @@
         ],
         "PointsAddFactor": 100
     },
-    "WavesEvent": {
+    "WaveEvents": {
         "0": [
             {
                 "$Event": "AttachedEnemies",
