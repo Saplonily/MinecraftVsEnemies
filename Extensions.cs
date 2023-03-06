@@ -1,5 +1,7 @@
 global using FileAccess = System.IO.FileAccess;
 global using GodotFileAccess = Godot.FileAccess;
+global using Timer = Godot.Timer;
+global using SysTimer = System.Threading.Timer;
 
 using MVE.SalExt;
 
@@ -64,7 +66,7 @@ public static class Extensions
     public static Chooser<AudioStreamPlayer> GetChooser(this Godot.Collections.Array<AudioStream> streamArray, SalAudioConfig baseConfig)
     {
         return new Chooser<AudioStreamPlayer>(
-            Game.Instance.Random,
+            Random.Shared,
             streamArray.Select(s => SalAudioPool.GetPlayer(baseConfig with { Stream = s }))
             );
     }

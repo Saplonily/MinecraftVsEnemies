@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Godot;
 using MVE.SalExt;
 using Saladim.GodotParticle;
@@ -33,7 +33,6 @@ public partial class Zombie : Enemy
     protected StateMachine<ZombieState> stateMachine = null!;
 
     public Vector3 WalkingDirection { get; protected set; } = new(-1.0f, 0.0f, 0.0f);
-
     public float WalkingSpeed { get; protected set; } = 20.0f;
 
     public override void _Ready()
@@ -49,6 +48,8 @@ public partial class Zombie : Enemy
 
         hitBox.AreaEntered += Area2D_AreaEntered;
         animationTree.Active = true;
+
+        WalkingSpeed = Board.Random.NextFloat(15f, 23f);
 
         stateMachine = new();
         stateMachine.RegisterState(ZombieState.Idle);

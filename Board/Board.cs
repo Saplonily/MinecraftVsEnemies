@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using NullLib.CommandLine;
 
 namespace MVE;
@@ -14,25 +15,19 @@ public partial class Board : Node
 
     [Export(PropertyHint.MultilineText)]
     public string StartUpCmds { get; set; } = null!;
-
     public CommandObject<MiscCmd> Command { get; set; } = null!;
-
     public Card? PickedCard { get; set; }
-
     public PickingType Picking { get => picking; }
-
     public Lawn Lawn { get; protected set; } = null!;
-
     public Control.CursorShape ExpectCursorShape { get; set; }
-
     public BoardBank Bank { get; protected set; }
-
-
+    public Random Random { get; set; }
     public int ShadowZIndex => -1;
 
     public Board()
     {
         Bank = new();
+        Random = Random.Shared;
     }
 
     public override void _Ready()
@@ -42,6 +37,9 @@ public partial class Board : Node
         controlOverlay = GetNode<Control>("LayerPicking/ControlOverlay");
         redstoneDisplayer = GetNode<RedstoneDisplayer>("LayerMain/RedstoneDisplayer");
         InitAudios();
+        InitSpawner();
+
+        Game.Logger.LogInfo("S", $"Cur: {GetTree().CurrentScene}, name: {GetTree().CurrentScene == this}");
 
         Lawn = GetNode<Lawn>("LayerMain/Lawn");
 
@@ -76,25 +74,36 @@ public partial class Board : Node
         controlOverlay.MouseDefaultCursorShape = ExpectCursorShape;
         ExpectCursorShape = Control.CursorShape.Arrow;
 
-#if DEBUG
-
-        if (Input.IsKeyPressed(Key.P))
-        {
-            Command.TargetInstance.Produce();
-        }
-
-        if (Input.IsKeyPressed(Key.K))
-        {
-            Command.TargetInstance.KillAll();
-        }
-
-#endif
+        debugLabel.Text = GetTree().GetNodesInGroup("Enemy").Count.ToString();
     }
 
-    public override void _Input(InputEvent @event)
+    [Conditional("DEBUG")]
+    public void HandleDebugInputs(InputEvent ie)
     {
-        base._Input(@event);
-        if (@event is InputEventMouseButton mouseButton)
+        if (ie is InputEventKey key && !key.IsEcho() && key.Pressed)
+        {
+            if (key.Keycode == Key.P)
+            {
+                Command.TargetInstance.Produce();
+            }
+
+            if (key.Keycode == Key.K)
+            {
+                Command.TargetInstance.KillAll();
+            }
+
+            if (key.Keycode == Key.N)
+            {
+                NextWave();
+            }
+        }
+    }
+
+    public override void _Input(InputEvent ie)
+    {
+        base._Input(ie);
+        HandleDebugInputs(ie);
+        if (ie is InputEventMouseButton mouseButton)
         {
             if (mouseButton.ButtonIndex == MouseButton.Right)
             {

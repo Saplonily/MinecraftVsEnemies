@@ -4,9 +4,19 @@ namespace MVE;
 
 public partial class GameNode : Node
 {
+    public static GameNode Node { get; protected set; } = null!;
+
+    public void ChangeSceneTo(Node sceneNode)
+    {
+        var tree = GetTree();
+        tree.UnloadCurrentScene();
+        tree.Root.AddChild(sceneNode);
+        tree.CurrentScene = sceneNode;
+    }
+
     public override void _Ready()
     {
-        base._Ready();
+        Node = this;
         _ = Game.Instance;
     }
 }
@@ -16,18 +26,13 @@ public class Game
     protected Logger logger;
 
     public static Game Instance { get; protected set; }
-
     public static Logger Logger => Instance.logger;
 
     public List<WeaponProperty> WeaponProperties { get; protected set; } = null!;
-
     public List<EnemyProperty> EnemyProperties { get; protected set; } = null!;
-
-    public Random Random { get; protected set; } = new();
-
     public Version Version { get; protected set; }
-
     public UserConfig Config { get; protected set; }
+    public Random Random => Random.Shared;
 
     static Game()
     {

@@ -9,7 +9,6 @@ public partial class IronZombie : Zombie
     protected Sprite2D ironCapSprite = null!;
 
     public double CapHp { get; set; } = 1000d;
-
     public double CapMaxHp { get; set; } = 1000d;
 
     public override void _Ready()

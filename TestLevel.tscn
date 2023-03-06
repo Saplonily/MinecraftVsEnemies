@@ -1,0 +1,105 @@
+[gd_scene load_steps=6 format=3 uid="uid://crk3tmj5qjr40"]
+
+[ext_resource type="PackedScene" uid="uid://dybr4mypcw41w" path="res://Board/UI/RedstoneDisplayer.tscn" id="2_a2x4e"]
+[ext_resource type="PackedScene" uid="uid://df74k33olyi04" path="res://Board/UI/Card.tscn" id="4"]
+[ext_resource type="Script" path="res://Board/PlantingArea.cs" id="4_7bqpd"]
+[ext_resource type="PackedScene" uid="uid://bqf2xdjc1q2rg" path="res://Board/Board.tscn" id="5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dmonr"]
+size = Vector2(750, 375)
+
+[node name="TestLevel" type="Node"]
+
+[node name="Board" parent="." instance=ExtResource("5")]
+StartUpCmds = "place_weapon 0 0 1
+place_weapon 1 0 1
+place_weapon 2 0 1
+place_weapon 3 0 1
+place_weapon 4 0 1
+place_weapon 5 0 1
+place_weapon 6 0 1
+place_weapon 7 0 1
+produce
+set_redstone 50
+place_weapon 0 1 0
+place_weapon 0 2 0
+place_weapon 0 3 0
+place_weapon 0 4 0
+place_weapon 1 4 0
+place_weapon 2 4 0
+place_weapon 3 4 0
+place_weapon 7 1 2
+place_enemy  7 3 0
+place_enemy  7 2 0
+place_enemy  7 3 1
+place_enemy  7 4 2
+"
+
+[node name="LayerMain" parent="Board" index="0"]
+follow_viewport_enabled = true
+
+[node name="ChapterGrasswalk" parent="Board/LayerMain" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="RedstoneDisplayer" parent="Board/LayerMain" index="1" instance=ExtResource("2_a2x4e")]
+position = Vector2(55, 0)
+
+[node name="Card" parent="Board/LayerMain" index="2" instance=ExtResource("4")]
+position = Vector2(120, 0)
+WeaponPropertyId = 1
+
+[node name="Card3" parent="Board/LayerMain" index="3" instance=ExtResource("4")]
+position = Vector2(184, 0)
+WeaponPropertyId = 2
+
+[node name="Card2" parent="Board/LayerMain" index="4" instance=ExtResource("4")]
+position = Vector2(248, 0)
+WeaponPropertyId = 2
+
+[node name="Card4" parent="Board/LayerMain" index="5" instance=ExtResource("4")]
+position = Vector2(310, 0)
+WeaponPropertyId = 1
+
+[node name="Card5" parent="Board/LayerMain" index="6" instance=ExtResource("4")]
+position = Vector2(370, 0)
+WeaponPropertyId = 0
+
+[node name="Card6" parent="Board/LayerMain" index="7" instance=ExtResource("4")]
+position = Vector2(430, 0)
+WeaponPropertyId = 2
+
+[node name="Card7" parent="Board/LayerMain" index="8" instance=ExtResource("4")]
+position = Vector2(490, 0)
+WeaponPropertyId = 2
+
+[node name="Lawn" parent="Board/LayerMain" index="9"]
+Rows = 6
+Column = 10
+
+[node name="PlantingArea" parent="Board/LayerMain/Lawn" index="0"]
+position = Vector2(50, 175)
+script = ExtResource("4_7bqpd")
+PlaceAllowColor = Color(0, 0.968627, 0.294118, 0.662745)
+PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)
+
+[node name="CollisionShape2D" parent="Board/LayerMain/Lawn/PlantingArea" index="0"]
+position = Vector2(375, 187.5)
+shape = SubResource("RectangleShape2D_dmonr")
+
+[node name="LayerPicking" parent="Board" index="1"]
+layer = 2
+follow_viewport_enabled = true
+
+[node name="Picking" parent="Board/LayerPicking" index="0"]
+metadata/_edit_lock_ = true
+
+[node name="ControlOverlay" parent="Board/LayerPicking" index="1"]
+offset_bottom = 0.0
+
+[node name="Camera2D" type="Camera2D" parent="Board"]
+position = Vector2(25, 0)
+anchor_mode = 0
+ignore_rotation = false
+editor_draw_drag_margin = true
+
+[editable path="Board"]

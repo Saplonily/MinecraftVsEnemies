@@ -9,7 +9,6 @@ public abstract partial class Weapon : LawnEntity
     protected bool enableHpLock = true;
 
     public double MaxHp { get; set; } = 200f;
-
     public double Hp { get; set; } = 200f;
 
     public event Action<double>? OnHpChanged;

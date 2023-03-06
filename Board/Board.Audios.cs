@@ -2,7 +2,7 @@
 
 namespace MVE;
 
-public partial class Board
+public partial class Board : Node
 {
 #nullable disable
     [Export] protected Godot.Collections.Array<AudioStream> audioStones;

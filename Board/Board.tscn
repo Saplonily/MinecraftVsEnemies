@@ -50,3 +50,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="LayerPicking"]
+offset_left = 225.0
+offset_top = 100.0
+offset_right = 375.0
+offset_bottom = 180.0
+
+[node name="SpawnerTimer" type="Timer" parent="."]
+wait_time = 100.0

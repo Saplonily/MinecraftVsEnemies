@@ -9,7 +9,6 @@ public partial class LeatZombie : Zombie
     protected Sprite2D leatCapSprite = null!;
 
     public double CapHp { get; set; } = 400d;
-
     public double CapMaxHp { get; set; } = 400d;
 
     public override void _Ready()
