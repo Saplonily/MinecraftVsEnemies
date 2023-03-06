@@ -35,6 +35,7 @@ public partial class Board : Node
         while (points > 0)
         {
             var unit = LevelData.EnemiesSpawning.ChooseUnit(Random, points);
+            if (unit is null) break;
             points -= unit.Cost;
             PlaceEnemy(Game.Instance.EnemyProperties[unit.InternalId]);
         }

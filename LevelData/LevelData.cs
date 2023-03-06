@@ -20,9 +20,11 @@ public class EnemiesSpawningData
     public required List<EnemyPoolUnit> EnemyPool { get; init; }
     public required int PointsAddFactor { get; init; }
 
-    public EnemyPoolUnit ChooseUnit(Random random, int maxCost)
+    public EnemyPoolUnit? ChooseUnit(Random random, int maxCost)
     {
         var costablePool = EnemyPool.Where(u => u.Cost <= maxCost);
+        if (!costablePool.Any()) return null;
+
         int totalWeight = costablePool.Sum(u => u.Weight);
         int targetWeight = random.Next(totalWeight);
         int currentWeight = 0;
@@ -36,7 +38,9 @@ public class EnemiesSpawningData
                 break;
             }
         }
-        return unitSelected ?? throw new InvalidOperationException("No unit found.");
+        if (unitSelected is null)
+            throw new InvalidOperationException("No unit found.");
+        return unitSelected;
     }
 }
 

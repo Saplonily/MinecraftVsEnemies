@@ -44,13 +44,16 @@ position = Vector2(-0.5, -35.5)
 shape = SubResource("RectangleShape2D_x8yup")
 metadata/_edit_lock_ = true
 
-[node name="Obsidian" type="Sprite2D" parent="." index="1"]
+[node name="ShadowSprite" parent="." index="1"]
+scale = Vector2(1.4, 0.35)
+
+[node name="Obsidian" type="Sprite2D" parent="." index="2"]
 position = Vector2(-38, -73)
 texture = ExtResource("2_88abf")
 centered = false
 metadata/_edit_lock_ = true
 
-[node name="BreakState" type="Sprite2D" parent="." index="2"]
+[node name="BreakState" type="Sprite2D" parent="." index="3"]
 position = Vector2(-38, -68)
 texture = ExtResource("4_43ggw")
 centered = false
