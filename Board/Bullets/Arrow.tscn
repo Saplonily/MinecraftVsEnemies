@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(32, 10)
 
-[node name="Arrow" type="Node2D"]
+[node name="Arrow" type="Node2D" groups=["Bullet"]]
 texture_filter = 1
 script = ExtResource("1")
 

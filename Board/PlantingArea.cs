@@ -133,7 +133,7 @@ public partial class PlantingArea : Area2D
 
                 gridWeapons[gridPosition.X, gridPosition.Y] = ins;
                 weapon = ins;
-                weapon!.OnDestroyed += () =>
+                weapon!.Destroyed += () =>
                 {
                     gridWeapons[gridPosition.X, gridPosition.Y] = null;
                 };

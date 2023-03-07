@@ -11,9 +11,9 @@ public abstract partial class Weapon : LawnEntity
     public double MaxHp { get; set; } = 200f;
     public double Hp { get; set; } = 200f;
 
-    public event Action<double>? OnHpChanged;
+    public event Action<double>? HpChanged;
 
-    public event Action? OnDestroyed;
+    public event Action? Destroyed;
 
     public override void _Ready()
     {
@@ -51,7 +51,7 @@ public abstract partial class Weapon : LawnEntity
 
         Lawn.AddChild(lp);
         QueueFree();
-        OnDestroyed?.Invoke();
+        Destroyed?.Invoke();
     }
 
     public virtual void BeHurt(LawnEntity sourceEntity, double amount)
@@ -59,6 +59,6 @@ public abstract partial class Weapon : LawnEntity
         if (Game.OnPhysicsInterval(8))
             damagingParticleSys.Emit();
         Hp -= amount;
-        OnHpChanged?.Invoke(-amount);
+        HpChanged?.Invoke(-amount);
     }
 }

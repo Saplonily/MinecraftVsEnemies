@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using NullLib.CommandLine;
 
 namespace MVE;
@@ -39,8 +40,6 @@ public partial class Board : Node
         InitAudios();
         InitSpawner();
 
-        Game.Logger.LogInfo("S", $"Cur: {GetTree().CurrentScene}, name: {GetTree().CurrentScene == this}");
-
         Lawn = GetNode<Lawn>("LayerMain/Lawn");
 
         picking = PickingType.Idle;
@@ -74,7 +73,15 @@ public partial class Board : Node
         controlOverlay.MouseDefaultCursorShape = ExpectCursorShape;
         ExpectCursorShape = Control.CursorShape.Arrow;
 
-        debugLabel.Text = GetTree().GetNodesInGroup("Enemy").Count.ToString();
+        UpdateSpawner(delta);
+
+        var tree = GetTree();
+        debugLabel.Text = $"Enemy count: {tree.GetNodesInGroup("Enemy").Count}\n" +
+            $"Weapon conut: {tree.GetNodesInGroup("Weapon").Count}\n" +
+            $"Bullet count: {tree.GetNodesInGroup("Bullet").Count}\n" +
+            $"Current wave: {CurrentWave}/{LevelData.TotalWaves}\n" +
+            $"fps: {Engine.GetFramesPerSecond()}\n" +
+            $"Wave timer: {spawnerTimer.TimeLeft:F2}";
     }
 
     [Conditional("DEBUG")]
@@ -94,7 +101,7 @@ public partial class Board : Node
 
             if (key.Keycode == Key.N)
             {
-                NextWave();
+                SpawnerTimerTimeout();
             }
         }
     }

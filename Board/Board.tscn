@@ -58,4 +58,4 @@ offset_right = 375.0
 offset_bottom = 180.0
 
 [node name="SpawnerTimer" type="Timer" parent="."]
-wait_time = 100.0
+wait_time = 20.0

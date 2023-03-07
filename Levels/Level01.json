@@ -5,7 +5,7 @@
 				{
 					"Marker": "normal",
 					"InternalId": 0,
-					"Weight": 100,
+					"Weight": 200,
 					"Cost": 200
 				},
 				{
@@ -17,7 +17,7 @@
 				{
 					"Marker": "iron",
 					"InternalId": 2,
-					"Weight": 300,
+					"Weight": 100,
 					"Cost": 600
 				}
 			],

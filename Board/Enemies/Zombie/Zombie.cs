@@ -169,6 +169,7 @@ public partial class Zombie : Enemy
             deathParticleSys.EmitAt(pos);
         }
         Lawn.AddChild(lp);
+        OnDead();
         QueueFree();
     }
 }

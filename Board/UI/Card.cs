@@ -26,7 +26,7 @@ public partial class Card : BoardUI
 
     public double CooldownStep { get; protected set; } = 1.0 / 100.0;
 
-    public WeaponProperty WeaponProperty { get; protected set; }
+    public WeaponProperty WeaponProperty { get; protected set; } = null!;
 
     public override void _Ready()
     {

@@ -1,4 +1,6 @@
-﻿namespace MVE.SalExt;
+﻿using System.Collections.Immutable;
+
+namespace MVE.SalExt;
 
 public class Chooser<T>
 {
@@ -21,4 +23,7 @@ public class Chooser<T>
 
     public T Choose()
         => elements[random.Next(0, elements.Count)];
+
+    public static T ChooseFrom(Random random, IReadOnlyList<T> collection)
+        => collection[random.Next(0, collection.Count)];
 }

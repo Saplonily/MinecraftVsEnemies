@@ -5,8 +5,8 @@ public abstract partial class Enemy : LawnEntity
     protected Area2D hitBox = null!;
     protected bool enableHpLock = true;
 
+    public event Action<Enemy>? Dead;
     public double Hp { get; set; } = 200.0f;
-
     public double MaxHp { get; set; } = 200.0f;
 
 
@@ -39,4 +39,7 @@ public abstract partial class Enemy : LawnEntity
     public virtual void BeHurt(double amount)
     {
     }
+
+    public void OnDead()
+        => Dead?.Invoke(this);
 }
