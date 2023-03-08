@@ -40,6 +40,7 @@ height = 5
 script = ExtResource("2_0ettc")
 
 [node name="CollisionShape2D" parent="HitArea" index="0"]
+visible = false
 position = Vector2(-0.5, -35.5)
 shape = SubResource("RectangleShape2D_x8yup")
 metadata/_edit_lock_ = true

@@ -15,7 +15,7 @@ public partial class Card : BoardUI
 
     protected StateMachine<CardState> stateMachine = null!;
     protected bool mouseIn = false;
-
+    
     [Export]
     public Color SelfMaskColor { get; set; } = Color.Color8(143, 143, 143, 255);
 

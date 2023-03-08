@@ -17,6 +17,6 @@ public partial class Obsidian : Weapon
     public override void _Process(double delta)
     {
         base._Process(delta);
-        breakStateSprite.Frame = (int)((1 - Hp / MaxHp) * breakStateSprite.Hframes);
+        breakStateSprite.Frame = (int)((1 - Hp / MaxHp) * (breakStateSprite.Hframes - 1));
     }
 }
