@@ -51,7 +51,7 @@ shape = SubResource("RectangleShape2D_ed5pf")
 [node name="ShadowSprite" parent="." index="1"]
 scale = Vector2(1.2, 0.274)
 
-[node name="Furnace" type="Sprite2D" parent="." index="2"]
+[node name="Sprite" type="Sprite2D" parent="." index="2"]
 texture = ExtResource("1_ysy1d")
 centered = false
 offset = Vector2(-37, -71)

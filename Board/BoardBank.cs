@@ -1,4 +1,4 @@
-﻿namespace MVE;
+namespace MVE;
 
 public class BoardBank
 {
@@ -34,6 +34,14 @@ public class BoardBank
         {
             Game.Logger.LogWarn("BoardBank/AddRedstone", "Try to reduce <0 amount redstone.");
         }
+        return Redstone;
+    }
+
+    public double SetRedstone(double targetAmount)
+    {
+        double diff = targetAmount - Redstone;
+        Redstone = targetAmount;
+        RedstoneChanged?.Invoke(diff);
         return Redstone;
     }
 }

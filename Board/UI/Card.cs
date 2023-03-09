@@ -3,8 +3,9 @@ using MVE.SalExt;
 
 namespace MVE;
 
-public partial class Card : BoardUI
+public partial class Card : BoardUI, IBoardUIPickable
 {
+    protected PickShownConfig pickShownConfig = null!;
     protected Sprite2D cardSprite = null!;
     protected Sprite2D contentSprite = null!;
     protected Sprite2D shadowMask = null!;
@@ -15,14 +16,14 @@ public partial class Card : BoardUI
 
     protected StateMachine<CardState> stateMachine = null!;
     protected bool mouseIn = false;
-    
+
     [Export]
     public Color SelfMaskColor { get; set; } = Color.Color8(143, 143, 143, 255);
 
     [Export]
     public int WeaponPropertyId { get; set; } = -1;
 
-    public double Cooldown { get; protected set; } = 1.0;
+    public double Cooldown { get; set; } = 1.0;
 
     public double CooldownStep { get; protected set; } = 1.0 / 100.0;
 
@@ -59,6 +60,11 @@ public partial class Card : BoardUI
 
         Cooldown = 0.0f;
         UpdateFromPropertyId(WeaponPropertyId);
+        pickShownConfig = new()
+        {
+            Texture = contentSprite.Texture,
+            Transform = Transform2D.Identity
+        };
     }
 
     protected void PickedEnter(CardState s)
@@ -140,9 +146,10 @@ public partial class Card : BoardUI
     {
         if (stateMachine.State is CardState.Idle && ie.IsActionPressed(InputNames.PickCard))
         {
-            if (IsAvailable() && Board.Picking == PickingType.Idle)
+            if (IsAvailable() && Board.Picking is PickingType.Idle)
             {
-                this.Pick();
+                Board.DoPick(PickingType.Card, this);
+                stateMachine.State = CardState.Picked;
             }
         }
     }
@@ -157,32 +164,26 @@ public partial class Card : BoardUI
         costLabel.Text = property.Cost.ToString();
     }
 
-    public void Pick()
+    public void OnUnpicked()
     {
-        Board.DoPick(PickingType.Card);
-        Board.PickedCard = this;
-        stateMachine.State = CardState.Picked;
+        stateMachine.State = CardState.Idle;
     }
 
-    public void UnPick()
+    public void OnPicked()
     {
-        Board.DoPick(PickingType.Idle);
-        Board.PickedCard = null;
-        stateMachine.State = CardState.Idle;
+        stateMachine.State = CardState.Picked;
     }
 
     public void OnUsed()
     {
-        this.UnPick();
+        Board.DoPick(PickingType.Idle, null);
         Cooldown = 1.0f;
         stateMachine.State = CardState.Cooldown;
         Board.Bank.ReduceRedstone(WeaponProperty.Cost);
     }
 
-    public Texture2D GetShownTexture()
-    {
-        return contentSprite.Texture;
-    }
+    PickShownConfig IBoardUIPickable.GetShownConfig()
+        => pickShownConfig;
 }
 
 public enum CardState

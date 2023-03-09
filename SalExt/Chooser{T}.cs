@@ -27,3 +27,12 @@ public class Chooser<T>
     public static T ChooseFrom(Random random, IReadOnlyList<T> collection)
         => collection[random.Next(0, collection.Count)];
 }
+
+public static class Chooser
+{
+    public static T Choose<T>(Random random, IReadOnlyList<T> collection)
+        => collection[random.Next(0, collection.Count)];
+
+    public static T Choose<T>(Random random, params T[] array)
+        => Choose(random, array);
+}

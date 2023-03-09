@@ -65,9 +65,9 @@ public partial class PlantingArea : Area2D
     {
         if (board.Picking == PickingType.Card)
         {
-            if (board.PickedCard == null)
+            if (board.PickedNode is not Card card)
             {
-                Game.Logger.LogError("Board", "LawnPlanting", "Board.Picking == PickingType.Card but with null PickedCard.");
+                Game.Logger.LogError("Board", "LawnPlanting", "Board.Picking == PickingType.Card but with none-card PickedNode.");
                 return;
             }
             if (!hintBox.Enabled)
@@ -75,12 +75,12 @@ public partial class PlantingArea : Area2D
                 Game.Logger.LogError("Board", "LawnPlanting", "hintBox not enabled");
                 return;
             }
-            var prop = board.PickedCard.WeaponProperty;
+            var prop = card.WeaponProperty;
             var gridPos = hintBox.GridRegion.Position;
 
             if (TryPlantAt(gridPos, prop, out var weapon))
             {
-                board.PickedCard.OnUsed();
+                card.OnUsed();
             }
         }
     }
@@ -92,7 +92,7 @@ public partial class PlantingArea : Area2D
 
     protected void OnInputMotion(Vector2 localPosition)
     {
-        if (board.Picking is PickingType.Card or PickingType.Pickaxe)
+        if (board.Picking is PickingType.Card)
         {
             var alinedPos = LocalPosAlineToGrid(localPosition);
             hintBox.Enabled = true;

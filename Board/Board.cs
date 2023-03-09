@@ -17,13 +17,16 @@ public partial class Board : Node
     [Export(PropertyHint.MultilineText)]
     public string StartUpCmds { get; set; } = null!;
     public CommandObject<MiscCmd> Command { get; set; } = null!;
-    public Card? PickedCard { get; set; }
+    public Node? PickedNode { get; set; }
     public PickingType Picking { get => picking; }
     public Lawn Lawn { get; protected set; } = null!;
     public Control.CursorShape ExpectCursorShape { get; set; }
     public BoardBank Bank { get; protected set; }
     public Random Random { get; set; }
     public int ShadowZIndex => -1;
+
+    public delegate void PickingChangedEventHandler(PickingType from, PickingType to);
+    public event PickingChangedEventHandler? PickingChanged;
 
     public Board()
     {
@@ -60,14 +63,10 @@ public partial class Board : Node
         base._Process(delta);
         Input.MouseMode = Input.MouseModeEnum.Visible;
 
-        if (picking == PickingType.Card)
+        if (picking is not PickingType.Idle && PickedNode is not null)
         {
-            if (PickedCard != null)
-            {
-                pickingSprite.Texture = PickedCard.GetShownTexture();
-                pickingSprite.Position = pickingSprite.GetGlobalMousePosition();
-                Input.MouseMode = Input.MouseModeEnum.Hidden;
-            }
+            pickingSprite.Position = pickingSprite.GetGlobalMousePosition();
+            Input.MouseMode = Input.MouseModeEnum.Hidden;
         }
 
         controlOverlay.MouseDefaultCursorShape = ExpectCursorShape;
@@ -82,6 +81,7 @@ public partial class Board : Node
             $"Current wave: {CurrentWave}/{LevelData.TotalWaves}\n" +
             $"fps: {Engine.GetFramesPerSecond()}\n" +
             $"Wave timer: {spawnerTimer.TimeLeft:F2}";
+
     }
 
     [Conditional("DEBUG")]
@@ -103,6 +103,19 @@ public partial class Board : Node
             {
                 SpawnerTimerTimeout();
             }
+
+            if (key.Keycode == Key.H)
+            {
+                foreach (var card in GetTree().GetNodesInGroup("Card").Cast<Card>())
+                {
+                    card.Cooldown = 0d;
+                }
+            }
+
+            if (key.Keycode == Key.M)
+            {
+                Bank.SetRedstone(2500);
+            }
         }
     }
 
@@ -112,38 +125,40 @@ public partial class Board : Node
         HandleDebugInputs(ie);
         if (ie is InputEventMouseButton mouseButton)
         {
-            if (mouseButton.ButtonIndex == MouseButton.Right)
+            if (mouseButton.ButtonIndex is MouseButton.Right)
             {
-                if (picking == PickingType.Card)
+                if (picking is not PickingType.Idle && PickedNode is IBoardUIPickable)
                 {
-                    DoPick(PickingType.Idle);
-                    pickingSprite.Visible = false;
-                    PickedCard!.UnPick();
-                    PickedCard = null;
+                    DoPick(PickingType.Idle, null);
                 }
             }
         }
     }
 
-    public void DoPick(PickingType to)
+    public void DoPick(PickingType to, Node? pickedNode)
     {
-        var fromTo = (picking, to);
+        var from = picking;
         picking = to;
-        switch (fromTo)
+        var fromNode = PickedNode;
+        PickedNode = pickedNode;
+        if (from is PickingType.Idle && to is not PickingType.Idle)
         {
-            case (PickingType.Idle, PickingType.Card):
-
-            pickingSprite.Visible = true;
-
-            break;
-
-            case (PickingType.Card, PickingType.Idle):
-
-            pickingSprite.Visible = false;
-            pickingSprite.Position = Vector2.Zero;
-
-            break;
+            if (pickedNode is IBoardUIPickable bup)
+            {
+                pickingSprite.Visible = true;
+                bup.GetShownConfig().ApplyToSprite(pickingSprite);
+                bup.OnPicked();
+            }
         }
+        if (from is not PickingType.Idle && to is PickingType.Idle)
+        {
+            pickingSprite.Visible = false;
+            if (fromNode is IBoardUIPickable bup)
+            {
+                bup.OnUnpicked();
+            }
+        }
+        PickingChanged?.Invoke(from, to);
     }
 
     public DropPickResult RequestDropPicking(Drop drop)

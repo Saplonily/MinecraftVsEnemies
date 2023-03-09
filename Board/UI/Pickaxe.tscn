@@ -1,3 +1,29 @@
-[gd_scene format=3 uid="uid://dbgh2i8juowu"]
+[gd_scene load_steps=5 format=3 uid="uid://dbgh2i8juowu"]
 
-[node name="Pickaxe" type="Node2D"]
+[ext_resource type="Script" path="res://Board/UI/Pickaxe.cs" id="1_e5fnq"]
+[ext_resource type="Texture2D" uid="uid://cwrnyulp6hd8n" path="res://Board/UI/PickaxeSlot.png" id="1_wwpjt"]
+[ext_resource type="Texture2D" uid="uid://d4an1dbd61eh7" path="res://Board/UI/DiamondPickaxe.png" id="2_lyhit"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ognbl"]
+size = Vector2(75, 75)
+
+[node name="Pickaxe" type="Node2D" groups=["BoardUI", "Pickaxe"]]
+texture_filter = 1
+script = ExtResource("1_e5fnq")
+
+[node name="PickaxeSlot" type="Sprite2D" parent="."]
+texture = ExtResource("1_wwpjt")
+centered = false
+
+[node name="DiamondPickaxe" type="Sprite2D" parent="."]
+position = Vector2(37.5, 37.5)
+scale = Vector2(4, 4)
+texture = ExtResource("2_lyhit")
+flip_h = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+position = Vector2(37.5, 37.5)
+shape = SubResource("RectangleShape2D_ognbl")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://crk3tmj5qjr40"]
+[gd_scene load_steps=9 format=3 uid="uid://crk3tmj5qjr40"]
 
 [ext_resource type="PackedScene" uid="uid://dybr4mypcw41w" path="res://Board/UI/RedstoneDisplayer.tscn" id="2_a2x4e"]
 [ext_resource type="AudioStream" uid="uid://cskje3hg2goac" path="res://Board/Awooga.ogg" id="2_ibdcg"]
 [ext_resource type="PackedScene" uid="uid://df74k33olyi04" path="res://Board/UI/Card.tscn" id="4"]
 [ext_resource type="Script" path="res://Board/PlantingArea.cs" id="4_7bqpd"]
 [ext_resource type="PackedScene" uid="uid://bqf2xdjc1q2rg" path="res://Board/Board.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://dbgh2i8juowu" path="res://Board/UI/Pickaxe.tscn" id="5_c7w7s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dmonr"]
 size = Vector2(750, 375)
@@ -54,7 +55,10 @@ WeaponPropertyId = 2
 position = Vector2(490, 0)
 WeaponPropertyId = 2
 
-[node name="Lawn" parent="Board/LayerMain" index="9"]
+[node name="Pickaxe" parent="Board/LayerMain" index="9" instance=ExtResource("5_c7w7s")]
+position = Vector2(725, 0)
+
+[node name="Lawn" parent="Board/LayerMain" index="10"]
 Rows = 6
 Column = 10
 
@@ -86,11 +90,11 @@ offset_bottom = 600.0
 text = "debug text"
 label_settings = SubResource("LabelSettings_to87y")
 vertical_alignment = 2
+metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="Board"]
 position = Vector2(55, 0)
 anchor_mode = 0
 ignore_rotation = false
-editor_draw_drag_margin = true
 
 [editable path="Board"]

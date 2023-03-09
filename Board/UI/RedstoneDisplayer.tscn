@@ -10,7 +10,7 @@ outline_size = 1
 outline_color = Color(1, 1, 1, 0.380392)
 shadow_color = Color(1, 1, 1, 0.0470588)
 
-[node name="RedstoneDisplayer" type="Node2D"]
+[node name="RedstoneDisplayer" type="Node2D" groups=["BoardUI", "RedstoneDisplayer"]]
 texture_filter = 1
 script = ExtResource("1_ma7eu")
 

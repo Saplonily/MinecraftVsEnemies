@@ -22,7 +22,7 @@ fill_to = Vector2(0, 0)
 font_size = 13
 font_color = Color(0.929412, 0.929412, 0.929412, 1)
 
-[node name="Card" type="Node2D" groups=["Card"]]
+[node name="Card" type="Node2D" groups=["BoardUI", "Card"]]
 texture_filter = 1
 script = ExtResource("1_cacc0")
 pickAudio = ExtResource("4_lykn3")
