@@ -5,15 +5,19 @@ namespace MVE;
 
 public partial class Card : BoardUI, IBoardUIPickable
 {
-    protected PickShownConfig pickShownConfig = null!;
+    [Export] protected AudioStream pickAudio = null!;
+    protected AudioStreamPlayer pickAudioPlayer = null!;
+    [Export] protected Godot.Collections.Array<AudioStream> tapAudios = null!;
+    protected Chooser<AudioStreamPlayer> tapAudiosPlayerChooser = null!;
+
     protected Sprite2D cardSprite = null!;
     protected Sprite2D contentSprite = null!;
     protected Sprite2D shadowMask = null!;
     protected Area2D area = null!;
     protected Label costLabel = null!;
-    [Export] protected AudioStream pickAudio = null!;
-    protected AudioStreamPlayer pickAudioPlayer = null!;
 
+
+    protected PickShownConfig pickShownConfig = null!;
     protected StateMachine<CardState> stateMachine = null!;
     protected bool mouseIn = false;
 
@@ -65,6 +69,7 @@ public partial class Card : BoardUI, IBoardUIPickable
             Texture = contentSprite.Texture,
             Transform = Transform2D.Identity
         };
+        tapAudiosPlayerChooser = tapAudios.GetChooser(new(null!, Bus: "Board"));
     }
 
     protected void PickedEnter(CardState s)
@@ -97,25 +102,17 @@ public partial class Card : BoardUI, IBoardUIPickable
     protected void IdleEnter(CardState s)
     {
         if (IsAvailable())
-        {
             RestoreMask();
-        }
         else
-        {
             MakeMasked();
-        }
     }
 
     protected void IdleUpdate(double delta)
     {
         if (IsAvailable())
-        {
             RestoreMask();
-        }
         else
-        {
             MakeMasked();
-        }
     }
 
     protected void UpdateMaskRegion(float percent)
@@ -148,7 +145,7 @@ public partial class Card : BoardUI, IBoardUIPickable
         {
             if (IsAvailable() && Board.Picking is PickingType.Idle)
             {
-                Board.DoPick(PickingType.Card, this);
+                Board.DoPick(PickingType.Card, PickingTravelType.PlayerSelect, this);
                 stateMachine.State = CardState.Picked;
             }
         }
@@ -164,22 +161,24 @@ public partial class Card : BoardUI, IBoardUIPickable
         costLabel.Text = property.Cost.ToString();
     }
 
-    public void OnUnpicked()
+    public void OnUnpicked(PickingType source, PickingTravelType travelType)
     {
-        stateMachine.State = CardState.Idle;
+        if (travelType is PickingTravelType.PlayerCancel)
+        {
+            stateMachine.State = CardState.Idle;
+            tapAudiosPlayerChooser.Choose().Play();
+        }
     }
 
-    public void OnPicked()
-    {
-        stateMachine.State = CardState.Picked;
-    }
+    public void OnPicked(PickingType source, PickingTravelType travelType)
+        => stateMachine.State = CardState.Picked;
 
     public void OnUsed()
     {
-        Board.DoPick(PickingType.Idle, null);
         Cooldown = 1.0f;
         stateMachine.State = CardState.Cooldown;
         Board.Bank.ReduceRedstone(WeaponProperty.Cost);
+        Board.DoPick(PickingType.Idle, PickingTravelType.Used, null);
     }
 
     PickShownConfig IBoardUIPickable.GetShownConfig()

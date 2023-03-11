@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbgh2i8juowu"]
+[gd_scene load_steps=7 format=3 uid="uid://dbgh2i8juowu"]
 
 [ext_resource type="Script" path="res://Board/UI/Pickaxe.cs" id="1_e5fnq"]
 [ext_resource type="Texture2D" uid="uid://cwrnyulp6hd8n" path="res://Board/UI/PickaxeSlot.png" id="1_wwpjt"]
+[ext_resource type="AudioStream" uid="uid://rs6n7igaqxe8" path="res://Board/UI/PickaxePick.ogg" id="2_2rpwc"]
 [ext_resource type="Texture2D" uid="uid://d4an1dbd61eh7" path="res://Board/UI/DiamondPickaxe.png" id="2_lyhit"]
+[ext_resource type="AudioStream" uid="uid://v308ssvoiyn6" path="res://Board/UI/Tap.ogg" id="3_ks5u3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ognbl"]
 size = Vector2(75, 75)
@@ -10,6 +12,8 @@ size = Vector2(75, 75)
 [node name="Pickaxe" type="Node2D" groups=["BoardUI", "Pickaxe"]]
 texture_filter = 1
 script = ExtResource("1_e5fnq")
+audioPick = ExtResource("2_2rpwc")
+audioUnpick = ExtResource("3_ks5u3")
 
 [node name="PickaxeSlot" type="Sprite2D" parent="."]
 texture = ExtResource("1_wwpjt")

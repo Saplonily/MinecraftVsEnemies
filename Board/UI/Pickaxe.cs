@@ -1,11 +1,18 @@
+using MVE.SalExt;
+
 namespace MVE;
 
 public partial class Pickaxe : BoardUI, IBoardUIPickable
 {
-    protected PickShownConfig pickShownConfig = null!;
+    [Export] protected AudioStream audioPick = null!;
+    [Export] protected AudioStream audioUnpick = null!;
+    protected AudioStreamPlayer audioPickPlayer = null!;
+    protected AudioStreamPlayer audioUnpickPlayer = null!;
+
     protected Sprite2D contentSprite = null!;
     protected Area2D area2D = null!;
 
+    protected PickShownConfig pickShownConfig = null!;
     protected bool mouseIn = false;
     protected bool picked = false;
 
@@ -15,6 +22,8 @@ public partial class Pickaxe : BoardUI, IBoardUIPickable
 
         area2D = GetNode<Area2D>("Area2D");
         contentSprite = GetNode<Sprite2D>("DiamondPickaxe");
+        audioPickPlayer = SalAudioPool.GetPlayer(new(audioPick, Bus: "Board"));
+        audioUnpickPlayer = SalAudioPool.GetPlayer(new(audioUnpick, Bus: "Board"));
 
         pickShownConfig = new(contentSprite);
 
@@ -38,7 +47,7 @@ public partial class Pickaxe : BoardUI, IBoardUIPickable
         if (!picked && ie.IsActionPressed(InputNames.PickPickaxe) && Board.Picking is PickingType.Idle)
         {
             picked = true;
-            Board.DoPick(PickingType.Pickaxe, this);
+            Board.DoPick(PickingType.Pickaxe, PickingTravelType.PlayerSelect, this);
         }
     }
 
@@ -47,17 +56,22 @@ public partial class Pickaxe : BoardUI, IBoardUIPickable
 
     public void OnUsed()
     {
-        Board.DoPick(PickingType.Idle, null);
         picked = false;
+        Board.DoPick(PickingType.Idle, PickingTravelType.Used, null);
     }
 
-    void IBoardUIPickable.OnPicked()
+    void IBoardUIPickable.OnPicked(PickingType source, PickingTravelType travelType)
     {
         picked = true;
+        audioPickPlayer.Play();
     }
 
-    void IBoardUIPickable.OnUnpicked()
+    void IBoardUIPickable.OnUnpicked(PickingType source, PickingTravelType travelType)
     {
         picked = false;
+        if (travelType is PickingTravelType.PlayerCancel)
+        {
+            audioUnpickPlayer.Play();
+        }
     }
 }

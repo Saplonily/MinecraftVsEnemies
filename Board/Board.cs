@@ -129,13 +129,13 @@ public partial class Board : Node
             {
                 if (picking is not PickingType.Idle && PickedNode is IBoardUIPickable)
                 {
-                    DoPick(PickingType.Idle, null);
+                    DoPick(PickingType.Idle, PickingTravelType.PlayerCancel, null);
                 }
             }
         }
     }
 
-    public void DoPick(PickingType to, Node? pickedNode)
+    public void DoPick(PickingType to, PickingTravelType travelType, Node? pickedNode)
     {
         var from = picking;
         picking = to;
@@ -147,7 +147,7 @@ public partial class Board : Node
             {
                 pickingSprite.Visible = true;
                 bup.GetShownConfig().ApplyToSprite(pickingSprite);
-                bup.OnPicked();
+                bup.OnPicked(from, travelType);
             }
         }
         if (from is not PickingType.Idle && to is PickingType.Idle)
@@ -155,7 +155,7 @@ public partial class Board : Node
             pickingSprite.Visible = false;
             if (fromNode is IBoardUIPickable bup)
             {
-                bup.OnUnpicked();
+                bup.OnUnpicked(from, travelType);
             }
         }
         PickingChanged?.Invoke(from, to);
@@ -181,6 +181,14 @@ public enum PickingType
     Idle,
     Card,
     Pickaxe
+}
+
+public enum PickingTravelType
+{
+    None,
+    PlayerCancel,
+    PlayerSelect,
+    Used
 }
 
 public enum DropPickResult

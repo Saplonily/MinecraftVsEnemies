@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://df74k33olyi04"]
+[gd_scene load_steps=11 format=3 uid="uid://df74k33olyi04"]
 
 [ext_resource type="Script" path="res://Board/UI/Card.cs" id="1_cacc0"]
 [ext_resource type="Texture2D" uid="uid://bt5hifs7bo82d" path="res://Board/UI/Card.png" id="2_63rhc"]
+[ext_resource type="AudioStream" uid="uid://cpx5vm41qo7wt" path="res://Board/UI/Tap2.ogg" id="3_3l3uf"]
 [ext_resource type="Texture2D" uid="uid://bfymb37jrpnl0" path="res://Board/Weapons/Dispenser/Dispenser.png" id="3_v6jtp"]
+[ext_resource type="AudioStream" uid="uid://v308ssvoiyn6" path="res://Board/UI/Tap.ogg" id="4_lre4i"]
 [ext_resource type="AudioStream" uid="uid://bw4g2i6epjp5j" path="res://Board/UI/CardPick.ogg" id="4_lykn3"]
 
 [sub_resource type="RectangleShape2D" id="3"]
@@ -26,6 +28,7 @@ font_color = Color(0.929412, 0.929412, 0.929412, 1)
 texture_filter = 1
 script = ExtResource("1_cacc0")
 pickAudio = ExtResource("4_lykn3")
+tapAudios = Array[AudioStream]([ExtResource("3_3l3uf"), ExtResource("4_lre4i")])
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 8

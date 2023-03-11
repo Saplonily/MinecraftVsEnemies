@@ -6,9 +6,9 @@ public interface IBoardUIPickable
 {
     PickShownConfig GetShownConfig();
 
-    void OnPicked();
+    void OnPicked(PickingType source, PickingTravelType travelType);
 
-    void OnUnpicked();
+    void OnUnpicked(PickingType source, PickingTravelType travelType);
 }
 
 public class PickShownConfig
