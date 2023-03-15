@@ -33,6 +33,21 @@ public static class Extensions
         return p is null ? null : p is T target ? target : FindParent<T>(p);
     }
 
+    public static T RemoveSelf<T>(this T node) where T : Node
+    {
+        node.GetParent().RemoveChild(node);
+        return node;
+    }
+
+    public static void ChangeParentWithPosition<T>(this T node2d, Node2D newParent) where T : Node2D
+    {
+        var beforeTrans = node2d.GlobalTransform;
+        var parent = node2d.GetParent();
+        parent.RemoveChild(node2d);
+        newParent.AddChild(node2d);
+        node2d.GlobalTransform = beforeTrans;
+    }
+
     public static Vector2 GetPositionAndFree(this Marker2D marker2D)
     {
         var pos = marker2D.Position;

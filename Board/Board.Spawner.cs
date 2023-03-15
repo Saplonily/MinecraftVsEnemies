@@ -8,7 +8,7 @@ public partial class Board : Node
     [Export] protected AudioStream awoogaAudio = null!;
     protected AudioStreamPlayer awoogaAudioPlayer = null!;
     protected Timer spawnerTimer = null!;
-    protected Label debugLabel = null!;
+    
 
     protected int[] rowWeights = new int[5];
 
@@ -19,7 +19,6 @@ public partial class Board : Node
     public void InitSpawner()
     {
         spawnerTimer = GetNode<Timer>("SpawnerTimer");
-        debugLabel = GetNode<Label>("LayerPicking/Label");
         awoogaAudioPlayer = SalAudioPool.GetPlayer(new(awoogaAudio, Bus: "Board"));
 
         spawnerTimer.WaitTime = 50;
@@ -60,20 +59,27 @@ public partial class Board : Node
 
         int points = CurrentWave * LevelData.EnemiesSpawning.PointsAddFactor;
 
-        var leastCost = LevelData.EnemiesSpawning.EnemyPool.Min(u => u.Cost);
+        SummonEnemiesBy(LevelData.EnemiesSpawning, points, PlaceEnemy);
+    }
+
+    public delegate Enemy EnemyPlacingHandler(in EnemyProperty property, int row);
+
+    public void SummonEnemiesBy(EnemiesSpawningData spawningData, int points, EnemyPlacingHandler placingHandler)
+    {
+        var leastCost = spawningData.EnemyPool.Min(u => u.Cost);
         if (leastCost > points)
         {
             int row = Random.Next(0, 5);
             var prop = Game.Instance.EnemyProperties[0];
-            PlaceEnemy(prop, row);
-            var u = LevelData.EnemiesSpawning.EnemyPool.FirstOrDefault(u => u.InternalId == 0);
+            placingHandler(prop, row);
+            var u = spawningData.EnemyPool.FirstOrDefault(u => u.InternalId == 0);
             rowWeights[row] -= u is not null ? u.Cost : 100;
             return;
         }
 
         while (points > 0)
         {
-            var unit = LevelData.EnemiesSpawning.ChooseUnit(Random, points);
+            var unit = spawningData.ChooseUnit(Random, points);
             if (unit is null) break;
             points -= unit.Cost;
 
@@ -83,10 +89,10 @@ public partial class Board : Node
             (int i, int ind) result = Chooser<(int, int)>.ChooseFrom(Random, allMaxList);
             rowWeights[result.ind] -= unit.Cost;
 
-            PlaceEnemy(Game.Instance.EnemyProperties[unit.InternalId], result.ind);
+            placingHandler(Game.Instance.EnemyProperties[unit.InternalId], result.ind);
         }
-
-        Enemy PlaceEnemy(in EnemyProperty property, int row)
-            => Lawn.PlantingArea.PlaceEnemyAt(new Vector2I(9, row), property);
     }
+
+    public Enemy PlaceEnemy(in EnemyProperty property, int row)
+        => Lawn.PlantingArea.PlaceEnemyAt(new Vector2I(Random.Next(10, 13), row), property);
 }

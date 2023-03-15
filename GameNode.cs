@@ -48,7 +48,7 @@ public class Game
         Version = new Version(0, 0, 1, 0);
         Config = new();
 
-        logger.LogInfo("Game", "Hello SalLogger in godot 4.0 rc3 .net6!");
+        logger.LogInfo("Game", "Hello SalLogger in godot 4.0 .net6!");
         logger.LogInfo("Game", $"Current version: {Version}");
 
         logger.LogInfo("Game", "Loading WeaponProperties...");

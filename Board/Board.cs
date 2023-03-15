@@ -9,6 +9,7 @@ public partial class Board : Node
     protected Sprite2D pickingSprite = null!;
     protected Control controlOverlay = null!;
     protected RedstoneDisplayer redstoneDisplayer = null!;
+    protected Label debugLabel = null!;
 
     protected PickingType picking;
 
@@ -39,7 +40,8 @@ public partial class Board : Node
         base._Ready();
         pickingSprite = GetNode<Sprite2D>("LayerPicking/Picking");
         controlOverlay = GetNode<Control>("LayerPicking/ControlOverlay");
-        redstoneDisplayer = GetNode<RedstoneDisplayer>("LayerMain/RedstoneDisplayer");
+        redstoneDisplayer = GetNode<RedstoneDisplayer>("LayerMain/BoardUI/RedstoneDisplayer");
+        debugLabel = GetNode<Label>("LayerPicking/Label");
         InitAudios();
         InitSpawner();
 
