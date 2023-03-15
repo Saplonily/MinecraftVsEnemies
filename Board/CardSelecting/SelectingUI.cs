@@ -25,4 +25,26 @@ public partial class SelectingUI : Node2D
         NextCardPosition += Vector2.Right * CardWidth;
         SelectedCards.Add(card);
     }
+
+    public void RemoveSelected(CardForSelecting card)
+    {
+        var index = SelectedCards.IndexOf(card);
+        if (index != -1)
+        {
+            NextCardPosition -= Vector2.Right * CardWidth;
+            if (SelectedCards.Count >= 2)
+                for (int i = index + 1; i < SelectedCards.Count; i++)
+                {
+                    SelectedCards[i].CreateTween()
+                        .SetEase(Tween.EaseType.Out)
+                        .SetTrans(Tween.TransitionType.Quint)
+                        .TweenProperty(SelectedCards[i], "position", SelectedCards[i - 1].Position, 0.5d);
+                }
+            SelectedCards.RemoveAt(index);
+        }
+        else
+        {
+
+        }
+    }
 }
