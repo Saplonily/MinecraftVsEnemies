@@ -25,7 +25,7 @@ position = Vector2(30, 45)
 scale = Vector2(0.55, 0.55)
 texture = ExtResource("3_ikt2x")
 
-[node name="Label" type="Label" parent="."]
+[node name="Cost" type="Label" parent="."]
 offset_left = 8.0
 offset_top = 66.0
 offset_right = 50.0

@@ -7,44 +7,52 @@ namespace MVE;
 public partial class SelectingUI : Node2D
 {
     public const float CardWidth = 64 * 0.9f;
+    protected Tween cardCancelMovingTween = null!;
 
     [Export] public Vector2 SelectedCardsOrigin { get; set; }
     [Export] public Vector2 ForSelectingCardsOrigin { get; set; }
-    public List<CardForSelecting> SelectedCards { get; protected set; } = new();
+    public List<(CardForSelecting card, Vector2 position)> SelectedCards { get; protected set; } = new();
     public int SelectedCount => SelectedCards.Count;
 
-    public Vector2 NextCardPosition { get; protected set; }
 
     public override void _Ready()
     {
-        NextCardPosition = SelectedCardsOrigin;
     }
 
-    public void AddSelected(CardForSelecting card)
+    public Vector2 AddSelected(CardForSelecting card)
     {
-        NextCardPosition += Vector2.Right * CardWidth;
-        SelectedCards.Add(card);
+        if (SelectedCards.Count == 0)
+        {
+            SelectedCards.Add((card, SelectedCardsOrigin));
+            return SelectedCardsOrigin;
+        }
+        else
+        {
+            Vector2 pos = SelectedCards[^1].position + Vector2.Right * CardWidth;
+            SelectedCards.Add((card, pos));
+            return pos;
+        }
     }
 
     public void RemoveSelected(CardForSelecting card)
     {
-        var index = SelectedCards.IndexOf(card);
+        var index = SelectedCards.FindIndex(p => ReferenceEquals(p.card, card));
         if (index != -1)
         {
-            NextCardPosition -= Vector2.Right * CardWidth;
-            if (SelectedCards.Count >= 2)
-                for (int i = index + 1; i < SelectedCards.Count; i++)
+            if (SelectedCards.Count >= 2 && index != SelectedCards.Count - 1)
+            {
+                cardCancelMovingTween?.Kill();
+                cardCancelMovingTween = CreateTween()
+                    .SetParallel()
+                    .SetEase(Tween.EaseType.Out)
+                    .SetTrans(Tween.TransitionType.Quint);
+                for (int i = SelectedCards.Count - 1; i >= index + 1; i--)
                 {
-                    SelectedCards[i].CreateTween()
-                        .SetEase(Tween.EaseType.Out)
-                        .SetTrans(Tween.TransitionType.Quint)
-                        .TweenProperty(SelectedCards[i], "position", SelectedCards[i - 1].Position, 0.5d);
+                    cardCancelMovingTween.TweenProperty(SelectedCards[i].card, "position", SelectedCards[i - 1].position, 0.5d);
+                    SelectedCards[i] = (SelectedCards[i].card, SelectedCards[i - 1].position);
                 }
+            }
             SelectedCards.RemoveAt(index);
-        }
-        else
-        {
-
         }
     }
 }

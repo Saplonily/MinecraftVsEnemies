@@ -28,10 +28,6 @@ patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="SelectedCards" type="Node2D" parent="."]
-position = Vector2(16, 8)
-metadata/_edit_group_ = true
-
 [node name="CardsBlank9Patch" type="NinePatchRect" parent="."]
 texture_filter = 1
 offset_top = 125.0

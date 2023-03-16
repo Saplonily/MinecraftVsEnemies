@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Board/PlantingArea.cs" id="4_7bqpd"]
 [ext_resource type="PackedScene" uid="uid://bqf2xdjc1q2rg" path="res://Board/Board.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://dbgh2i8juowu" path="res://Board/UI/Pickaxe.tscn" id="5_c7w7s"]
-[ext_resource type="PackedScene" uid="uid://cjl00va5pjggc" path="res://Board/Choosing/SelectingUI.tscn" id="7_jucsw"]
+[ext_resource type="PackedScene" uid="uid://wgbcgbjcnyb" path="res://Board/CardSelecting/SelectingUI.tscn" id="7_suotg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dmonr"]
 size = Vector2(750, 375)
@@ -64,6 +64,7 @@ position = Vector2(670, 0)
 [node name="Lawn" parent="Board/LayerMain" index="2"]
 Rows = 6
 Column = 10
+metadata/_edit_lock_ = true
 
 [node name="PlantingArea" parent="Board/LayerMain/Lawn" index="0"]
 position = Vector2(85, 175)
@@ -95,8 +96,17 @@ label_settings = SubResource("LabelSettings_to87y")
 vertical_alignment = 2
 metadata/_edit_lock_ = true
 
-[node name="ChoosingUI" parent="Board/LayerPicking" index="3" instance=ExtResource("7_jucsw")]
+[node name="SelectingUI" parent="Board/LayerPicking" index="3" instance=ExtResource("7_suotg")]
 position = Vector2(640, 0)
+
+[node name="BeChoosingCard2" parent="Board/LayerPicking/SelectingUI" index="4"]
+WeaponPropertyInitId = 1
+
+[node name="BeChoosingCard3" parent="Board/LayerPicking/SelectingUI" index="5"]
+WeaponPropertyInitId = 2
+
+[node name="BeChoosingCard5" parent="Board/LayerPicking/SelectingUI" index="7"]
+WeaponPropertyInitId = 1
 
 [node name="Camera2D" type="Camera2D" parent="Board"]
 position = Vector2(640, 0)
@@ -104,3 +114,4 @@ anchor_mode = 0
 ignore_rotation = false
 
 [editable path="Board"]
+[editable path="Board/LayerPicking/SelectingUI"]
