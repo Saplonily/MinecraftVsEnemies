@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://wgbcgbjcnyb"]
+[gd_scene load_steps=9 format=3 uid="uid://wgbcgbjcnyb"]
 
 [ext_resource type="Script" path="res://Board/CardSelecting/SelectingUI.cs" id="1_vlis8"]
 [ext_resource type="Texture2D" uid="uid://ey8nakq2myen" path="res://Board/CardSelecting/Background9Patch.png" id="2_nq32d"]
@@ -13,12 +13,122 @@ font = SubResource("SystemFont_w6uut")
 font_size = 24
 shadow_color = Color(0, 0, 0, 0.384314)
 
+[sub_resource type="Animation" id="Animation_ny5w2"]
+resource_name = "Appear"
+length = 0.4
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SelectedCardsUI:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.25, 1),
+"update": 0,
+"values": [Vector2(-200, -1.45519e-11), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ForSelectingUI:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(-1.45519e-11, 300), Vector2(-1.45519e-11, 125)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SelectedCardsUI:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ForSelectingUI:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ptm40"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SelectedCardsUI:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ForSelectingUI:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1.45519e-11, 125)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SelectedCardsUI:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ForSelectingUI:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yhy60"]
+_data = {
+"Appear": SubResource("Animation_ny5w2"),
+"RESET": SubResource("Animation_ptm40")
+}
+
 [node name="SelectingUI" type="Node2D"]
 script = ExtResource("1_vlis8")
-SelectedCardsOrigin = Vector2(16, 8)
-ForSelectingCardsOrigin = Vector2(20, 182)
 
-[node name="SelectedCardsBlank" type="NinePatchRect" parent="."]
+[node name="SelectedCardsUI" type="Node2D" parent="."]
+
+[node name="SelectedCardsBlank" type="NinePatchRect" parent="SelectedCardsUI"]
 texture_filter = 1
 offset_right = 600.0
 offset_bottom = 104.0
@@ -28,47 +138,60 @@ patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="CardsBlank9Patch" type="NinePatchRect" parent="."]
+[node name="SelectedCards" type="Node2D" parent="SelectedCardsUI"]
+position = Vector2(16, 8)
+
+[node name="ForSelectingUI" type="Node2D" parent="."]
+position = Vector2(-1.45519e-11, 125)
+
+[node name="CardsBlank9Patch" type="NinePatchRect" parent="ForSelectingUI"]
 texture_filter = 1
-offset_top = 125.0
 offset_right = 456.0
-offset_bottom = 600.0
+offset_bottom = 475.0
 texture = ExtResource("2_nq32d")
 patch_margin_left = 4
 patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="ForSelectingUI/CardsBlank9Patch"]
 texture_filter = 2
+layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 133.5
-offset_top = 135.0
-offset_right = 325.5
-offset_bottom = 171.0
+offset_left = -94.5
+offset_top = 10.0
+offset_right = 97.5
+offset_bottom = 46.0
 grow_horizontal = 2
 text = "选择你的器械蓝图"
 label_settings = SubResource("LabelSettings_j24j6")
 
-[node name="BeChoosingCard" parent="." instance=ExtResource("3_a30j2")]
-position = Vector2(20, 182)
+[node name="CardsForSelecting" type="Node2D" parent="ForSelectingUI"]
+position = Vector2(20, 59)
 
-[node name="BeChoosingCard2" parent="." instance=ExtResource("3_a30j2")]
-position = Vector2(80, 182)
+[node name="CardForSelecting" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
 
-[node name="BeChoosingCard3" parent="." instance=ExtResource("3_a30j2")]
-position = Vector2(140, 182)
+[node name="CardForSelecting2" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
+position = Vector2(60, 0)
 
-[node name="BeChoosingCard4" parent="." instance=ExtResource("3_a30j2")]
-position = Vector2(200, 182)
+[node name="CardForSelecting3" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
+position = Vector2(120, 0)
 
-[node name="BeChoosingCard5" parent="." instance=ExtResource("3_a30j2")]
-position = Vector2(260, 182)
+[node name="CardForSelecting4" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
+position = Vector2(180, 0)
 
-[node name="BeChoosingCard6" parent="." instance=ExtResource("3_a30j2")]
-position = Vector2(320, 182)
+[node name="CardForSelecting5" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
+position = Vector2(240, 0)
 
-[node name="BeChoosingCard7" parent="." instance=ExtResource("3_a30j2")]
-position = Vector2(380, 182)
+[node name="CardForSelecting6" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
+position = Vector2(300, 0)
+
+[node name="CardForSelecting7" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
+position = Vector2(360, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_yhy60")
+}

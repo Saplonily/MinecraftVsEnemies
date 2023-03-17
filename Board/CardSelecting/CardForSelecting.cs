@@ -37,22 +37,27 @@ public partial class CardForSelecting : Node2D
 
             var newCard = Scene.Instantiate<CardForSelecting>();
             newCard.IsForSelectedDisplay = true;
-            newCard.Position = Position;
+            newCard.Position = Extensions.SwitchTransform(this, selectingUI);
             newCard.ForSelectedSource = this;
             newCard.WeaponPropertyInitId = WeaponPropertyInitId;
             selectingUI.AddChild(newCard);
             var targetPos = selectingUI.AddSelected(newCard);
-            newCard.CreateTween()
+            var tween = newCard.CreateTween()
                 .SetEase(Tween.EaseType.Out)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .TweenProperty(newCard, "position", targetPos, 0.3d);
+                .SetTrans(Tween.TransitionType.Cubic);
+            tween.TweenProperty(newCard, "position", targetPos, 0.3d);
+            tween.TweenCallback(Callable.From(() =>
+            {
+                newCard.Switch2DParent(selectingUI.SelectedCardsNode2D);
+            }));
         }
         else
         {
+            this.Switch2DParent(selectingUI);
             var tween = CreateTween()
                 .SetEase(Tween.EaseType.Out)
                 .SetTrans(Tween.TransitionType.Cubic);
-            tween.TweenProperty(this, "position", ForSelectedSource!.Position, 0.3d);
+            tween.TweenProperty(this, "position", Extensions.SwitchTransform(ForSelectedSource!, selectingUI), 0.3d);
             tween.TweenCallback(Callable.From(() =>
             {
                 QueueFree();

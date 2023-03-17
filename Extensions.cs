@@ -4,6 +4,7 @@ global using Timer = Godot.Timer;
 global using SysTimer = System.Threading.Timer;
 
 using MVE.SalExt;
+using System.Runtime.CompilerServices;
 
 namespace MVE;
 
@@ -17,41 +18,68 @@ public static class Extensions
     #endregion
 
     #region gd
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3 ToVec3WithZ0(this Vector2 vector2)
     {
         return new Vector3(vector2.X, vector2.Y, 0);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3 ToVec3WithZ(this Vector2 vector2, float z)
     {
         return new Vector3(vector2.X, vector2.Y, z);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T? FindParent<T>(this Node self) where T : Node
     {
         var p = self.GetParent();
         return p is null ? null : p is T target ? target : FindParent<T>(p);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T RemoveSelf<T>(this T node) where T : Node
     {
         node.GetParent().RemoveChild(node);
         return node;
     }
 
-    public static void ChangeParentWithPosition<T>(this T node2d, Node2D newParent) where T : Node2D
+    public static void Switch2DParent(this Node2D node2d, Node2D newParent)
     {
-        var beforeTrans = node2d.GlobalTransform;
+        node2d.Transform = node2d.GetGlobalTransformWithCanvas() * Transform2D.Identity;
         var parent = node2d.GetParent();
         parent.RemoveChild(node2d);
         newParent.AddChild(node2d);
-        node2d.GlobalTransform = beforeTrans;
+        node2d.Transform = newParent.GetGlobalTransformWithCanvas().AffineInverse() * node2d.Transform;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 GetPositionAndFree(this Marker2D marker2D)
     {
         var pos = marker2D.Position;
         marker2D.Free();
+        return pos;
+    }
+
+    /// <summary>
+    /// 将给定的<paramref name="from"/>的坐标<paramref name="position"/>转换为<paramref name="to"/>视角的坐标
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 SwitchTransform(Node2D from, Node2D to, Vector2 position)
+    {
+        Vector2 pos = from.GetGlobalTransformWithCanvas() * position;
+        pos = to.GetGlobalTransformWithCanvas().AffineInverse() * pos;
+        return pos;
+    }
+
+    /// <summary>
+    /// 将给定的<paramref name="from"/>的坐标转换为<paramref name="to"/>视角的坐标
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 SwitchTransform(Node2D from, Node2D to)
+    {
+        Vector2 pos = from.GetGlobalTransformWithCanvas() * Vector2.Zero;
+        pos = to.GetGlobalTransformWithCanvas().AffineInverse() * pos;
         return pos;
     }
 

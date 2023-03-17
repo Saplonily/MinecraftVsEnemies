@@ -22,7 +22,6 @@ public partial class Board : Node
         awoogaAudioPlayer = SalAudioPool.GetPlayer(new(awoogaAudio, Bus: "Board"));
 
         spawnerTimer.WaitTime = 50;
-        spawnerTimer.Start();
         spawnerTimer.Timeout += SpawnerTimerTimeout;
 
         CurrentWave = 0;

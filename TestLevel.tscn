@@ -99,13 +99,22 @@ metadata/_edit_lock_ = true
 [node name="SelectingUI" parent="Board/LayerPicking" index="3" instance=ExtResource("7_suotg")]
 position = Vector2(640, 0)
 
-[node name="BeChoosingCard2" parent="Board/LayerPicking/SelectingUI" index="4"]
+[node name="SelectedCards" parent="Board/LayerPicking/SelectingUI/SelectedCardsUI" index="1"]
+skew = 0.488692
+
+[node name="CardForSelecting2" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="1"]
 WeaponPropertyInitId = 1
 
-[node name="BeChoosingCard3" parent="Board/LayerPicking/SelectingUI" index="5"]
+[node name="CardForSelecting3" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="2"]
 WeaponPropertyInitId = 2
 
-[node name="BeChoosingCard5" parent="Board/LayerPicking/SelectingUI" index="7"]
+[node name="CardForSelecting4" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="3"]
+WeaponPropertyInitId = 2
+
+[node name="CardForSelecting5" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="4"]
+WeaponPropertyInitId = 1
+
+[node name="CardForSelecting6" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="5"]
 WeaponPropertyInitId = 1
 
 [node name="Camera2D" type="Camera2D" parent="Board"]
