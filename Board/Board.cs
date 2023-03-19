@@ -180,7 +180,7 @@ public partial class Board : Node
 
     public Vector2 GetRedstoneDisplayerSlotPos()
     {
-        return Extensions.SwitchTransform(redstoneDisplayer, boardUIManager, redstoneDisplayer.RedstoneOffset);
+        return Extensions.SwitchTransform(redstoneDisplayer, layerMain, redstoneDisplayer.RedstoneOffset);
     }
 }
 

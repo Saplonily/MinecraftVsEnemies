@@ -85,7 +85,7 @@ public partial class Board : Node
 
         //切换ui显示模式
         boardUIManager.Switch2DParent(layerMain);
-        layerMain.MoveChild(boardUIManager, -1);
+        layerMain.MoveChild(boardUIManager, -2);
 
         //刷怪开始
         updater = _ =>
