@@ -4,9 +4,9 @@ namespace MVE;
 
 public partial class LeatZombie : Zombie
 {
-    [Export] protected Godot.Collections.Array<AudioStream> leatBeHitAudios = null!;
-    protected Chooser<AudioStreamPlayer> leatBeHitAudioPlayerChooser = null!;
-    protected Sprite2D leatCapSprite = null!;
+    [Export] protected Godot.Collections.Array<AudioStream> leatBeHitAudios = default!;
+    protected Chooser<AudioStreamPlayer> leatBeHitAudioPlayerChooser = default!;
+    protected Sprite2D leatCapSprite = default!;
 
     public double CapHp { get; set; } = 400d;
     public double CapMaxHp { get; set; } = 400d;
@@ -16,7 +16,7 @@ public partial class LeatZombie : Zombie
         base._Ready();
         leatCapSprite = GetNode<Sprite2D>("Sprites/LeatCap");
 
-        leatBeHitAudioPlayerChooser = leatBeHitAudios.GetChooser(new(null!, Bus: "Board"));
+        leatBeHitAudioPlayerChooser = leatBeHitAudios.GetChooser(new(default!, Bus: "Board"));
     }
 
     public override void _Process(double delta)

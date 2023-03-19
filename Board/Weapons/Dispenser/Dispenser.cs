@@ -8,12 +8,12 @@ public partial class Dispenser : Weapon
     [Export]
     public static readonly PackedScene ArrowScene = GD.Load<PackedScene>("res://Board/Bullets/Arrow.tscn");
 
-    [Export] protected AudioStream clickAudio = null!;
-    protected AudioStreamPlayer clickAudioPlayer = null!;
-    protected Godot.Timer shootTimer = null!;
+    [Export] protected AudioStream clickAudio = default!;
+    protected AudioStreamPlayer clickAudioPlayer = default!;
+    protected Timer shootTimer = default!;
     protected Vector2 shootOffset;
-    protected RayCast2D rayCast = null!;
-    protected SalParticleSys shootParticleSys = null!;
+    protected RayCast2D rayCast = default!;
+    protected SalParticleSys shootParticleSys = default!;
 
     public override void _Ready()
     {

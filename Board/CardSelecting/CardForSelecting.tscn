@@ -1,15 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://5wi6pk8qnxkb"]
+[gd_scene load_steps=7 format=3 uid="uid://5wi6pk8qnxkb"]
 
 [ext_resource type="Script" path="res://Board/CardSelecting/CardForSelecting.cs" id="1_j2115"]
+[ext_resource type="AudioStream" uid="uid://v308ssvoiyn6" path="res://Common/Tap.ogg" id="2_204y1"]
 [ext_resource type="Texture2D" uid="uid://bt5hifs7bo82d" path="res://Board/UI/Card.png" id="2_eeamg"]
+[ext_resource type="AudioStream" uid="uid://cpx5vm41qo7wt" path="res://Common/Tap2.ogg" id="3_aupwj"]
 [ext_resource type="Texture2D" uid="uid://bfymb37jrpnl0" path="res://Board/Weapons/Dispenser/Dispenser.png" id="3_ikt2x"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_et4i0"]
-font_size = 12
+[sub_resource type="LabelSettings" id="LabelSettings_rj20j"]
+font_size = 13
+font_color = Color(0.929412, 0.929412, 0.929412, 1)
 shadow_color = Color(0, 0, 0, 0.372549)
 
 [node name="BeChoosingCard" type="Node2D"]
 script = ExtResource("1_j2115")
+tapAudioStreams = Array[AudioStream]([ExtResource("2_204y1"), ExtResource("3_aupwj")])
 
 [node name="TextureButton" type="TextureButton" parent="."]
 offset_right = 64.0
@@ -20,16 +24,20 @@ button_mask = 7
 texture_normal = ExtResource("2_eeamg")
 metadata/_edit_lock_ = true
 
-[node name="Content" type="Sprite2D" parent="."]
-position = Vector2(30, 45)
-scale = Vector2(0.55, 0.55)
-texture = ExtResource("3_ikt2x")
-
 [node name="Cost" type="Label" parent="."]
-offset_left = 8.0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
 offset_top = 66.0
-offset_right = 50.0
-offset_bottom = 86.0
+offset_right = 54.0
+offset_bottom = 89.0
+grow_vertical = 2
 text = "-1"
-label_settings = SubResource("LabelSettings_et4i0")
-vertical_alignment = 1
+label_settings = SubResource("LabelSettings_rj20j")
+
+[node name="Content" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(29, 44)
+scale = Vector2(0.54, 0.54)
+texture = ExtResource("3_ikt2x")

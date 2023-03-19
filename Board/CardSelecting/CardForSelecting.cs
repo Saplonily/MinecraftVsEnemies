@@ -1,3 +1,5 @@
+using MVE.SalExt;
+
 namespace MVE;
 
 /// <summary>
@@ -7,16 +9,18 @@ public partial class CardForSelecting : Node2D
 {
     public readonly PackedScene Scene = GD.Load<PackedScene>("res://Board/CardSelecting/CardForSelecting.tscn");
 
-    protected SelectingUI selectingUI = null!;
-    protected TextureButton button = null!;
-    protected Sprite2D contentSprite = null!;
-    protected Label costLabel = null!;
+    [Export] protected Godot.Collections.Array<AudioStream> tapAudioStreams = default!;
+    protected Chooser<AudioStreamPlayer> tapAudioPlayerChooser = default!;
+    protected SelectingUI selectingUI = default!;
+    protected TextureButton button = default!;
+    protected Sprite2D contentSprite = default!;
+    protected Label costLabel = default!;
 
     protected bool selected = false;
     public bool IsForSelectedDisplay { get; protected set; }
     public CardForSelecting? ForSelectedSource { get; protected set; }
-    public WeaponProperty WeaponProperty { get; protected set; } = null!;
-    [Export] public int WeaponPropertyInitId { get; protected set; }
+    public WeaponProperty WeaponProperty { get; protected set; } = default!;
+    [Export] public int WeaponPropertyId { get; protected set; }
 
     public override void _Ready()
     {
@@ -24,13 +28,16 @@ public partial class CardForSelecting : Node2D
         contentSprite = GetNode<Sprite2D>("Content");
         costLabel = GetNode<Label>("Cost");
         selectingUI = this.FindParent<SelectingUI>() ?? throw new NodeNotFoundException(nameof(SelectingUI));
+        tapAudioPlayerChooser = tapAudioStreams.GetChooser(new(default!, Bus: "Board"));
+
         button.ButtonDown += this.Button_ButtonDown;
-        UpdateFromPropertyId(WeaponPropertyInitId);
+        UpdateFromPropertyId(WeaponPropertyId);
     }
 
     protected void Button_ButtonDown()
     {
         if (selected) return;
+        tapAudioPlayerChooser.Choose().Play();
         if (!IsForSelectedDisplay)
         {
             ChangeSelectState(true);
@@ -39,7 +46,7 @@ public partial class CardForSelecting : Node2D
             newCard.IsForSelectedDisplay = true;
             newCard.Position = Extensions.SwitchTransform(this, selectingUI);
             newCard.ForSelectedSource = this;
-            newCard.WeaponPropertyInitId = WeaponPropertyInitId;
+            newCard.WeaponPropertyId = WeaponPropertyId;
             selectingUI.AddChild(newCard);
             var targetPos = selectingUI.AddSelected(newCard);
             var tween = newCard.CreateTween()
@@ -72,7 +79,7 @@ public partial class CardForSelecting : Node2D
         wid = wid == -1 ? 0 : wid;
         var property = Game.Instance.WeaponProperties[wid];
         contentSprite.Texture = property.ContentTexture;
-        WeaponProperty = Game.Instance.WeaponProperties[WeaponPropertyInitId];
+        WeaponProperty = Game.Instance.WeaponProperties[WeaponPropertyId];
         costLabel.Text = property.Cost.ToString();
     }
 

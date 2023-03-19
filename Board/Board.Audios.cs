@@ -8,10 +8,10 @@ public partial class Board : Node
     [Export] protected Godot.Collections.Array<AudioStream> audioStones;
 #nullable restore
 
-    public Chooser<AudioStreamPlayer> StoneSoundPlayerChooser { get; set; } = null!;
+    public Chooser<AudioStreamPlayer> StoneSoundPlayerChooser { get; set; } = default!;
 
     protected void InitAudios()
     {
-        StoneSoundPlayerChooser = audioStones.GetChooser(new(null!, Bus: "Board"));
+        StoneSoundPlayerChooser = audioStones.GetChooser(new(default!, Bus: "Board"));
     }
 }

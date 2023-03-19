@@ -19,9 +19,9 @@ public partial class PlantingArea : Area2D
 {
     public const float GridBoxSize = 75;
     protected PlantHintBox hintBox;
-    protected Board board = null!;
-    protected Lawn lawn = null!;
-    protected Weapon?[,] gridWeapons = null!;
+    protected Board board = default!;
+    protected Lawn lawn = default!;
+    protected Weapon?[,] gridWeapons = default!;
 
     [Export]
     public Color PlaceAllowColor { get; set; }

@@ -4,7 +4,7 @@ namespace MVE;
 
 public partial class GameNode : Node
 {
-    public static GameNode Node { get; protected set; } = null!;
+    public static GameNode Node { get; protected set; } = default!;
 
     public void ChangeSceneTo(Node sceneNode)
     {
@@ -28,8 +28,8 @@ public class Game
     public static Game Instance { get; protected set; }
     public static Logger Logger => Instance.logger;
 
-    public List<WeaponProperty> WeaponProperties { get; protected set; } = null!;
-    public List<EnemyProperty> EnemyProperties { get; protected set; } = null!;
+    public List<WeaponProperty> WeaponProperties { get; protected set; } = default!;
+    public List<EnemyProperty> EnemyProperties { get; protected set; } = default!;
     public Version Version { get; protected set; }
     public UserConfig Config { get; protected set; }
     public Random Random => Random.Shared;

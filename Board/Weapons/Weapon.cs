@@ -4,9 +4,9 @@ namespace MVE;
 
 public abstract partial class Weapon : LawnEntity
 {
-    protected Sprite2D sprite = null!;
-    protected Area2D hitBoxArea = null!;
-    protected SalParticleSys damagingParticleSys = null!;
+    protected Sprite2D sprite = default!;
+    protected Area2D hitBoxArea = default!;
+    protected SalParticleSys damagingParticleSys = default!;
 
     protected bool onPickingLighted = false;
 

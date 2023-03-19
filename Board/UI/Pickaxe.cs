@@ -4,15 +4,15 @@ namespace MVE;
 
 public partial class Pickaxe : BoardUI, IBoardUIPickable
 {
-    [Export] protected AudioStream audioPick = null!;
-    [Export] protected AudioStream audioUnpick = null!;
-    protected AudioStreamPlayer audioPickPlayer = null!;
-    protected AudioStreamPlayer audioUnpickPlayer = null!;
+    [Export] protected AudioStream audioPick = default!;
+    [Export] protected AudioStream audioUnpick = default!;
+    protected AudioStreamPlayer audioPickPlayer = default!;
+    protected AudioStreamPlayer audioUnpickPlayer = default!;
 
-    protected Sprite2D contentSprite = null!;
-    protected Area2D area2D = null!;
+    protected Sprite2D contentSprite = default!;
+    protected Area2D area2D = default!;
 
-    protected PickShownConfig pickShownConfig = null!;
+    protected PickShownConfig pickShownConfig = default!;
     protected bool mouseIn = false;
     protected bool picked = false;
 

@@ -4,9 +4,9 @@ namespace MVE;
 
 public partial class Redstone : Drop
 {
-    [Export] protected AudioStream pickAudio = null!;
-    protected AudioStreamPlayer pickAudioPlayer = null!;
-    protected Sprite2D sprite = null!;
+    [Export] protected AudioStream pickAudio = default!;
+    protected AudioStreamPlayer pickAudioPlayer = default!;
+    protected Sprite2D sprite = default!;
 
     public double Value { get => 25; }
 

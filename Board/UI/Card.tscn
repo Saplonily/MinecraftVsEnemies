@@ -1,14 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://df74k33olyi04"]
+[gd_scene load_steps=11 format=3 uid="uid://25lc0momhxby"]
 
 [ext_resource type="Script" path="res://Board/UI/Card.cs" id="1_cacc0"]
 [ext_resource type="Texture2D" uid="uid://bt5hifs7bo82d" path="res://Board/UI/Card.png" id="2_63rhc"]
-[ext_resource type="AudioStream" uid="uid://cpx5vm41qo7wt" path="res://Board/UI/Tap2.ogg" id="3_3l3uf"]
+[ext_resource type="AudioStream" uid="uid://cpx5vm41qo7wt" path="res://Common/Tap2.ogg" id="3_3l3uf"]
 [ext_resource type="Texture2D" uid="uid://bfymb37jrpnl0" path="res://Board/Weapons/Dispenser/Dispenser.png" id="3_v6jtp"]
-[ext_resource type="AudioStream" uid="uid://v308ssvoiyn6" path="res://Board/UI/Tap.ogg" id="4_lre4i"]
+[ext_resource type="AudioStream" uid="uid://v308ssvoiyn6" path="res://Common/Tap.ogg" id="4_lre4i"]
 [ext_resource type="AudioStream" uid="uid://bw4g2i6epjp5j" path="res://Board/UI/CardPick.ogg" id="4_lykn3"]
 
 [sub_resource type="RectangleShape2D" id="3"]
-size = Vector2(65, 95)
+size = Vector2(58, 86)
 
 [sub_resource type="Gradient" id="Gradient_3fbjk"]
 offsets = PackedFloat32Array(0)
@@ -23,9 +23,9 @@ fill_to = Vector2(0, 0)
 [sub_resource type="LabelSettings" id="LabelSettings_xsf6d"]
 font_size = 13
 font_color = Color(0.929412, 0.929412, 0.929412, 1)
+shadow_color = Color(0, 0, 0, 0.372549)
 
 [node name="Card" type="Node2D" groups=["BoardUI", "Card"]]
-texture_filter = 1
 script = ExtResource("1_cacc0")
 pickAudio = ExtResource("4_lykn3")
 tapAudios = Array[AudioStream]([ExtResource("3_3l3uf"), ExtResource("4_lre4i")])
@@ -36,21 +36,23 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 visible = false
-position = Vector2(32.5, 47.5)
+position = Vector2(29, 43)
 shape = SubResource("3")
 
 [node name="Card" type="Sprite2D" parent="."]
+scale = Vector2(0.9, 0.9)
 texture = ExtResource("2_63rhc")
 centered = false
 
 [node name="Content" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(33, 48)
-scale = Vector2(0.586458, 0.586458)
+position = Vector2(29, 44)
+scale = Vector2(0.54, 0.54)
 texture = ExtResource("3_v6jtp")
 
 [node name="ShadowMask" type="Sprite2D" parent="."]
 visible = false
+scale = Vector2(0.90625, 0.895833)
 texture = SubResource("GradientTexture2D_ehxow")
 centered = false
 region_enabled = true
@@ -60,10 +62,10 @@ region_rect = Rect2(0, 0, 64, 96)
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 8.0
-offset_top = 74.0
-offset_right = 56.0
-offset_bottom = 97.0
+offset_left = 6.0
+offset_top = 66.0
+offset_right = 54.0
+offset_bottom = 89.0
 grow_vertical = 2
 text = "-1"
 label_settings = SubResource("LabelSettings_xsf6d")

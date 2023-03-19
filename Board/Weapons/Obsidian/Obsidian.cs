@@ -2,7 +2,7 @@ namespace MVE;
 
 public partial class Obsidian : Weapon
 {
-    protected Sprite2D breakStateSprite = null!;
+    protected Sprite2D breakStateSprite = default!;
 
     public override void _Ready()
     {

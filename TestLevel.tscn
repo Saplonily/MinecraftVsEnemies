@@ -1,23 +1,18 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1yhwata8c6wk"]
+[gd_scene load_steps=5 format=3 uid="uid://c1yhwata8c6wk"]
 
-[ext_resource type="AudioStream" uid="uid://cskje3hg2goac" path="res://Awooga.ogg" id="2_020jd"]
-[ext_resource type="PackedScene" uid="uid://dybr4mypcw41w" path="res://Board/UI/RedstoneDisplayer.tscn" id="2_a2x4e"]
-[ext_resource type="PackedScene" uid="uid://df74k33olyi04" path="res://Board/UI/Card.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bmki4fntj00a" path="res://Board/UI/BoardUI.tscn" id="3_t6j7e"]
 [ext_resource type="Script" path="res://Board/PlantingArea.cs" id="4_7bqpd"]
-[ext_resource type="PackedScene" uid="uid://bqf2xdjc1q2rg" path="res://Board/Board.tscn" id="5"]
-[ext_resource type="PackedScene" uid="uid://dbgh2i8juowu" path="res://Board/UI/Pickaxe.tscn" id="5_c7w7s"]
-[ext_resource type="PackedScene" uid="uid://wgbcgbjcnyb" path="res://Board/CardSelecting/SelectingUI.tscn" id="7_suotg"]
+[ext_resource type="PackedScene" uid="uid://chmiphfo7fvfq" path="res://Board/Board.tscn" id="5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dmonr"]
 size = Vector2(750, 375)
 
-[sub_resource type="LabelSettings" id="LabelSettings_to87y"]
-
 [node name="TestLevel" type="Node"]
+metadata/_edit_vertical_guides_ = [800.0]
+metadata/_edit_horizontal_guides_ = [600.0]
 
 [node name="Board" parent="." instance=ExtResource("5")]
 StartUpCmds = "set_redstone 100"
-awoogaAudio = ExtResource("2_020jd")
 
 [node name="LayerMain" parent="Board" index="0"]
 follow_viewport_enabled = true
@@ -25,43 +20,7 @@ follow_viewport_enabled = true
 [node name="ChapterGrasswalk" parent="Board/LayerMain" index="0"]
 metadata/_edit_lock_ = true
 
-[node name="BoardUI" type="Node2D" parent="Board/LayerMain" index="1"]
-position = Vector2(55, 0)
-
-[node name="RedstoneDisplayer" parent="Board/LayerMain/BoardUI" instance=ExtResource("2_a2x4e")]
-
-[node name="Card" parent="Board/LayerMain/BoardUI" instance=ExtResource("4")]
-position = Vector2(65, 0)
-WeaponPropertyId = 1
-
-[node name="Card2" parent="Board/LayerMain/BoardUI" instance=ExtResource("4")]
-position = Vector2(193, 0)
-WeaponPropertyId = 2
-
-[node name="Card3" parent="Board/LayerMain/BoardUI" instance=ExtResource("4")]
-position = Vector2(129, 0)
-WeaponPropertyId = 2
-
-[node name="Card4" parent="Board/LayerMain/BoardUI" instance=ExtResource("4")]
-position = Vector2(255, 0)
-WeaponPropertyId = 1
-
-[node name="Card5" parent="Board/LayerMain/BoardUI" instance=ExtResource("4")]
-position = Vector2(315, 0)
-WeaponPropertyId = 0
-
-[node name="Card6" parent="Board/LayerMain/BoardUI" instance=ExtResource("4")]
-position = Vector2(375, 0)
-WeaponPropertyId = 2
-
-[node name="Card7" parent="Board/LayerMain/BoardUI" instance=ExtResource("4")]
-position = Vector2(435, 0)
-WeaponPropertyId = 2
-
-[node name="Pickaxe" parent="Board/LayerMain/BoardUI" instance=ExtResource("5_c7w7s")]
-position = Vector2(670, 0)
-
-[node name="Lawn" parent="Board/LayerMain" index="2"]
+[node name="Lawn" parent="Board/LayerMain" index="1"]
 Rows = 6
 Column = 10
 metadata/_edit_lock_ = true
@@ -76,51 +35,11 @@ PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)
 position = Vector2(375, 187.5)
 shape = SubResource("RectangleShape2D_dmonr")
 
-[node name="LayerPicking" parent="Board" index="1"]
-layer = 2
-follow_viewport_enabled = true
+[node name="Label" parent="Board/LayerOverlay" index="1"]
+offset_top = 440.0
+offset_right = 240.0
+text = "debug text here"
 
-[node name="Picking" parent="Board/LayerPicking" index="0"]
-metadata/_edit_lock_ = true
-
-[node name="ControlOverlay" parent="Board/LayerPicking" index="1"]
-offset_bottom = 0.0
-
-[node name="Label" parent="Board/LayerPicking" index="2"]
-offset_left = 55.0
-offset_top = 350.0
-offset_right = 350.0
-offset_bottom = 600.0
-text = "debug text"
-label_settings = SubResource("LabelSettings_to87y")
-vertical_alignment = 2
-metadata/_edit_lock_ = true
-
-[node name="SelectingUI" parent="Board/LayerPicking" index="3" instance=ExtResource("7_suotg")]
-position = Vector2(640, 0)
-
-[node name="SelectedCards" parent="Board/LayerPicking/SelectingUI/SelectedCardsUI" index="1"]
-skew = 0.488692
-
-[node name="CardForSelecting2" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="1"]
-WeaponPropertyInitId = 1
-
-[node name="CardForSelecting3" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="2"]
-WeaponPropertyInitId = 2
-
-[node name="CardForSelecting4" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="3"]
-WeaponPropertyInitId = 2
-
-[node name="CardForSelecting5" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="4"]
-WeaponPropertyInitId = 1
-
-[node name="CardForSelecting6" parent="Board/LayerPicking/SelectingUI/ForSelectingUI/CardsForSelecting" index="5"]
-WeaponPropertyInitId = 1
-
-[node name="Camera2D" type="Camera2D" parent="Board"]
-position = Vector2(640, 0)
-anchor_mode = 0
-ignore_rotation = false
+[node name="BoardUI" parent="Board/LayerOverlay" index="3" instance=ExtResource("3_t6j7e")]
 
 [editable path="Board"]
-[editable path="Board/LayerPicking/SelectingUI"]

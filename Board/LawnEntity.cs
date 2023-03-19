@@ -8,12 +8,12 @@ namespace MVE;
 [DebuggerDisplay("{GetType().Name,nq}, {LevelPos}")]
 public abstract partial class LawnEntity : BoardEntity
 {
-    protected Sprite2D shadowSprite = null!;
+    protected Sprite2D shadowSprite = default!;
 
     protected Vector2 shadowSpriteOffset;
     protected Vector3 velocity;
 
-    public Lawn Lawn { get; protected set; } = null!;
+    public Lawn Lawn { get; protected set; } = default!;
 
     public ref Vector3 Velocity => ref velocity;
 

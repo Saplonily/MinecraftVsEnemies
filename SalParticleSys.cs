@@ -48,13 +48,13 @@ public partial class SalParticleSys : Node2D
     #region Appearance
 
     [Export, ExportGroup("Appearance", "Particle")]
-    public Godot.Collections.Array<Texture2D> ParticleTexture { get; set; } = null!;
+    public Godot.Collections.Array<Texture2D> ParticleTexture { get; set; } = default!;
 
     [Export(PropertyHint.Link)]
     public Vector2 ParticleTextureOrginal { get; set; }
 
     [Export]
-    public Gradient ParticleGradient { get; set; } = null!;
+    public Gradient ParticleGradient { get; set; } = default!;
 
     #endregion
 
@@ -64,7 +64,7 @@ public partial class SalParticleSys : Node2D
     public bool ParticleEnableCollision { get; set; }
 
     [Export]
-    public Shape2D ParticleSelfShape { get; set; } = null!;
+    public Shape2D ParticleSelfShape { get; set; } = default!;
 
     [Export]
     public Transform2D ParticleSelfShapeTransform { get; set; }
@@ -73,10 +73,10 @@ public partial class SalParticleSys : Node2D
     public float ParticleBounceRadio { get; set; } = 2f;
 
     [Export]
-    public Godot.Collections.Array<Shape2D> ParticleCollideShapeWiths { get; set; } = null!;
+    public Godot.Collections.Array<Shape2D> ParticleCollideShapeWiths { get; set; } = default!;
 
     [Export]
-    public Godot.Collections.Array<Transform2D> ParticleCollideShapeWithsTransforms { get; set; } = null!;
+    public Godot.Collections.Array<Transform2D> ParticleCollideShapeWithsTransforms { get; set; } = default!;
 
     #endregion
 

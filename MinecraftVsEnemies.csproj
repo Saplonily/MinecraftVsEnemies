@@ -19,6 +19,6 @@
 	<PropertyGroup>
 		<StartAction>Program</StartAction>
 		<StartProgram>D:\MyGodotSpace\4.0\Godot_v4.0-stable_mono_win64.exe</StartProgram>
-		<StartArguments>--path D:\Projects\MinecraftVsEnemies</StartArguments>
+		<StartArguments>--verbose --path D:\Projects\MinecraftVsEnemies</StartArguments>
 	</PropertyGroup>
 </Project>

@@ -10,7 +10,7 @@ public record SalAudioConfig(
 
 public partial class SalAudioPool : Node
 {
-    public static SalAudioPool Instance { get; protected set; } = null!;
+    public static SalAudioPool Instance { get; protected set; } = default!;
 
     public SalAudioPool()
     {

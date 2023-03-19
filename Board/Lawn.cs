@@ -4,12 +4,12 @@ namespace MVE;
 
 public partial class Lawn : Node2D
 {
-    protected Board board = null!;
+    protected Board board = default!;
     protected bool levelEntitiesSortDirty = false;
 
     [Export] public int Rows { get; set; } = 5;
     [Export] public int Column { get; set; } = 9;
-    public PlantingArea PlantingArea { get; protected set; } = null!;
+    public PlantingArea PlantingArea { get; protected set; } = default!;
 
     public override void _Ready()
     {

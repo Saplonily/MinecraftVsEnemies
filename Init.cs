@@ -4,7 +4,7 @@ namespace MVE;
 
 public partial class Init : Node
 {
-    [Export] protected PackedScene initGotoScene = null!;
+    [Export] protected PackedScene initGotoScene = default!;
 
     public override void _Ready()
     {

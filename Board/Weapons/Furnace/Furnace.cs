@@ -6,10 +6,10 @@ public partial class Furnace : Weapon
 {
     public static readonly PackedScene RedstoneScene = GD.Load<PackedScene>("res://Board/Drop/Redstone.tscn");
 
-    protected SalParticleSys flameSalPSys = null!;
-    protected SalParticleSys flame2SalPSys = null!;
-    protected Godot.Timer flameTimer = null!;
-    protected Godot.Timer produceTimer = null!;
+    protected SalParticleSys flameSalPSys = default!;
+    protected SalParticleSys flame2SalPSys = default!;
+    protected Godot.Timer flameTimer = default!;
+    protected Godot.Timer produceTimer = default!;
 
     public override void _Ready()
     {

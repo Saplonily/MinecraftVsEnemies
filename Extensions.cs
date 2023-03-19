@@ -44,13 +44,24 @@ public static class Extensions
         return node;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Switch2DParent(this Node2D node2d, Node2D newParent)
     {
-        node2d.Transform = node2d.GetGlobalTransformWithCanvas() * Transform2D.Identity;
+        node2d.Transform = node2d.GetGlobalTransformWithCanvas();
         var parent = node2d.GetParent();
         parent.RemoveChild(node2d);
         newParent.AddChild(node2d);
         node2d.Transform = newParent.GetGlobalTransformWithCanvas().AffineInverse() * node2d.Transform;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Switch2DParent(this Node2D node2d, CanvasLayer newParent)
+    {
+        node2d.Transform = node2d.GetGlobalTransformWithCanvas();
+        var parent = node2d.GetParent();
+        parent.RemoveChild(node2d);
+        newParent.AddChild(node2d);
+        node2d.Transform = newParent.GetFinalTransform().AffineInverse() * node2d.Transform;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -73,15 +84,29 @@ public static class Extensions
     }
 
     /// <summary>
+    /// 将给定的<paramref name="from"/>的坐标<paramref name="position"/>转换为<paramref name="to"/>视角的坐标
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 SwitchTransform(Node2D from, CanvasLayer to, Vector2 position)
+    {
+        Vector2 pos = from.GetGlobalTransformWithCanvas() * position;
+        pos = to.GetFinalTransform().AffineInverse() * pos;
+        return pos;
+    }
+
+    /// <summary>
+    /// 将给定的<paramref name="from"/>的坐标<paramref name="position"/>转换为<paramref name="to"/>视角的坐标
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 SwitchTransform(Node2D from, CanvasLayer to)
+        => SwitchTransform(from, to, Vector2.Zero);
+
+    /// <summary>
     /// 将给定的<paramref name="from"/>的坐标转换为<paramref name="to"/>视角的坐标
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 SwitchTransform(Node2D from, Node2D to)
-    {
-        Vector2 pos = from.GetGlobalTransformWithCanvas() * Vector2.Zero;
-        pos = to.GetGlobalTransformWithCanvas().AffineInverse() * pos;
-        return pos;
-    }
+        => SwitchTransform(from, to, Vector2.Zero);
 
     #endregion
 

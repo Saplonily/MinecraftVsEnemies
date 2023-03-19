@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dsm32grc4bhdm"]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://Board/Weapons/Furnace/Furnace.cs" id="1_83cm5"]
 [ext_resource type="Texture2D" uid="uid://c8wgcfvj55mah" path="res://Board/Weapons/Furnace/Furnace.png" id="1_ysy1d"]

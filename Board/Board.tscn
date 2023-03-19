@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqf2xdjc1q2rg"]
+[gd_scene load_steps=12 format=3 uid="uid://chmiphfo7fvfq"]
 
 [ext_resource type="Script" path="res://Board/Board.cs" id="1"]
 [ext_resource type="Script" path="res://Board/Lawn.cs" id="2"]
@@ -6,7 +6,10 @@
 [ext_resource type="AudioStream" uid="uid://ixu4wmfk2lre" path="res://Board/Weapons/Sounds/Stone1.ogg" id="4_16c0y"]
 [ext_resource type="AudioStream" uid="uid://dilqy3yo0ro3o" path="res://Board/Weapons/Sounds/Stone2.ogg" id="5_u554h"]
 [ext_resource type="AudioStream" uid="uid://bf5xqph8ctymc" path="res://Board/Weapons/Sounds/Stone3.ogg" id="6_1se0y"]
+[ext_resource type="PackedScene" uid="uid://25lc0momhxby" path="res://Board/UI/Card.tscn" id="6_3lrlr"]
+[ext_resource type="AudioStream" uid="uid://cskje3hg2goac" path="res://Common/Awooga.ogg" id="6_7cblf"]
 [ext_resource type="AudioStream" uid="uid://dtxe0ebmrpw1v" path="res://Board/Weapons/Sounds/Stone4.ogg" id="7_33uif"]
+[ext_resource type="PackedScene" uid="uid://wgbcgbjcnyb" path="res://Board/CardSelecting/SelectingUI.tscn" id="8_nhxlh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2u03"]
 size = Vector2(750, 375)
@@ -14,6 +17,11 @@ size = Vector2(750, 375)
 [node name="Board" type="Node"]
 script = ExtResource("1")
 audioStones = Array[AudioStream]([ExtResource("4_16c0y"), ExtResource("5_u554h"), ExtResource("6_1se0y"), ExtResource("7_33uif")])
+cardScene = ExtResource("6_3lrlr")
+awoogaAudio = ExtResource("6_7cblf")
+selectingUIScene = ExtResource("8_nhxlh")
+cameraBoardPos = Vector2(55, 0)
+cameraCardSelectingPos = Vector2(600, 0)
 
 [node name="LayerMain" type="CanvasLayer" parent="."]
 
@@ -34,28 +42,17 @@ collision_mask = 0
 position = Vector2(595, 340)
 shape = SubResource("RectangleShape2D_j2u03")
 
-[node name="LayerPicking" type="CanvasLayer" parent="."]
+[node name="LayerOverlay" type="CanvasLayer" parent="."]
 
-[node name="Picking" type="Sprite2D" parent="LayerPicking"]
+[node name="Picking" type="Sprite2D" parent="LayerOverlay"]
 texture_filter = 1
 
-[node name="ControlOverlay" type="Control" parent="LayerPicking"]
-texture_filter = 1
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -48.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-metadata/_edit_lock_ = true
+[node name="Label" type="Label" parent="LayerOverlay"]
+offset_top = 455.0
+offset_right = 260.0
+offset_bottom = 600.0
+vertical_alignment = 2
 
-[node name="Label" type="Label" parent="LayerPicking"]
-offset_left = 225.0
-offset_top = 100.0
-offset_right = 375.0
-offset_bottom = 180.0
-
-[node name="SpawnerTimer" type="Timer" parent="."]
-wait_time = 20.0
+[node name="Camera2D" type="Camera2D" parent="LayerOverlay"]
+anchor_mode = 0
+ignore_rotation = false

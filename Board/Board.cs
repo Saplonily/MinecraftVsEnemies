@@ -1,27 +1,30 @@
 using System.Diagnostics;
-using System.Text;
 using NullLib.CommandLine;
 
 namespace MVE;
 
 public partial class Board : Node
 {
-    protected Sprite2D pickingSprite = null!;
-    protected Control controlOverlay = null!;
-    protected RedstoneDisplayer redstoneDisplayer = null!;
-    protected Label debugLabel = null!;
+    protected Sprite2D pickingSprite = default!;
+    protected RedstoneDisplayer redstoneDisplayer = default!;
+    protected Label debugLabel = default!;
+    protected BoardUIManager boardUIManager = default!;
+    protected Camera2D camera = default!;
+    protected CanvasLayer layerOverlay = default!;
+    protected CanvasLayer layerMain = default!;
+    protected DisplayServer.CursorShape preExpectedCursorShape;
 
     protected PickingType picking;
 
     public readonly Vector3 Gravity = new(0, 0, -1000);
 
     [Export(PropertyHint.MultilineText)]
-    public string StartUpCmds { get; set; } = null!;
-    public CommandObject<MiscCmd> Command { get; set; } = null!;
+    public string StartUpCmds { get; set; } = default!;
+    public CommandObject<MiscCmd> Command { get; set; } = default!;
     public Node? PickedNode { get; set; }
     public PickingType Picking { get => picking; }
-    public Lawn Lawn { get; protected set; } = null!;
-    public Control.CursorShape ExpectCursorShape { get; set; }
+    public Lawn Lawn { get; protected set; } = default!;
+    public DisplayServer.CursorShape ExpectCursorShape { get; set; }
     public BoardBank Bank { get; protected set; }
     public Random Random { get; set; }
     public int ShadowZIndex => -1;
@@ -37,11 +40,14 @@ public partial class Board : Node
 
     public override void _Ready()
     {
-        base._Ready();
-        pickingSprite = GetNode<Sprite2D>("LayerPicking/Picking");
-        controlOverlay = GetNode<Control>("LayerPicking/ControlOverlay");
-        redstoneDisplayer = GetNode<RedstoneDisplayer>("LayerMain/BoardUI/RedstoneDisplayer");
-        debugLabel = GetNode<Label>("LayerPicking/Label");
+        camera = GetNode<Camera2D>("LayerOverlay/Camera2D");
+        layerMain = GetNode<CanvasLayer>("LayerMain");
+        debugLabel = GetNode<Label>("LayerOverlay/Label");
+        layerOverlay = GetNode<CanvasLayer>("LayerOverlay");
+        pickingSprite = GetNode<Sprite2D>("LayerOverlay/Picking");
+        boardUIManager = GetNode<BoardUIManager>("LayerOverlay/BoardUI");
+        redstoneDisplayer = boardUIManager.RedstoneDisplayer;
+
         InitAudios();
         InitSpawner();
 
@@ -62,7 +68,6 @@ public partial class Board : Node
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
         Input.MouseMode = Input.MouseModeEnum.Visible;
 
         if (picking is not PickingType.Idle && PickedNode is not null)
@@ -70,9 +75,11 @@ public partial class Board : Node
             pickingSprite.Position = pickingSprite.GetGlobalMousePosition();
             Input.MouseMode = Input.MouseModeEnum.Hidden;
         }
-
-        controlOverlay.MouseDefaultCursorShape = ExpectCursorShape;
-        ExpectCursorShape = Control.CursorShape.Arrow;
+        if (preExpectedCursorShape != ExpectCursorShape)
+        {
+            DisplayServer.CursorSetShape(ExpectCursorShape);
+        }
+        ExpectCursorShape = DisplayServer.CursorShape.Arrow;
 
         UpdateSpawner(delta);
 
@@ -82,8 +89,7 @@ public partial class Board : Node
             $"Bullet count: {tree.GetNodesInGroup("Bullet").Count}\n" +
             $"Current wave: {CurrentWave}/{LevelData.TotalWaves}\n" +
             $"fps: {Engine.GetFramesPerSecond()}\n" +
-            $"Wave timer: {spawnerTimer.TimeLeft:F2}";
-
+            $"Wave timer: {sceneTreeTimer?.TimeLeft:F2}";
     }
 
     [Conditional("DEBUG")]
@@ -103,7 +109,8 @@ public partial class Board : Node
 
             if (key.Keycode == Key.N)
             {
-                SpawnerTimerTimeout();
+                if (sceneTreeTimer is not null)
+                    sceneTreeTimer.TimeLeft = 0d;
             }
 
             if (key.Keycode == Key.H)
@@ -123,7 +130,6 @@ public partial class Board : Node
 
     public override void _Input(InputEvent ie)
     {
-        base._Input(ie);
         HandleDebugInputs(ie);
         if (ie is InputEventMouseButton mouseButton)
         {
@@ -174,7 +180,7 @@ public partial class Board : Node
 
     public Vector2 GetRedstoneDisplayerSlotPos()
     {
-        return redstoneDisplayer.Position + redstoneDisplayer.RedstoneOffset;
+        return Extensions.SwitchTransform(redstoneDisplayer, boardUIManager, redstoneDisplayer.RedstoneOffset);
     }
 }
 

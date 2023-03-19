@@ -1,56 +1,117 @@
-using System.Collections.Immutable;
 using MVE.SalExt;
 
 namespace MVE;
 
 public partial class Board : Node
 {
-    [Export] protected AudioStream awoogaAudio = null!;
-    protected AudioStreamPlayer awoogaAudioPlayer = null!;
-    protected Timer spawnerTimer = null!;
-    
+    [Export] protected PackedScene cardScene = default!;
+    [Export] protected AudioStream awoogaAudio = default!;
+    [Export] protected PackedScene selectingUIScene = default!;
+    [Export] protected Vector2 cameraStartPos;
+    [Export] protected Vector2 cameraBoardPos;
+    [Export] protected Vector2 cameraCardSelectingPos;
+    protected AudioStreamPlayer awoogaAudioPlayer = default!;
+    protected SceneTreeTimer? sceneTreeTimer;
+
+    protected Action<double> updater = default!;
 
     protected int[] rowWeights = new int[5];
 
     public int CurrentWave { get; protected set; }
-    public LevelData LevelData { get; set; } = null!;
+    public LevelData LevelData { get; set; } = default!;
     public bool SpawnerBeginningReadyed { get; protected set; } = false;
 
     public void InitSpawner()
     {
-        spawnerTimer = GetNode<Timer>("SpawnerTimer");
         awoogaAudioPlayer = SalAudioPool.GetPlayer(new(awoogaAudio, Bus: "Board"));
 
-        spawnerTimer.WaitTime = 50;
-        spawnerTimer.Timeout += SpawnerTimerTimeout;
-
         CurrentWave = 0;
+        LevelCoroutine();
     }
 
-    public void SpawnerTimerTimeout()
+    //TODO 重构为可保存的状态机
+    public async void LevelCoroutine()
     {
-        if (!SpawnerBeginningReadyed)
+        boardUIManager.PlayHideAnimation();
+        //开场等待
+        await ToSignal(GetTree().CreateTimer(1d), SceneTreeTimer.SignalName.Timeout);
+
+        //开场移动到最右边
+        camera.Position = cameraStartPos;
+        var cameraTween = camera.CreateTween();
+        cameraTween.SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Cubic);
+        cameraTween.TweenProperty(camera, "position", cameraCardSelectingPos, 1d);
+        await ToSignal(cameraTween, Tween.SignalName.Finished);
+
+        //放置选卡ui
+        var ui = selectingUIScene.Instantiate<SelectingUI>();
+        layerOverlay.AddChild(ui);
+        ui.StartAppearAnimation();
+        await ToSignal(ui, SelectingUI.SignalName.CardSelectingFinished);
+
+        //选卡结束, 制作选好的卡到boardUI的动画
+        var cardTween = CreateTween()
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetParallel();
+        var selectedCards = ui.SelectedCardsNode2D.GetChildren().OfType<CardForSelecting>();
+        foreach (var c in selectedCards)
         {
-            SpawnerBeginningReadyed = true;
-            awoogaAudioPlayer.Play();
+            Vector2 targetPos = Extensions.SwitchTransform(ui, boardUIManager, c.Position) + boardUIManager.CardsLayoutStartPos;
+            cardTween.TweenProperty(c, "position", targetPos, 0.5);
+            c.Switch2DParent(boardUIManager);
         }
-        spawnerTimer.WaitTime = Random.NextDouble(10, 14);
-        spawnerTimer.Start();
+
+        //移动到版面
+        var cameraTween2 = camera.CreateTween();
+        cameraTween2.SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
+        cameraTween2.TweenProperty(camera, "position", cameraBoardPos, 1d);
+        await ToSignal(cameraTween2, Tween.SignalName.Finished);
+
+        //显示除卡以外的其他ui
+        boardUIManager.PlayDisplayAnimation();
+
+        //销毁所有的ForSelecting的Card并生成并赋值真正的Card
+        foreach (var c in selectedCards)
+        {
+            Vector2 pos = c.Position;
+            var s = cardScene.Instantiate<Card>();
+            s.Position = pos;
+            s.WeaponPropertyId = c.WeaponPropertyId;
+            boardUIManager.AddChild(s);
+            c.Free();
+        }
+
+        //切换ui显示模式
+        boardUIManager.Switch2DParent(layerMain);
+        layerMain.MoveChild(boardUIManager, -1);
+
+        //刷怪开始
+        updater = _ =>
+        {
+            var count = GetTree().GetNodesInGroup("Enemy").Count;
+            if (count == 0 && SpawnerBeginningReadyed)
+            {
+                sceneTreeTimer!.TimeLeft = Math.Clamp(sceneTreeTimer!.TimeLeft, 0d, 0.75d);
+            }
+        };
+        SpawnerBeginningReadyed = false;
+        sceneTreeTimer = GetTree().CreateTimer(50d);
+        await ToSignal(sceneTreeTimer, SceneTreeTimer.SignalName.Timeout);
+        SpawnerBeginningReadyed = true;
+        awoogaAudioPlayer.Play();
         NextWave();
+        while (true)
+        {
+            sceneTreeTimer = GetTree().CreateTimer(Random.NextDouble(10, 14));
+            await ToSignal(sceneTreeTimer, SceneTreeTimer.SignalName.Timeout);
+            NextWave();
+        }
     }
 
     public void UpdateSpawner(double delta)
-    {
-        var count = GetTree().GetNodesInGroup("Enemy").Count;
-        if (count == 0 && SpawnerBeginningReadyed)
-        {
-            if (spawnerTimer.TimeLeft >= 0.75d)
-            {
-                spawnerTimer.WaitTime = 0.75d;
-                spawnerTimer.Start();
-            }
-        }
-    }
+        => updater?.Invoke(delta);
 
     public void NextWave()
     {

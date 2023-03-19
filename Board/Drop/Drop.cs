@@ -4,7 +4,7 @@ public partial class Drop : LawnEntity
 {
     protected bool mouseIn = false;
     protected bool picked = false;
-    protected Area2D hitBox = null!;
+    protected Area2D hitBox = default!;
 
     public override void _Ready()
     {

@@ -5,20 +5,20 @@ namespace MVE;
 
 public partial class Card : BoardUI, IBoardUIPickable
 {
-    [Export] protected AudioStream pickAudio = null!;
-    protected AudioStreamPlayer pickAudioPlayer = null!;
-    [Export] protected Godot.Collections.Array<AudioStream> tapAudios = null!;
-    protected Chooser<AudioStreamPlayer> tapAudiosPlayerChooser = null!;
+    [Export] protected AudioStream pickAudio = default!;
+    protected AudioStreamPlayer pickAudioPlayer = default!;
+    [Export] protected Godot.Collections.Array<AudioStream> tapAudios = default!;
+    protected Chooser<AudioStreamPlayer> tapAudiosPlayerChooser = default!;
 
-    protected Sprite2D cardSprite = null!;
-    protected Sprite2D contentSprite = null!;
-    protected Sprite2D shadowMask = null!;
-    protected Area2D area = null!;
-    protected Label costLabel = null!;
+    protected Sprite2D cardSprite = default!;
+    protected Sprite2D contentSprite = default!;
+    protected Sprite2D shadowMask = default!;
+    protected Area2D area = default!;
+    protected Label costLabel = default!;
 
 
-    protected PickShownConfig pickShownConfig = null!;
-    protected StateMachine<CardState> stateMachine = null!;
+    protected PickShownConfig pickShownConfig = default!;
+    protected StateMachine<CardState> stateMachine = default!;
     protected bool mouseIn = false;
 
     [Export]
@@ -31,7 +31,7 @@ public partial class Card : BoardUI, IBoardUIPickable
 
     public double CooldownStep { get; protected set; } = 1.0 / 100.0;
 
-    public WeaponProperty WeaponProperty { get; protected set; } = null!;
+    public WeaponProperty WeaponProperty { get; protected set; } = default!;
 
     public override void _Ready()
     {
@@ -69,7 +69,7 @@ public partial class Card : BoardUI, IBoardUIPickable
             Texture = contentSprite.Texture,
             Transform = Transform2D.Identity
         };
-        tapAudiosPlayerChooser = tapAudios.GetChooser(new(null!, Bus: "Board"));
+        tapAudiosPlayerChooser = tapAudios.GetChooser(new(default!, Bus: "Board"));
     }
 
     protected void PickedEnter(CardState s)

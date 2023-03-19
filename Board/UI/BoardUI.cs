@@ -2,7 +2,7 @@
 
 public partial class BoardUI : Node2D
 {
-    public Board Board { get; protected set; } = null!;
+    public Board Board { get; protected set; } = default!;
 
     public override void _Ready()
     {

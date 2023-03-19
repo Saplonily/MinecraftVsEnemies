@@ -2,7 +2,7 @@ namespace MVE;
 
 public abstract partial class Enemy : LawnEntity
 {
-    protected Area2D hitBox = null!;
+    protected Area2D hitBox = default!;
     protected bool enableHpLock = true;
 
     public event Action<Enemy>? Dead;

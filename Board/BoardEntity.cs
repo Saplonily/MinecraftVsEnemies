@@ -11,7 +11,7 @@ public abstract partial class BoardEntity : Node2D
 
     public ref Vector3 LevelPos => ref levelPos;
 
-    public Board Board { get; protected set; } = null!;
+    public Board Board { get; protected set; } = default!;
 
     public override void _Ready()
     {

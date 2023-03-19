@@ -20,17 +20,17 @@ public record struct ZombieAttackInfo(Weapon? Attacking)
 
 public partial class Zombie : Enemy
 {
-    [Export] protected Godot.Collections.Array<AudioStream> beHitAudios = null!;
-    protected Chooser<AudioStreamPlayer> beHitAudioPlayerChooser = null!;
-    [Export] protected AudioStream deathAudio = null!;
-    protected AudioStreamPlayer deathAudioPlayer = null!;
-    protected AnimationTree animationTree = null!;
-    protected AnimationNodeStateMachinePlayback mainAtSmPlayBack = null!;
-    protected SalParticleSys deathParticleSys = null!;
+    [Export] protected Godot.Collections.Array<AudioStream> beHitAudios = default!;
+    protected Chooser<AudioStreamPlayer> beHitAudioPlayerChooser = default!;
+    [Export] protected AudioStream deathAudio = default!;
+    protected AudioStreamPlayer deathAudioPlayer = default!;
+    protected AnimationTree animationTree = default!;
+    protected AnimationNodeStateMachinePlayback mainAtSmPlayBack = default!;
+    protected SalParticleSys deathParticleSys = default!;
 
     protected ZombieAttackInfo attackInfo;
 
-    protected StateMachine<ZombieState> stateMachine = null!;
+    protected StateMachine<ZombieState> stateMachine = default!;
 
     public Vector3 WalkingDirection { get; protected set; } = new(-1.0f, 0.0f, 0.0f);
     public float WalkingSpeed { get; protected set; } = 20.0f;
@@ -41,7 +41,7 @@ public partial class Zombie : Enemy
         animationTree = GetNode<AnimationTree>("AnimationTree");
         mainAtSmPlayBack = animationTree.Get("parameters/MainStateMachine/playback").As<AnimationNodeStateMachinePlayback>();
         deathParticleSys = GetNode<SalParticleSys>("DeathParticle");
-        beHitAudioPlayerChooser = beHitAudios.GetChooser(new(null!, Bus: "Board"));
+        beHitAudioPlayerChooser = beHitAudios.GetChooser(new(default!, Bus: "Board"));
         deathAudioPlayer = SalAudioPool.GetPlayer(new(deathAudio, Bus: "Board"));
 
         RemoveChild(deathParticleSys);

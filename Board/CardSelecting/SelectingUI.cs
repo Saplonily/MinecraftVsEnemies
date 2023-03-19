@@ -7,18 +7,47 @@ namespace MVE;
 public partial class SelectingUI : Node2D
 {
     public const float CardWidth = 64 * 0.9f;
-    public Node2D SelectedCardsNode2D = null!;
-    protected Tween cardCancelMovingTween = null!;
-    protected Node2D forSelectingCardsNode2D = null!;
+
+    public Node2D SelectedCardsNode2D = default!;
+    protected Tween cardCancelMovingTween = default!;
+    protected Node2D forSelectingCardsNode2D = default!;
+    protected AnimationPlayer animationPlayer = default!;
+    protected Button startButton = default!;
 
     public List<(CardForSelecting card, Vector2 position)> SelectedCards { get; protected set; } = new();
     public int SelectedCount => SelectedCards.Count;
 
+    [Signal] public delegate void CardSelectingFinishedEventHandler(SelectingUI self);
 
     public override void _Ready()
     {
         SelectedCardsNode2D = GetNode<Node2D>("SelectedCardsUI/SelectedCards");
         forSelectingCardsNode2D = GetNode<Node2D>("ForSelectingUI/CardsForSelecting");
+        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        startButton = GetNode<Button>("ForSelectingUI/StartButton");
+        startButton.Pressed += this.StartButton_Pressed;
+
+        Modulate = Modulate with { A = 0 };
+    }
+
+    protected async void StartButton_Pressed()
+    {
+        EmitSignal(SignalName.CardSelectingFinished, this);
+        animationPlayer.Play("Disappear");
+        Variant[] args;
+        do
+        {
+            args = await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+            if (args[0].AsStringName() == "Disappear")
+                break;
+        }
+        while (true);
+        QueueFree();
+    }
+
+    public void StartAppearAnimation()
+    {
+        animationPlayer.Play("Appear");
     }
 
     /// <summary>

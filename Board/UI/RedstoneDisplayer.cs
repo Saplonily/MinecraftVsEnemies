@@ -2,7 +2,7 @@
 
 public partial class RedstoneDisplayer : BoardUI
 {
-    protected Label amountLabel = null!;
+    protected Label amountLabel = default!;
 
     public Vector2 RedstoneOffset { get; set; }
 

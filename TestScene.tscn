@@ -1,10 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://wb55ly422djp"]
 
-[ext_resource type="PackedScene" uid="uid://tjlbo1s2y4sw" path="res://Board/Choosing/ChoosingUI.tscn" id="1_a5cqm"]
+[ext_resource type="PackedScene" uid="uid://wgbcgbjcnyb" path="res://Board/CardSelecting/SelectingUI.tscn" id="1_a5cqm"]
 
 [node name="Control" instance=ExtResource("1_a5cqm")]
-offset_left = 5.0
-offset_top = 125.0
-offset_right = 5.0
-offset_bottom = 125.0
 metadata/_edit_group_ = true
