@@ -1,10 +1,7 @@
-global using FileAccess = System.IO.FileAccess;
 global using GodotFileAccess = Godot.FileAccess;
 global using Timer = Godot.Timer;
-global using SysTimer = System.Threading.Timer;
-
-using MVE.SalExt;
 using System.Runtime.CompilerServices;
+using MVE.SalExt;
 
 namespace MVE;
 

@@ -1,5 +1,3 @@
-using static MVE.Game;
-
 namespace MVE;
 
 public partial class Lawn : Node2D

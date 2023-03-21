@@ -1,6 +1,4 @@
-﻿using Godot;
-
-namespace MVE;
+﻿namespace MVE;
 
 public record struct PlantHintBox(bool Enabled, Rect2 LocalRegion, Color Color)
 {

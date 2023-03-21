@@ -1,7 +1,4 @@
-using Godot;
 using Microsoft.Extensions.ObjectPool;
-using System;
-using System.Runtime.InteropServices;
 
 namespace Saladim.GodotParticle;
 
@@ -235,7 +232,7 @@ public partial class SalParticleSys : Node2D
                     points = ParticleSelfShape.CollideWithMotionAndGetContacts(
                         trans,
                         moveV,
-                        shape, 
+                        shape,
                         ParticleCollideShapeWithsTransforms[index],
                         Vector2.Zero
                         );

@@ -2,10 +2,10 @@
 
 public static class InputNames
 {
-    public readonly static StringName PickCard = "pick_card";
-    public readonly static StringName PickDrop = "pick_drop";
-    public readonly static StringName DebugPlace = "debug_place";
-    public readonly static StringName Plant = "plant";
-    public readonly static StringName PickPickaxe = "pick_pickaxe";
-    public readonly static StringName UsePickaxe = "use_pickaxe";
+    public static readonly StringName PickCard = "pick_card";
+    public static readonly StringName PickDrop = "pick_drop";
+    public static readonly StringName DebugPlace = "debug_place";
+    public static readonly StringName Plant = "plant";
+    public static readonly StringName PickPickaxe = "pick_pickaxe";
+    public static readonly StringName UsePickaxe = "use_pickaxe";
 }

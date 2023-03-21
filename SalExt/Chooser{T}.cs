@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-
-namespace MVE.SalExt;
+﻿namespace MVE.SalExt;
 
 public class Chooser<T>
 {

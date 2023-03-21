@@ -48,9 +48,9 @@ public abstract partial class Weapon : LawnEntity
         if (from is PickingType.Pickaxe && to is not PickingType.Pickaxe)
             RestoreLight();
     }
-    protected void RestoreLight() 
+    protected void RestoreLight()
         => (sprite.Modulate, onPickingLighted) = (sprite.Modulate / 1.5f, false);
-    protected void MakeLight() 
+    protected void MakeLight()
         => (sprite.Modulate, onPickingLighted) = (sprite.Modulate * 1.5f, true);
 
     protected void HitBoxArea_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
