@@ -1,3 +1,4 @@
+using Godot.Bridge;
 using MVE.SalExt;
 
 namespace MVE;
@@ -7,6 +8,7 @@ public partial class Redstone : Drop
     [Export] protected AudioStream pickAudio = default!;
     protected AudioStreamPlayer pickAudioPlayer = default!;
     protected Sprite2D sprite = default!;
+    protected SceneTreeTimer disappearTimer = default!;
 
     public double Value { get => 25; }
 
@@ -15,6 +17,7 @@ public partial class Redstone : Drop
         base._Ready();
         sprite = GetNode<Sprite2D>("Redstone");
         pickAudioPlayer = SalAudioPool.GetPlayer(new(pickAudio, Bus: "Board"));
+        disappearTimer = GetTree().CreateTimer(10);
     }
 
     public override void OnPicking()
