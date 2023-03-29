@@ -13,12 +13,10 @@ metadata/_edit_horizontal_guides_ = [600.0]
 
 [node name="Board" parent="." instance=ExtResource("5")]
 StartUpCmds = "set_redstone 100"
+cameraBoardPos = Vector2(100, 0)
 
 [node name="LayerMain" parent="Board" index="0"]
 follow_viewport_enabled = true
-
-[node name="ChapterGrasswalk" parent="Board/LayerMain" index="0"]
-metadata/_edit_lock_ = true
 
 [node name="Lawn" parent="Board/LayerMain" index="1"]
 Rows = 6
@@ -26,14 +24,15 @@ Column = 10
 metadata/_edit_lock_ = true
 
 [node name="PlantingArea" parent="Board/LayerMain/Lawn" index="0"]
-position = Vector2(85, 175)
+position = Vector2(200, 200)
 script = ExtResource("4_7bqpd")
 PlaceAllowColor = Color(0, 0.968627, 0.294118, 0.662745)
 PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)
 
 [node name="CollisionShape2D" parent="Board/LayerMain/Lawn/PlantingArea" index="0"]
-position = Vector2(375, 187.5)
+position = Vector2(372, 188)
 shape = SubResource("RectangleShape2D_dmonr")
+metadata/_edit_lock_ = true
 
 [node name="Label" parent="Board/LayerOverlay" index="1"]
 offset_top = 440.0

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "MinecraftVsEnemies": {
-      "commandName": "Project",
-      "commandLineArgs": "--verbose"
-    }
-  }
-}

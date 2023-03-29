@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://w1hme4omb3vx"]
+
+[ext_resource type="Script" path="res://LevelSelecting/StopStone.cs" id="1_u0blc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nk263"]
+size = Vector2(32, 32)
+
+[node name="StopStone" type="Node2D"]
+script = ExtResource("1_u0blc")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+metadata/metaa = "some fucking meta"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_nk263")

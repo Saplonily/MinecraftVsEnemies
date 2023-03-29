@@ -1,0 +1,89 @@
+[gd_scene load_steps=4 format=3 uid="uid://drdc2npmxpiah"]
+
+[ext_resource type="Texture2D" uid="uid://d14c2cpmynidq" path="res://LevelSelecting/bg0.png" id="1_12ejm"]
+[ext_resource type="PackedScene" uid="uid://bclhk2qys0gak" path="res://LevelSelecting/PlayerHead.tscn" id="2_gw0dr"]
+[ext_resource type="PackedScene" uid="uid://w1hme4omb3vx" path="res://LevelSelecting/StopStone.tscn" id="3_gjwn5"]
+
+[node name="Level0" type="Node2D"]
+
+[node name="Bg0" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_12ejm")
+centered = false
+
+[node name="PlayerHead" parent="." instance=ExtResource("2_gw0dr")]
+position = Vector2(80, 528)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="StopStone" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(272, 528)
+DirectionAllowed = 10
+
+[node name="StopStone2" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(272, 432)
+DirectionAllowed = 22
+
+[node name="StopStone3" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(208, 432)
+DirectionAllowed = 12
+
+[node name="StopStone7" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(208, 272)
+DirectionAllowed = 20
+
+[node name="StopStone8" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(336, 272)
+DirectionAllowed = 14
+
+[node name="StopStone9" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(368, 272)
+DirectionAllowed = 18
+
+[node name="StopStone10" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(336, 144)
+DirectionAllowed = 18
+
+[node name="StopStone11" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(80, 144)
+DirectionAllowed = 12
+
+[node name="StopStone12" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(80, 80)
+DirectionAllowed = 20
+
+[node name="StopStone13" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(624, 80)
+DirectionAllowed = 18
+
+[node name="StopStone14" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(624, 528)
+DirectionAllowed = 12
+
+[node name="StopStone15" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(752, 528)
+DirectionAllowed = 10
+
+[node name="StopStone16" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(752, 432)
+DirectionAllowed = 20
+
+[node name="StopStone17" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(880, 432)
+DirectionAllowed = 18
+
+[node name="StopStone18" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(880, 528)
+DirectionAllowed = 12
+
+[node name="StopStone19" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(1184, 528)
+DirectionAllowed = 2
+
+[node name="StopStone6" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(80, 528)
+DirectionAllowed = 4
+
+[node name="StopStone4" parent="." instance=ExtResource("3_gjwn5")]
+position = Vector2(368, 432)
+DirectionAllowed = 10

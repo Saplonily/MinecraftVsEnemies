@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bclhk2qys0gak"]
+
+[ext_resource type="Script" path="res://LevelSelecting/PlayerHead.cs" id="1_7gxaj"]
+[ext_resource type="Texture2D" uid="uid://dqslmymc6qkip" path="res://LevelSelecting/PlayerHead.png" id="1_fbow6"]
+
+[node name="PlayerHead" type="Node2D"]
+script = ExtResource("1_7gxaj")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-16, -16)
+scale = Vector2(2, 2)
+texture = ExtResource("1_fbow6")
+centered = false
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
