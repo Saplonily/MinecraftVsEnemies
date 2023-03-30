@@ -1,4 +1,4 @@
-﻿using CursorShape = Godot.DisplayServer.CursorShape;
+using CursorShape = Godot.DisplayServer.CursorShape;
 
 namespace MVE;
 

@@ -1,4 +1,4 @@
-﻿namespace MVE;
+namespace MVE;
 
 public interface IImpactable
 {

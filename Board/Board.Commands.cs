@@ -1,4 +1,4 @@
-﻿using NullLib.CommandLine;
+using NullLib.CommandLine;
 
 namespace MVE;
 

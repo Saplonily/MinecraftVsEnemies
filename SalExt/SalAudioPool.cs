@@ -1,4 +1,4 @@
-﻿namespace MVE.SalExt;
+namespace MVE.SalExt;
 
 public record SalAudioConfig(
     AudioStream Stream,

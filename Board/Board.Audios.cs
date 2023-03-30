@@ -1,4 +1,4 @@
-﻿using MVE.SalExt;
+using MVE.SalExt;
 
 namespace MVE;
 

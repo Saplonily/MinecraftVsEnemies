@@ -1,4 +1,4 @@
-﻿using Saladim.GodotParticle;
+using Saladim.GodotParticle;
 
 namespace MVE;
 

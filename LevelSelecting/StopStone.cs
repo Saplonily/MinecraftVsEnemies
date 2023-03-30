@@ -1,4 +1,4 @@
-﻿namespace MVE.LevelSelecting;
+namespace MVE.LevelSelecting;
 
 public partial class StopStone : Node2D
 {

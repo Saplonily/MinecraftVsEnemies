@@ -22,7 +22,6 @@ public partial class PlayerHead : Node2D
         rayCast.HitFromInside = false;
         currentStopStone = stopStone ?? throw new NodeNotFoundException(nameof(StopStone));
     }
-
     public override void _PhysicsProcess(double delta)
     {
         Vector2I dirVec = default;
