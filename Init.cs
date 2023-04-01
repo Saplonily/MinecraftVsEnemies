@@ -14,28 +14,6 @@ public partial class Init : Node
     public void Unload()
     {
         var s = initGotoScene.Instantiate();
-        GameNode.Node.ChangeSceneTo(s);
-
-        if (s.GetNodeOrNull("Board") is not Board board)
-            return;
-
-        string levelJsonFile = "res://Levels/Level01.json";
-        using GodotFileAccess gfa = GodotFileAccess.Open(levelJsonFile, GodotFileAccess.ModeFlags.Read);
-        string levelJson = gfa.GetAsText();
-        gfa.Close();
-        try
-        {
-            var d = JsonSerializer.Deserialize<LevelData>(levelJson);
-            if (d is null)
-            {
-                Game.Logger.LogError("LevelDataReading", "Failed to deserialize LevelData.");
-                return;
-            }
-            board.LevelData = d;
-        }
-        catch (JsonException)
-        {
-            Game.Logger.LogError("LevelDataReading", "Failed to parse the LevelData json.");
-        }
+        Game.Instance.ChangeSceneTo(s);
     }
 }

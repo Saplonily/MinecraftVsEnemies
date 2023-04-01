@@ -1,6 +1,6 @@
 using Microsoft.Extensions.ObjectPool;
 
-namespace Saladim.GodotParticle;
+namespace MVE.SalExt;
 
 [Tool]
 public partial class SalParticleSys : Node2D

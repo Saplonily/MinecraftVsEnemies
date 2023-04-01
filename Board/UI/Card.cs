@@ -23,8 +23,7 @@ public partial class Card : BoardUI, IBoardUIPickable
     [Export]
     public Color SelfMaskColor { get; set; } = Color.Color8(143, 143, 143, 255);
 
-    [Export]
-    public int WeaponPropertyId { get; set; } = -1;
+    public Sid WeaponPropertyId { get; set; } = "dispenser";
 
     public double Cooldown { get; set; } = 1.0;
 
@@ -140,7 +139,7 @@ public partial class Card : BoardUI, IBoardUIPickable
 
     protected void Area_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
     {
-        if (stateMachine.State is CardState.Idle && ie.IsActionPressed(InputNames.PickCard))
+        if (stateMachine.State is CardState.Idle && ie.IsActionPressed(InputNames.Using))
         {
             if (IsAvailable() && Board.Picking is PickingType.Idle)
             {
@@ -150,9 +149,8 @@ public partial class Card : BoardUI, IBoardUIPickable
         }
     }
 
-    public void UpdateFromPropertyId(int wid)
+    public void UpdateFromPropertyId(Sid wid)
     {
-        wid = wid == -1 ? 0 : wid;
         var property = Game.Instance.WeaponProperties[wid];
         CooldownStep = 1.0f / property.Cooldown;
         contentSprite.Texture = property.ContentTexture;

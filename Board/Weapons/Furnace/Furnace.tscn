@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" path="res://Board/Weapons/Furnace/Furnace.cs" id="1_83cm5"]
 [ext_resource type="Texture2D" uid="uid://c8wgcfvj55mah" path="res://Board/Weapons/Furnace/Furnace.png" id="1_ysy1d"]
-[ext_resource type="PackedScene" uid="uid://b3t0q8lb8ual1" path="res://Board/Weapons/WeaponBase.tscn" id="1_yxwi7"]
+[ext_resource type="PackedScene" path="res://Board/Weapons/WeaponBase.tscn" id="1_yxwi7"]
 [ext_resource type="Texture2D" uid="uid://dl6q6shiolgau" path="res://Board/Weapons/Furnace/Flame.png" id="4_2gd3g"]
-[ext_resource type="Script" path="res://SalParticleSys.cs" id="4_gir36"]
+[ext_resource type="Script" path="res://SalExt/SalParticleSys.cs" id="4_gir36"]
 [ext_resource type="Texture2D" uid="uid://d0a6t80bouis2" path="res://Board/Weapons/Furnace/Flame2.png" id="5_3hiaw"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ed5pf"]
 size = Vector2(57, 67)

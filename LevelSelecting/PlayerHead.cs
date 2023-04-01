@@ -1,3 +1,6 @@
+using System.Runtime.CompilerServices;
+using Godot;
+
 namespace MVE.LevelSelecting;
 
 public partial class PlayerHead : Node2D
@@ -5,10 +8,14 @@ public partial class PlayerHead : Node2D
     protected StopStone currentStopStone = null!;
     protected Tween? movingTween;
     protected RayCast2D rayCast = null!;
+    protected AnimationPlayer animationPlayer = null!;
+
+    protected bool noControl = false;
 
     public override void _Ready()
     {
-        rayCast = this.GetNode<RayCast2D>("RayCast2D");
+        rayCast = GetNode<RayCast2D>("RayCast2D");
+        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         rayCast.Enabled = false;
         CallDeferred(MethodName.ReadyDeferred);
     }
@@ -22,8 +29,21 @@ public partial class PlayerHead : Node2D
         rayCast.HitFromInside = false;
         currentStopStone = stopStone ?? throw new NodeNotFoundException(nameof(StopStone));
     }
+
+    public override async void _Input(InputEvent ie)
+    {
+        if (currentStopStone.AbleToEnter && ie.IsActionPressed(InputNames.Accept))
+        {
+            noControl = true;
+            animationPlayer.Play("Enter");
+            await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+            currentStopStone.OnEnter(this);
+        }
+    }
+
     public override void _PhysicsProcess(double delta)
     {
+        if (noControl) return;
         Vector2I dirVec = default;
         if (Input.IsActionPressed(InputNames.MoveLeft))
             dirVec = Vector2I.Left;

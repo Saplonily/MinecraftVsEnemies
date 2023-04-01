@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://b3t0q8lb8ual1"]
+[gd_scene load_steps=9 format=3]
 
-[ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Board/ShadowGradient.tres" id="1_glbq7"]
-[ext_resource type="Script" path="res://SalParticleSys.cs" id="2_bu466"]
+[ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Resource/ShadowGradient.tres" id="1_glbq7"]
+[ext_resource type="Script" path="res://SalExt/SalParticleSys.cs" id="2_bu466"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e0cyl"]
 size = Vector2(60, 70)

@@ -1,5 +1,4 @@
 using MVE.SalExt;
-using Saladim.GodotParticle;
 
 namespace MVE;
 

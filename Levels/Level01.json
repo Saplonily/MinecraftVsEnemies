@@ -1,22 +1,23 @@
 {
+    "SceneId": "grasswalk",
     "TotalWaves": 20,
     "EnemiesSpawning": {
         "EnemyPool": [
             {
                 "Marker": "normal",
-                "InternalId": 0,
+                "InternalId": "zombie",
                 "Weight": 200,
                 "Cost": 200
             },
             {
                 "Marker": "leather",
-                "InternalId": 1,
+                "InternalId": "leat_zombie",
                 "Weight": 200,
                 "Cost": 400
             },
             {
                 "Marker": "iron",
-                "InternalId": 2,
+                "InternalId": "iron_zombie",
                 "Weight": 100,
                 "Cost": 600
             }

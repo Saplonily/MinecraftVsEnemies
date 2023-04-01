@@ -51,7 +51,7 @@ public partial class PlantingArea : Area2D
 
     protected void PlantingArea_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
     {
-        if (ie.IsActionPressed(InputNames.Plant))
+        if (ie.IsActionPressed(InputNames.Using))
             OnPlantInput();
         if (ie.IsActionPressed(InputNames.DebugPlace))
             OnDebugPlantInput();
@@ -85,7 +85,7 @@ public partial class PlantingArea : Area2D
 
     protected void OnDebugPlantInput()
     {
-        this.PlaceEnemyAt(GridMousePosition, Game.Instance.EnemyProperties[0]);
+        this.PlaceEnemyAt(GridMousePosition, Game.Instance.EnemyProperties["zombie"]);
     }
 
     protected void OnInputMotion(Vector2 localPosition)

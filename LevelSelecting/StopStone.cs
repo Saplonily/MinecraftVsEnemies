@@ -1,9 +1,16 @@
+using System.Diagnostics;
+
 namespace MVE.LevelSelecting;
 
 public partial class StopStone : Node2D
 {
     [Export] public Direction DirectionAllowed { get; set; }
     public virtual bool AbleToEnter => false;
+
+    public virtual void OnEnter(PlayerHead playerHead)
+    {
+        Debug.Fail("OnEnter called on StopStone");
+    }
 
     [Flags]
     public enum Direction

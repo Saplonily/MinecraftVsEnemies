@@ -1,12 +1,22 @@
-[gd_scene load_steps=12 format=3 uid="uid://methn2wewdnh"]
+[gd_scene load_steps=14 format=3 uid="uid://methn2wewdnh"]
 
-[ext_resource type="PackedScene" uid="uid://b3t0q8lb8ual1" path="res://Board/Weapons/WeaponBase.tscn" id="1_s3h0n"]
+[ext_resource type="PackedScene" path="res://Board/Weapons/WeaponBase.tscn" id="1_s3h0n"]
 [ext_resource type="Script" path="res://Board/Weapons/Obsidian/Obsidian.cs" id="2_0ettc"]
 [ext_resource type="Texture2D" uid="uid://cldhhldmm7qti" path="res://Board/Weapons/Obsidian/Obsidian.png" id="2_88abf"]
 [ext_resource type="Texture2D" uid="uid://c2bt4m3f0nchq" path="res://Board/AtlasBreakStates.png" id="4_43ggw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x8yup"]
 size = Vector2(61, 71)
+
+[sub_resource type="Gradient" id="Gradient_11hlm"]
+interpolation_mode = 2
+colors = PackedColorArray(0, 0, 0, 0.658824, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2eacx"]
+gradient = SubResource("Gradient_11hlm")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0.5)
 
 [sub_resource type="Gradient" id="Gradient_7y0h1"]
 offsets = PackedFloat32Array(0.00588235)
@@ -47,6 +57,7 @@ metadata/_edit_lock_ = true
 
 [node name="ShadowSprite" parent="." index="1"]
 scale = Vector2(1.4, 0.35)
+texture = SubResource("GradientTexture2D_2eacx")
 
 [node name="Sprite" type="Sprite2D" parent="." index="2"]
 position = Vector2(-38, -73)

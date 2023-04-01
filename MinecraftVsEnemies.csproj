@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Godot.NET.Sdk/4.0.1">
 	<PropertyGroup>
 		<TargetFramework>net7</TargetFramework>
-		<LangVersion>preview</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
@@ -37,7 +37,7 @@
 	</ItemGroup>
 	<PropertyGroup>
 		<StartAction>Program</StartAction>
-		<StartProgram>D:\MyGodotSpace\4.0\Godot_v4.0-stable_mono_win64.exe</StartProgram>
+		<StartProgram>D:\MyGodotSpace\4.0\Godot_v4.0.1-stable_mono_win64.exe</StartProgram>
 		<StartArguments>--verbose --path D:\Projects\MinecraftVsEnemies</StartArguments>
 	</PropertyGroup>
 </Project>

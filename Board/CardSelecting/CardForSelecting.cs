@@ -20,7 +20,13 @@ public partial class CardForSelecting : Node2D
     public bool IsForSelectedDisplay { get; protected set; }
     public CardForSelecting? ForSelectedSource { get; protected set; }
     public WeaponProperty WeaponProperty { get; protected set; } = default!;
-    [Export] public int WeaponPropertyId { get; protected set; }
+    public Sid WeaponPropertyId { get; protected set; }
+    [Export]
+    protected string WeaponPropertyIdEditor
+    {
+        get => WeaponPropertyId.ToString();
+        set => WeaponPropertyId = value;
+    }
 
     public override void _Ready()
     {
@@ -74,9 +80,8 @@ public partial class CardForSelecting : Node2D
         }
     }
 
-    public void UpdateFromPropertyId(int wid)
+    public void UpdateFromPropertyId(Sid wid)
     {
-        wid = wid == -1 ? 0 : wid;
         var property = Game.Instance.WeaponProperties[wid];
         contentSprite.Texture = property.ContentTexture;
         WeaponProperty = Game.Instance.WeaponProperties[WeaponPropertyId];

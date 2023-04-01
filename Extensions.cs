@@ -1,7 +1,5 @@
 global using GodotFileAccess = Godot.FileAccess;
 global using Timer = Godot.Timer;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using MVE.SalExt;
 
 namespace MVE;
@@ -95,7 +93,7 @@ public static class Extensions
     #endregion
 
     #region math
-    public static double NextDouble(this Random r, double min, double max) 
+    public static double NextDouble(this Random r, double min, double max)
         => (r.NextDouble() * (max - min)) + min;
 
     public static double NextDouble(this Random r, double max)
@@ -107,7 +105,7 @@ public static class Extensions
     public static float Next1m1Float(this Random r, float num)
         => r.NextFloat(-num, num);
 
-    public static float NextFloat(this Random r, float min, float max) 
+    public static float NextFloat(this Random r, float min, float max)
         => (r.NextFloat() * (max - min)) + min;
 
     public static float NextFloat(this Random r, float max)

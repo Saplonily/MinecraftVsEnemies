@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dng4412gumo8m"]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Board/Bullets/Arrow.cs" id="1"]
 [ext_resource type="Texture2D" uid="uid://dohyxba0beyso" path="res://Board/Bullets/Arrow.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Board/ShadowGradient.tres" id="2_hd28m"]
+[ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Resource/ShadowGradient.tres" id="2_hd28m"]
+
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(32, 10)

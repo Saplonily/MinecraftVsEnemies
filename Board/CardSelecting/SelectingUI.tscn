@@ -263,26 +263,31 @@ label_settings = SubResource("LabelSettings_j24j6")
 position = Vector2(20, 59)
 
 [node name="CardForSelecting" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
+WeaponPropertyIdEditor = "dispenser"
 
 [node name="CardForSelecting2" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
 position = Vector2(60, 0)
-WeaponPropertyId = 1
+WeaponPropertyIdEditor = "dispenser"
 
 [node name="CardForSelecting3" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
 position = Vector2(120, 0)
-WeaponPropertyId = 2
+WeaponPropertyIdEditor = "furnace"
 
 [node name="CardForSelecting4" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
 position = Vector2(180, 0)
+WeaponPropertyIdEditor = "furnace"
 
 [node name="CardForSelecting5" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
 position = Vector2(240, 0)
+WeaponPropertyIdEditor = "obsidian"
 
 [node name="CardForSelecting6" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
 position = Vector2(300, 0)
+WeaponPropertyIdEditor = "obsidian"
 
 [node name="CardForSelecting7" parent="ForSelectingUI/CardsForSelecting" instance=ExtResource("3_a30j2")]
 position = Vector2(360, 0)
+WeaponPropertyIdEditor = "furnace"
 
 [node name="StartButton" parent="ForSelectingUI" instance=ExtResource("4_kqdol")]
 offset_left = 152.0

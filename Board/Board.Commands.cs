@@ -16,13 +16,13 @@ public partial class Board : Node
         }
 
         [Command(CommandName = "place_weapon")]
-        public void PlaceWeapon(int x, int y, int weaponId)
+        public void PlaceWeapon(int x, int y, string weaponId)
         {
             lawn.PlantingArea.TryPlantAt(new Vector2I(x, y), Game.Instance.WeaponProperties[weaponId], out _);
         }
 
         [Command(CommandName = "place_enemy")]
-        public void PlaceEnemy(int x, int y, int enemyId)
+        public void PlaceEnemy(int x, int y, string enemyId)
         {
             lawn.PlantingArea.PlaceEnemyAt(new Vector2I(x, y), Game.Instance.EnemyProperties[enemyId]);
         }

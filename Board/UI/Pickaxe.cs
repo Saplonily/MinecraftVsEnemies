@@ -44,7 +44,7 @@ public partial class Pickaxe : BoardUI, IBoardUIPickable
 
     protected void Area2D_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
     {
-        if (!picked && ie.IsActionPressed(InputNames.PickPickaxe) && Board.Picking is PickingType.Idle)
+        if (!picked && ie.IsActionPressed(InputNames.Using) && Board.Picking is PickingType.Idle)
         {
             picked = true;
             Board.DoPick(PickingType.Pickaxe, PickingTravelType.PlayerSelect, this);

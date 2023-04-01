@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d14c2cpmynidq"
-path="res://.godot/imported/Bg0.png-271bf40440492741be099d720dbed07d.ctex"
+uid="uid://wmtgqyj6g1v3"
+path="res://.godot/imported/TrapDoorEntry.png-e8c10f55845f44a1f8cd12527957f4d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://LevelSelecting/Bg0.png"
-dest_files=["res://.godot/imported/Bg0.png-271bf40440492741be099d720dbed07d.ctex"]
+source_file="res://LevelSelecting/TrapDoorEntry.png"
+dest_files=["res://.godot/imported/TrapDoorEntry.png-e8c10f55845f44a1f8cd12527957f4d1.ctex"]
 
 [params]
 

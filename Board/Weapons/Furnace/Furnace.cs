@@ -1,4 +1,4 @@
-using Saladim.GodotParticle;
+using MVE.SalExt;
 
 namespace MVE;
 
@@ -8,8 +8,8 @@ public partial class Furnace : Weapon
 
     protected SalParticleSys flameSalPSys = default!;
     protected SalParticleSys flame2SalPSys = default!;
-    protected Godot.Timer flameTimer = default!;
-    protected Godot.Timer produceTimer = default!;
+    protected Timer flameTimer = default!;
+    protected Timer produceTimer = default!;
 
     public override void _Ready()
     {

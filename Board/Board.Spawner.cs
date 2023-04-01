@@ -23,6 +23,10 @@ public partial class Board : Node
 
     public void InitSpawner()
     {
+        if(LevelData is null)
+        {
+            Game.Logger.LogError("LevelLoading", "No LevelData is assigned.");
+        }
         awoogaAudioPlayer = SalAudioPool.GetPlayer(new(awoogaAudio, Bus: "Board"));
 
         CurrentWave = 0;
@@ -130,9 +134,9 @@ public partial class Board : Node
         if (leastCost > points)
         {
             int row = Random.Next(0, 5);
-            var prop = Game.Instance.EnemyProperties[0];
+            var prop = Game.Instance.EnemyProperties["zombie"];
             placingHandler(prop, row);
-            var u = spawningData.EnemyPool.FirstOrDefault(u => u.InternalId == 0);
+            var u = spawningData.EnemyPool.FirstOrDefault(u => u.InternalId == "zombie");
             rowWeights[row] -= u is not null ? u.Cost : 100;
             return;
         }

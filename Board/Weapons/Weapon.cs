@@ -1,4 +1,4 @@
-using Saladim.GodotParticle;
+using MVE.SalExt;
 
 namespace MVE;
 
@@ -55,7 +55,7 @@ public abstract partial class Weapon : LawnEntity
 
     protected void HitBoxArea_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
     {
-        if (Board.Picking is PickingType.Pickaxe && ie.IsActionPressed(InputNames.UsePickaxe))
+        if (Board.Picking is PickingType.Pickaxe && ie.IsActionPressed(InputNames.Using))
         {
             if (Board.PickedNode is Pickaxe pickaxe)
             {

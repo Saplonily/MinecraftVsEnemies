@@ -1,24 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://drdc2npmxpiah"]
+[gd_scene load_steps=5 format=3 uid="uid://svn2mwrhk8jx"]
 
-[ext_resource type="Texture2D" uid="uid://d14c2cpmynidq" path="res://LevelSelecting/bg0.png" id="1_12ejm"]
+[ext_resource type="Texture2D" uid="uid://d14c2cpmynidq" path="res://LevelSelecting/Bg0.png" id="1_2teof"]
 [ext_resource type="PackedScene" uid="uid://bclhk2qys0gak" path="res://LevelSelecting/PlayerHead.tscn" id="2_gw0dr"]
 [ext_resource type="PackedScene" uid="uid://w1hme4omb3vx" path="res://LevelSelecting/StopStone.tscn" id="3_gjwn5"]
+[ext_resource type="PackedScene" uid="uid://bv2edc1dlutly" path="res://LevelSelecting/LevelStopStone.tscn" id="4_uc0vl"]
 
 [node name="Level0" type="Node2D"]
 
 [node name="Bg0" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("1_12ejm")
+texture = ExtResource("1_2teof")
 centered = false
-
-[node name="PlayerHead" parent="." instance=ExtResource("2_gw0dr")]
-position = Vector2(80, 528)
-
-[node name="Node2D" type="Node2D" parent="."]
-
-[node name="StopStone" parent="." instance=ExtResource("3_gjwn5")]
-position = Vector2(272, 528)
-DirectionAllowed = 10
 
 [node name="StopStone2" parent="." instance=ExtResource("3_gjwn5")]
 position = Vector2(272, 432)
@@ -87,3 +79,11 @@ DirectionAllowed = 4
 [node name="StopStone4" parent="." instance=ExtResource("3_gjwn5")]
 position = Vector2(368, 432)
 DirectionAllowed = 10
+
+[node name="LevelStopStone" parent="." instance=ExtResource("4_uc0vl")]
+position = Vector2(272, 528)
+LevelFile = ""
+DirectionAllowed = 10
+
+[node name="PlayerHead" parent="." instance=ExtResource("2_gw0dr")]
+position = Vector2(80, 528)

@@ -5,6 +5,7 @@ namespace MVE;
 [DebuggerDisplay("TotalWaves: {TotalWaves}")]
 public class LevelData
 {
+    public required string SceneId { get; init; }
     public required int TotalWaves { get; init; }
 
     public required EnemiesSpawningData EnemiesSpawning { get; init; }
@@ -46,7 +47,7 @@ public class EnemiesSpawningData
 public class EnemyPoolUnit
 {
     public required string Marker { get; init; }
-    public required int InternalId { get; init; }
+    public required string InternalId { get; init; }
     public required int Weight { get; init; }
     public required int Cost { get; init; }
 }
