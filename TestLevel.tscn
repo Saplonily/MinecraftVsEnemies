@@ -13,6 +13,7 @@ metadata/_edit_horizontal_guides_ = [600.0]
 
 [node name="Board" parent="." instance=ExtResource("5")]
 StartUpCmds = "set_redstone 100"
+cameraStartPos = null
 cameraBoardPos = Vector2(100, 0)
 
 [node name="LayerMain" parent="Board" index="0"]
@@ -24,7 +25,7 @@ Column = 10
 metadata/_edit_lock_ = true
 
 [node name="PlantingArea" parent="Board/LayerMain/Lawn" index="0"]
-position = Vector2(200, 200)
+position = Vector2(128, 192)
 script = ExtResource("4_7bqpd")
 PlaceAllowColor = Color(0, 0.968627, 0.294118, 0.662745)
 PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)

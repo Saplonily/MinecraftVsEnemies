@@ -98,34 +98,33 @@ public partial class Game : Node
         };
     }
 
-    public void SwitchToLevel(string levelJsonResPath)
+    public void SwitchToLevelJson(string json)
     {
         try
         {
-            using GodotFileAccess gfa = GodotFileAccess.Open(levelJsonResPath, GodotFileAccess.ModeFlags.Read);
-            string levelJson = gfa.GetAsText();
-            gfa.Close();
-
-            var d = JsonSerializer.Deserialize<LevelData>(levelJson);
-            if (d is null)
-            {
-                Logger.LogError("LevelDataReading", "Failed to deserialize LevelData.");
-                return;
-            }
-
+            var d = JsonSerializer.Deserialize<LevelData>(json)
+                ?? throw new LevelLoadFailedException("LevelDataReading", "Failed to deserialize LevelData.");
             PackedScene scene = Instance.LevelSceneProperties[d.SceneId].Scene;
             var node = scene.Instantiate();
             if (node.GetNodeOrNull("Board") is not Board board)
-            {
-                Logger.LogError("Node getting", "arg \"levelSceneRoot\" isn't a scene contains \"Board\" node directly.");
-                return;
-            }
+                throw new LevelLoadFailedException("Node getting", "arg \"levelSceneRoot\" isn't a scene contains \"Board\" node directly.");
             board.LevelData = d;
             ChangeSceneTo(node);
         }
-        catch (JsonException)
+        catch (JsonException e)
         {
-            Logger.LogError("LevelDataReading", "Failed to parse the json of LevelData.");
+            throw new LevelLoadFailedException("LevelDataReading", "Failed to parse the json of LevelData.", e);
         }
     }
+
+    public void SwitchToLevelResPath(string levelJsonResPath)
+    {
+        using GodotFileAccess gfa = GodotFileAccess.Open(levelJsonResPath, GodotFileAccess.ModeFlags.Read);
+        string levelJson = gfa.GetAsText();
+        gfa.Close();
+        SwitchToLevelJson(levelJson);
+    }
+
+    public void SwitchToLevelNativePath(string levelJsonNativePath)
+        => SwitchToLevelJson(System.IO.File.ReadAllText(levelJsonNativePath));
 }

@@ -82,7 +82,7 @@ DirectionAllowed = 10
 
 [node name="LevelStopStone" parent="." instance=ExtResource("4_uc0vl")]
 position = Vector2(272, 528)
-LevelFile = ""
+LevelFile = "res://Levels/Level01.json"
 DirectionAllowed = 10
 
 [node name="PlayerHead" parent="." instance=ExtResource("2_gw0dr")]

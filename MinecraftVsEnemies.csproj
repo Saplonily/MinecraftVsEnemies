@@ -2,33 +2,20 @@
 	<PropertyGroup>
 		<TargetFramework>net7</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace>MVE</RootNamespace>
-
-		<!--<PublishAot>true</PublishAot>
-		<TrimMode>full</TrimMode>
-		<RunAOTCompilation>True</RunAOTCompilation>
-		<PublishTrimmed>true</PublishTrimmed>
-		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
-		<PublishReadyToRunEmitSymbols>false</PublishReadyToRunEmitSymbols>
-		<DebuggerSupport>false</DebuggerSupport>
-		<EnableUnsafeUTF7Encoding>true</EnableUnsafeUTF7Encoding>
-		<InvariantGlobalization>true</InvariantGlobalization>
-		<HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
-		<MetadataUpdaterSupport>true</MetadataUpdaterSupport>
-		<UseSystemResourceKeys>true</UseSystemResourceKeys>-->
-		<!--<IlcDisableReflection >true</IlcDisableReflection>-->
+		<Platforms>AnyCPU;x86</Platforms>
 
 	</PropertyGroup>
 	<ItemGroup>
 		<Using Include="Godot" />
-		<!--<PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" />
-		<TrimmerRootAssembly Include="MinecraftVsEnemies"/>
-		<TrimmerRootAssembly Include="GodotSharp"/>
-		<TrimmerRootAssembly Include="NullLib.CommandLine"/>-->
+		<Using Include="System" />
+		<Using Include="System.Collections.Generic" />
+		<Using Include="System.Linq" />
+		<Using Include="System.Net.Http" />
+		<Using Include="System.Threading.Tasks" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="7.0.3" />

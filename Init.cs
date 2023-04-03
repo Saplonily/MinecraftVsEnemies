@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Text.Json;
 
 namespace MVE;
@@ -8,6 +9,9 @@ public partial class Init : Node
 
     public override void _Ready()
     {
+#if GODOT_WINDOWS
+        Native.ComInit();
+#endif
         CallDeferred(MethodName.Unload);
     }
 

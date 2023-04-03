@@ -7,6 +7,6 @@ public partial class LevelStopStone : StopStone
 
     public override void OnEnter(PlayerHead playerHead)
     {
-        Game.Instance.SwitchToLevel("res://Levels/Level01.json");
+        Game.Instance.SwitchToLevelResPath(LevelFile);
     }
 }

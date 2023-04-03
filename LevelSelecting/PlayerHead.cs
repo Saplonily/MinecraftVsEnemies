@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Godot;
 
 namespace MVE.LevelSelecting;
@@ -38,6 +39,26 @@ public partial class PlayerHead : Node2D
             animationPlayer.Play("Enter");
             await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
             currentStopStone.OnEnter(this);
+        }
+        if (currentStopStone is LevelStopStone && ie is InputEventKey iek && iek.Keycode == Key.Key1 && iek.Pressed)
+        {
+            unsafe
+            {
+                Native.COMDLG_FILTERSPEC f = new()
+                {
+                    pszName = "Level file (json)",
+                    pszSpec = "*.json"
+                };
+                char* c = Native.OpenDialog(ref f, 1);
+                if (c == null)
+                {
+                    Game.Logger.LogInfo("Test", "Cancelled");
+                    return;
+                }
+                string result = new(c);
+                Native.ComFree(c);
+                Game.Instance.SwitchToLevelNativePath(result);
+            }
         }
     }
 
