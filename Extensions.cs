@@ -1,8 +1,7 @@
-global using GodotFileAccess = Godot.FileAccess;
-global using FileAccess = System.IO.FileAccess;
-global using Timer = Godot.Timer;
 global using Color = Godot.Color;
-using MVE.SalExt;
+global using GodotFileAccess = Godot.FileAccess;
+global using Timer = Godot.Timer;
+global using FileAccess = System.IO.FileAccess;
 using System.IO;
 
 namespace MVE;

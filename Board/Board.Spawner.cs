@@ -23,7 +23,7 @@ public partial class Board : Node
 
     public void InitSpawner()
     {
-        if(LevelData is null)
+        if (LevelData is null)
         {
             Game.Logger.LogError("LevelLoading", "No LevelData is assigned.");
         }

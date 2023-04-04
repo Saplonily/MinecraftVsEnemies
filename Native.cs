@@ -1,7 +1,6 @@
 ﻿#if GODOT_WINDOWS
 
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace MVE;
 
