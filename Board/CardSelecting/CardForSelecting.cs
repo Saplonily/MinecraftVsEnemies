@@ -10,23 +10,18 @@ public partial class CardForSelecting : Node2D
     public readonly PackedScene Scene = GD.Load<PackedScene>("res://Board/CardSelecting/CardForSelecting.tscn");
 
     [Export] protected Godot.Collections.Array<AudioStream> tapAudioStreams = default!;
-    protected Chooser<AudioStreamPlayer> tapAudioPlayerChooser = default!;
+    protected Label costLabel = default!;
+    protected Sprite2D contentSprite = default!;
     protected SelectingUI selectingUI = default!;
     protected TextureButton button = default!;
-    protected Sprite2D contentSprite = default!;
-    protected Label costLabel = default!;
+    protected Chooser<AudioStreamPlayer> tapAudioPlayerChooser = default!;
 
     protected bool selected = false;
+
     public bool IsForSelectedDisplay { get; protected set; }
     public CardForSelecting? ForSelectedSource { get; protected set; }
     public WeaponProperty WeaponProperty { get; protected set; } = default!;
-    public Sid WeaponPropertyId { get; protected set; }
-    [Export]
-    protected string WeaponPropertyIdEditor
-    {
-        get => WeaponPropertyId.ToString();
-        set => WeaponPropertyId = value;
-    }
+    public Sid WeaponPropertyId { get; set; }
 
     public override void _Ready()
     {

@@ -7,27 +7,43 @@ namespace MVE;
 public partial class SelectingUI : Node2D
 {
     public const float CardWidth = 64 * 0.9f;
+    public const float CardForSelectingWidth = 60f;
 
+    [Export] public PackedScene CardForSelectingScene = default!;
     public Node2D SelectedCardsNode2D = default!;
-    protected Tween cardCancelMovingTween = default!;
-    protected Node2D forSelectingCardsNode2D = default!;
-    protected AnimationPlayer animationPlayer = default!;
+    public Node2D CardsForSelectingNode2D = default!;
     protected Button startButton = default!;
-
-    public List<(CardForSelecting card, Vector2 position)> SelectedCards { get; protected set; } = new();
-    public int SelectedCount => SelectedCards.Count;
+    protected Tween cardCancelMovingTween = default!;
+    protected AnimationPlayer animationPlayer = default!;
 
     [Signal] public delegate void CardSelectingFinishedEventHandler(SelectingUI self);
 
+    public List<(CardForSelecting card, Vector2 position)> SelectedCards { get; protected set; } = new();
+    public List<Sid> CardsForSelecting { get; set; } = default!;
+
+
     public override void _Ready()
     {
+        CardsForSelecting ??= new List<Sid>() { new("MVE", "dispenser") };
         SelectedCardsNode2D = GetNode<Node2D>("SelectedCardsUI/SelectedCards");
-        forSelectingCardsNode2D = GetNode<Node2D>("ForSelectingUI/CardsForSelecting");
+        CardsForSelectingNode2D = GetNode<Node2D>("ForSelectingUI/CardsForSelecting");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         startButton = GetNode<Button>("ForSelectingUI/StartButton");
         startButton.Pressed += this.StartButton_Pressed;
 
         Modulate = Modulate with { A = 0 };
+        PlaceCardsForSelecting(CardsForSelecting);
+    }
+
+    protected void PlaceCardsForSelecting(List<Sid> cardSids)
+    {
+        for (int i = 0; i < cardSids.Count; i++)
+        {
+            var card = CardForSelectingScene.Instantiate<CardForSelecting>();
+            card.WeaponPropertyId = cardSids[i];
+            card.Position = Vector2.Right * i * CardForSelectingWidth;
+            CardsForSelectingNode2D.AddChild(card);
+        }
     }
 
     protected async void StartButton_Pressed()
