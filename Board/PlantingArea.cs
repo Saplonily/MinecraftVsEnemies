@@ -58,7 +58,9 @@ public partial class PlantingArea : Area2D
         if (ie.IsActionPressed(InputNames.DebugPlace))
             OnDebugPlantInput();
         if (ie is InputEventMouseMotion iemm)
+        {
             OnInputMotion(this.GetGlobalTransformWithCanvas().AffineInverse() * iemm.Position);
+        }
     }
 
     protected void OnPlantInput()
@@ -96,6 +98,7 @@ public partial class PlantingArea : Area2D
         if (board.Picking is PickingType.Card)
         {
             var alinedPos = LocalPosAlineToGrid(localPosition);
+
             hintBox.Enabled = true;
             hintBox.LocalRegion = new Rect2(alinedPos, new(GridBoxSize, GridBoxSize));
             if (TryGetWeaponAt(localPosition, out var weaponAt))

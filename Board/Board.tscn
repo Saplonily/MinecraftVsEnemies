@@ -24,6 +24,7 @@ cameraBoardPos = Vector2(55, 0)
 cameraCardSelectingPos = Vector2(600, 0)
 
 [node name="LayerMain" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="ChapterGrasswalk" type="Sprite2D" parent="LayerMain"]
 z_index = -2

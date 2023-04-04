@@ -16,9 +16,6 @@ StartUpCmds = "set_redstone 100"
 cameraStartPos = null
 cameraBoardPos = Vector2(100, 0)
 
-[node name="LayerMain" parent="Board" index="0"]
-follow_viewport_enabled = true
-
 [node name="Lawn" parent="Board/LayerMain" index="1"]
 Rows = 6
 Column = 10
