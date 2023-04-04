@@ -16,7 +16,7 @@ public partial class IronZombie : Zombie
         base._Ready();
         ironCapSprite = GetNode<Sprite2D>("Sprites/IronCap");
 
-        ironBeHitAudioPlayerChooser = ironBeHitAudios.GetChooser(new(default!, Bus: "Board"));
+        ironBeHitAudioPlayerChooser = SalAudioPool.ChooserFromArray(ironBeHitAudios, (new(default!, Bus: "Board")));
     }
 
     public override void _Process(double delta)

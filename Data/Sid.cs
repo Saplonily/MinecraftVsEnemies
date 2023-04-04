@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace MVE;
 
@@ -11,12 +13,6 @@ public struct Sid
     public string Area { get; set; }
 
     public string Id { get; set; }
-
-    public Sid(string id)
-    {
-        Area = "MVE";
-        Id = id;
-    }
 
     public Sid(string area, string id)
     {
@@ -45,7 +41,7 @@ public struct Sid
         return strs.Length switch
         {
             2 => new(strs[0], strs[1]),
-            1 => new(strs[0]),
+            1 => new("MVE", strs[0]),
             _ => throw new ArgumentException($"{strs.Length} parts found in `str`, expect 2 or 1.", nameof(str))
         };
     }

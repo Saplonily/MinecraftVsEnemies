@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace MVE;
 
 public record struct PlantHintBox(bool Enabled, Rect2 LocalRegion, Color Color)
@@ -76,13 +78,14 @@ public partial class PlantingArea : Area2D
             var prop = card.WeaponProperty;
             var gridPos = hintBox.GridRegion.Position;
 
-            if (TryPlantAt(gridPos, prop, out var weapon))
+            if (TryPlantAt(gridPos, prop, out _))
             {
                 card.OnUsed();
             }
         }
     }
 
+    [Conditional("GAME_DEBUG")]
     protected void OnDebugPlantInput()
     {
         this.PlaceEnemyAt(GridMousePosition, Game.Instance.EnemyProperties["zombie"]);

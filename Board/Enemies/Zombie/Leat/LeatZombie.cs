@@ -16,7 +16,7 @@ public partial class LeatZombie : Zombie
         base._Ready();
         leatCapSprite = GetNode<Sprite2D>("Sprites/LeatCap");
 
-        leatBeHitAudioPlayerChooser = leatBeHitAudios.GetChooser(new(default!, Bus: "Board"));
+        leatBeHitAudioPlayerChooser = SalAudioPool.ChooserFromArray(leatBeHitAudios, (new(default!, Bus: "Board")));
     }
 
     public override void _Process(double delta)

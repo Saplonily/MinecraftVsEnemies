@@ -34,7 +34,7 @@ public partial class CardForSelecting : Node2D
         contentSprite = GetNode<Sprite2D>("Content");
         costLabel = GetNode<Label>("Cost");
         selectingUI = this.FindParent<SelectingUI>() ?? throw new NodeNotFoundException(nameof(SelectingUI));
-        tapAudioPlayerChooser = tapAudioStreams.GetChooser(new(default!, Bus: "Board"));
+        tapAudioPlayerChooser = SalAudioPool.ChooserFromArray(tapAudioStreams, new(default!, Bus: "Board"));
 
         button.ButtonDown += this.Button_ButtonDown;
         UpdateFromPropertyId(WeaponPropertyId);

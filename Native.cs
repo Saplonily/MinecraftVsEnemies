@@ -1,6 +1,4 @@
-﻿#define X64
-
-#if GODOT_WINDOWS
+﻿#if GODOT_WINDOWS
 
 using System.Runtime.InteropServices;
 using System.Text;
@@ -17,11 +15,7 @@ internal static unsafe class Native
     };
 
 #if DEBUG
-#if X32
-    internal const string NativeDllName = @"D:\Projects\MinecraftVsEnemies\Debug\NativeLib.dll";
-#elif X64
     internal const string NativeDllName = @"D:\Projects\MinecraftVsEnemies\x64\Debug\NativeLib.dll";
-#endif
 #elif TRACE
     internal const string NativeDllName = @"NativeLib.dll";
 #endif

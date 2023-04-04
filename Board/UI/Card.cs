@@ -67,7 +67,7 @@ public partial class Card : BoardUI, IBoardUIPickable
             Texture = contentSprite.Texture,
             Transform = Transform2D.Identity
         };
-        tapAudiosPlayerChooser = tapAudios.GetChooser(new(default!, Bus: "Board"));
+        tapAudiosPlayerChooser = SalAudioPool.ChooserFromArray(tapAudios, (new(default!, Bus: "Board")));
     }
 
     protected void PickedEnter(CardState s)

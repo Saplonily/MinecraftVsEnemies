@@ -1,7 +1,9 @@
 global using GodotFileAccess = Godot.FileAccess;
+global using FileAccess = System.IO.FileAccess;
 global using Timer = Godot.Timer;
 global using Color = Godot.Color;
 using MVE.SalExt;
+using System.IO;
 
 namespace MVE;
 
@@ -114,13 +116,52 @@ public static class Extensions
 
     #endregion
 
-    public static Chooser<AudioStreamPlayer> GetChooser(this Godot.Collections.Array<AudioStream> streamArray, SalAudioConfig baseConfig)
+    #region format
+
+    public static void Write(this BinaryWriter binaryWriter, Sid sid)
+        => binaryWriter.Write(sid.ToString());
+
+    public static Sid ReadSid(this BinaryReader binaryReader)
+        => Sid.Parse(binaryReader.ReadString());
+
+    public static void Write(this BinaryWriter binaryWriter, Version version)
     {
-        return new Chooser<AudioStreamPlayer>(
-            Random.Shared,
-            streamArray.Select(s => SalAudioPool.GetPlayer(baseConfig with { Stream = s }))
-            );
+        binaryWriter.Write(version.Major);
+        binaryWriter.Write(version.Minor);
+        binaryWriter.Write(version.Build);
+        binaryWriter.Write(version.Revision);
     }
+
+    public static Version ReadVersion(this BinaryReader binaryReader)
+    {
+        int major = binaryReader.ReadInt32();
+        int minor = binaryReader.ReadInt32();
+        int build = binaryReader.ReadInt32();
+        int revision = binaryReader.ReadInt32();
+        return new Version(major, minor, build, revision);
+    }
+
+    public static void WriteList<T>(this BinaryWriter binaryWriter, IList<T> list, Action<BinaryWriter, T> writeAction)
+    {
+        binaryWriter.Write(list.Count);
+        foreach (var item in list)
+        {
+            writeAction(binaryWriter, item);
+        }
+    }
+
+    public static List<T> ReadList<T>(this BinaryReader binaryReader, Func<BinaryReader, T> readFunc)
+    {
+        List<T> result = new();
+        int count = binaryReader.ReadInt32();
+        for (int i = 0; i < count; i++)
+        {
+            result.Add(readFunc(binaryReader));
+        }
+        return result;
+    }
+
+    #endregion
 }
 
 public static class Calculate

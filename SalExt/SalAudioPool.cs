@@ -22,12 +22,14 @@ public partial class SalAudioPool : Node
         var player = GetChildren().OfType<AudioStreamPlayer>().FirstOrDefault(p => IsConfiguredPlayer(p, config));
         if (player is null)
         {
-            AudioStreamPlayer p = new();
-            p.Bus = config.Bus;
-            p.Stream = config.Stream;
-            p.VolumeDb = config.VolumnDb;
-            p.PitchScale = config.PitchScale;
-            p.MaxPolyphony = config.MaxPolyPhony;
+            AudioStreamPlayer p = new()
+            {
+                Bus = config.Bus,
+                Stream = config.Stream,
+                VolumeDb = config.VolumnDb,
+                PitchScale = config.PitchScale,
+                MaxPolyphony = config.MaxPolyPhony
+            };
             AddChild(p);
             return p;
         }
@@ -46,4 +48,7 @@ public partial class SalAudioPool : Node
         && player.VolumeDb == config.VolumnDb
         && player.PitchScale == config.PitchScale
         && player.MaxPolyphony == config.MaxPolyPhony;
+
+    public static Chooser<AudioStreamPlayer> ChooserFromArray(Godot.Collections.Array<AudioStream> streamArray, SalAudioConfig baseConfig)
+        => new(Random.Shared, streamArray.Select(s => GetPlayer(baseConfig with { Stream = s })));
 }

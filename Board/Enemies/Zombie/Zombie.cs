@@ -39,7 +39,7 @@ public partial class Zombie : Enemy
         animationTree = GetNode<AnimationTree>("AnimationTree");
         mainAtSmPlayBack = animationTree.Get("parameters/MainStateMachine/playback").As<AnimationNodeStateMachinePlayback>();
         deathParticleSys = GetNode<SalParticleSys>("DeathParticle");
-        beHitAudioPlayerChooser = beHitAudios.GetChooser(new(default!, Bus: "Board"));
+        beHitAudioPlayerChooser = SalAudioPool.ChooserFromArray(beHitAudios, (new(default!, Bus: "Board")));
         deathAudioPlayer = SalAudioPool.GetPlayer(new(deathAudio, Bus: "Board"));
 
         RemoveChild(deathParticleSys);
@@ -153,8 +153,10 @@ public partial class Zombie : Enemy
 
     public void OnDieAnimationEnded()
     {
-        LeftParticle lp = new(deathParticleSys);
-        lp.LevelPos = LevelPos + deathParticleSys.Position.ToVec3WithZ0();
+        LeftParticle lp = new(deathParticleSys)
+        {
+            LevelPos = LevelPos + deathParticleSys.Position.ToVec3WithZ0()
+        };
         for (int i = 0; i < 100; i++)
         {
             var r = Game.Instance.Random;

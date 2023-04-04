@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MinecraftVsEnemies": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

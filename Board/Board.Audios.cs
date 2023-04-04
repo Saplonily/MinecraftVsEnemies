@@ -12,6 +12,6 @@ public partial class Board : Node
 
     protected void InitAudios()
     {
-        StoneSoundPlayerChooser = audioStones.GetChooser(new(default!, Bus: "Board"));
+        StoneSoundPlayerChooser = SalAudioPool.ChooserFromArray(audioStones, new(default!, Bus: "Board"));
     }
 }

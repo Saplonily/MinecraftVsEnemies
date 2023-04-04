@@ -92,7 +92,7 @@ public partial class Board : Node
             $"Wave timer: {sceneTreeTimer?.TimeLeft:F2}";
     }
 
-    [Conditional("DEBUG")]
+    [Conditional("GAME_DEBUG")]
     public void HandleDebugInputs(InputEvent ie)
     {
         if (ie is InputEventKey key && !key.IsEcho() && key.Pressed)
