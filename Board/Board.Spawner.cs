@@ -4,6 +4,16 @@ namespace MVE;
 
 public partial class Board : Node
 {
+    public enum LevelState
+    {
+        Invalid,
+        OpeningWaiting,
+        TravelToSelecting,
+        Main,
+        Finished,
+        Lost
+    }
+
     [Export] protected PackedScene cardScene = default!;
     [Export] protected AudioStream awoogaAudio = default!;
     [Export] protected PackedScene selectingUIScene = default!;
@@ -12,6 +22,8 @@ public partial class Board : Node
     [Export] protected Vector2 cameraCardSelectingPos;
     protected AudioStreamPlayer awoogaAudioPlayer = default!;
     protected SceneTreeTimer? sceneTreeTimer;
+    protected SelectingUI selectingUI = default!;
+    protected StateMachine<LevelState> stateMachine = default!;
 
     protected Action<double> updater = default!;
 
@@ -29,17 +41,29 @@ public partial class Board : Node
         }
         awoogaAudioPlayer = SalAudioPool.GetPlayer(new(awoogaAudio, Bus: "Board"));
 
-        CurrentWave = 0;
-        LevelCoroutine();
+        stateMachine = new(LevelState.OpeningWaiting);
+        stateMachine.RegisterState(LevelState.OpeningWaiting, LevelOpeningWaiting);
+        stateMachine.RegisterState(LevelState.TravelToSelecting, LevelTravelToSelecting);
+        stateMachine.RegisterState(LevelState.Main, LevelMain);
+        stateMachine.RegisterState(LevelState.Finished);
+        stateMachine.RegisterState(LevelState.Lost);
+        stateMachine.EnterCurrent();
     }
 
-    //TODO 重构为可保存的状态机
-    public async void LevelCoroutine()
+    #region LevelCoroutine
+
+    public async void LevelOpeningWaiting(LevelState pst)
     {
+        CurrentWave = 0;
         boardUIManager.PlayHideAnimation();
         //开场等待
         await ToSignal(GetTree().CreateTimer(1d), SceneTreeTimer.SignalName.Timeout);
 
+        stateMachine.State = LevelState.TravelToSelecting;
+    }
+
+    public async void LevelTravelToSelecting(LevelState pst)
+    {
         //开场移动到最右边
         camera.Position = cameraStartPos;
         var cameraTween = camera.CreateTween();
@@ -54,39 +78,49 @@ public partial class Board : Node
         ui.StartAppearAnimation();
         await ToSignal(ui, SelectingUI.SignalName.CardSelectingFinished);
 
-        //选卡结束, 制作选好的卡到boardUI的动画
-        var cardTween = CreateTween()
-            .SetEase(Tween.EaseType.InOut)
-            .SetTrans(Tween.TransitionType.Sine)
-            .SetParallel();
-        var selectedCards = ui.SelectedCardsNode2D.GetChildren().OfType<CardForSelecting>();
-        foreach (var c in selectedCards)
-        {
-            Vector2 targetPos = Extensions.SwitchTransform(ui, boardUIManager, c.Position) + boardUIManager.CardsLayoutStartPos;
-            cardTween.TweenProperty(c, "position", targetPos, 0.5);
-            c.Switch2DParent(boardUIManager);
-        }
+        selectingUI = ui;
+        stateMachine.State = LevelState.Main;
+    }
 
-        //移动到版面
-        var cameraTween2 = camera.CreateTween();
-        cameraTween2.SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-        cameraTween2.TweenProperty(camera, "position", cameraBoardPos, 1d);
-        await ToSignal(cameraTween2, Tween.SignalName.Finished);
+    public async void LevelMain(LevelState pst)
+    {
+        if (pst is LevelState.TravelToSelecting)
+        {
+            var ui = selectingUI;
+            //选卡结束, 制作选好的卡到boardUI的动画
+            var cardTween = CreateTween()
+                .SetEase(Tween.EaseType.InOut)
+                .SetTrans(Tween.TransitionType.Sine)
+                .SetParallel();
+            var selectedCards = ui.SelectedCardsNode2D.GetChildren().OfType<CardForSelecting>();
+            foreach (var c in selectedCards)
+            {
+                Vector2 targetPos = Extensions.SwitchTransform(ui, boardUIManager, c.Position) + boardUIManager.CardsLayoutStartPos;
+                cardTween.TweenProperty(c, "position", targetPos, 0.5);
+                c.Switch2DParent(boardUIManager);
+            }
+
+            //移动到版面
+            var cameraTween2 = camera.CreateTween();
+            cameraTween2.SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
+            cameraTween2.TweenProperty(camera, "position", cameraBoardPos, 1d);
+            await ToSignal(cameraTween2, Tween.SignalName.Finished);
+
+
+            //销毁所有的ForSelecting的Card并生成并赋值真正的Card
+            foreach (var c in selectedCards)
+            {
+                Vector2 pos = c.Position;
+                var s = cardScene.Instantiate<Card>();
+                s.Position = pos;
+                s.WeaponPropertyId = c.WeaponPropertyId;
+                boardUIManager.AddChild(s);
+                c.Free();
+            }
+        }
 
         //显示除卡以外的其他ui
         boardUIManager.PlayDisplayAnimation();
-
-        //销毁所有的ForSelecting的Card并生成并赋值真正的Card
-        foreach (var c in selectedCards)
-        {
-            Vector2 pos = c.Position;
-            var s = cardScene.Instantiate<Card>();
-            s.Position = pos;
-            s.WeaponPropertyId = c.WeaponPropertyId;
-            boardUIManager.AddChild(s);
-            c.Free();
-        }
-
         //切换ui显示模式
         boardUIManager.Switch2DParent(layerMain);
         layerMain.MoveChild(boardUIManager, -2);
@@ -114,6 +148,8 @@ public partial class Board : Node
         }
     }
 
+    #endregion
+
     public void UpdateSpawner(double delta)
         => updater?.Invoke(delta);
 
@@ -124,6 +160,9 @@ public partial class Board : Node
         int points = CurrentWave * LevelData.EnemiesSpawning.PointsAddFactor;
 
         SummonEnemiesBy(LevelData.EnemiesSpawning, points, PlaceEnemy);
+
+        Enemy PlaceEnemy(in EnemyProperty property, int row)
+            => Lawn.PlantingArea.PlaceEnemyAt(new Vector2I(Random.Next(10, 13), row), property);
     }
 
     public delegate Enemy EnemyPlacingHandler(in EnemyProperty property, int row);
@@ -156,7 +195,4 @@ public partial class Board : Node
             placingHandler(Game.Instance.EnemyProperties[unit.InternalId], result.ind);
         }
     }
-
-    public Enemy PlaceEnemy(in EnemyProperty property, int row)
-        => Lawn.PlantingArea.PlaceEnemyAt(new Vector2I(Random.Next(10, 13), row), property);
 }

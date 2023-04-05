@@ -59,6 +59,7 @@ public partial class Card : BoardUI, IBoardUIPickable
             enter: PickedEnter,
             exit: _ => Modulate = Color.Color8(255, 255, 255, 255)
             );
+        stateMachine.EnterCurrent();
 
         Cooldown = 0.0f;
         UpdateFromPropertyId(WeaponPropertyId);

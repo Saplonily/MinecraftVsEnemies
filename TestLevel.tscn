@@ -13,7 +13,6 @@ metadata/_edit_horizontal_guides_ = [600.0]
 
 [node name="Board" parent="." instance=ExtResource("5")]
 StartUpCmds = "set_redstone 100"
-cameraStartPos = null
 cameraBoardPos = Vector2(100, 0)
 
 [node name="Lawn" parent="Board/LayerMain" index="1"]

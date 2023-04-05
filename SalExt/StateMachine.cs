@@ -101,6 +101,9 @@ public class StateMachine<TStateEnum> where TStateEnum : Enum
     public bool TryRegisterState(TStateEnum state, StateMethodRecord methodRecord)
         => stateMethodRecords.TryAdd(state, methodRecord);
 
+    public void EnterCurrent()
+        => stateMethodRecords[currentState].OnEnter?.Invoke(default!);
+
     /// <summary>
     /// 注册一个状态, 已有或失败会抛出异常
     /// </summary>
