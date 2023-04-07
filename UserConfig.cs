@@ -4,9 +4,9 @@ namespace MVE;
 
 public class UserConfig
 {
-    public CursorShape CursorShapeReadyToPick => CursorShape.PointingHand;
+    public CursorShape CursorShapeReadyToPick { get; set; } = CursorShape.PointingHand;
 
-    public CursorShape CursorShapeReadyToPickCard => CursorShape.PointingHand;
+    public CursorShape CursorShapeReadyToPickCard { get; set; } = CursorShape.PointingHand;
 
-    public CursorShape CursorShapeReadyToPickPickaxe => CursorShape.PointingHand;
+    public CursorShape CursorShapeReadyToPickPickaxe { get; set; } = CursorShape.PointingHand;
 }

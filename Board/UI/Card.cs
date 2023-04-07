@@ -1,7 +1,6 @@
 using MVE.SalExt;
 
 namespace MVE;
-
 public partial class Card : BoardUI, IBoardUIPickable
 {
     [Export] protected AudioStream pickAudio = default!;
@@ -20,8 +19,8 @@ public partial class Card : BoardUI, IBoardUIPickable
     protected StateMachine<CardState> stateMachine = default!;
     protected bool mouseIn = false;
 
-    [Export]
-    public Color SelfMaskColor { get; set; } = Color.Color8(143, 143, 143, 255);
+    private const byte ColorByte = (byte)(255 * 0.6f);
+    public GodotColor SelfMaskColor { get; set; } = GodotColor.Color8(ColorByte, ColorByte, ColorByte, 0xff);
 
     public Sid WeaponPropertyId { get; set; } = "dispenser";
 
@@ -45,7 +44,16 @@ public partial class Card : BoardUI, IBoardUIPickable
         area.MouseEntered += () => mouseIn = true;
         area.MouseExited += () => mouseIn = false;
 
-        stateMachine = new(CardState.Cooldown);
+        Cooldown = 0.0f;
+        UpdateFromPropertyId(WeaponPropertyId);
+        pickShownConfig = new()
+        {
+            Texture = contentSprite.Texture,
+            Transform = Transform2D.Identity
+        };
+        tapAudiosPlayerChooser = SalAudioPool.ChooserFromArray(tapAudios, (new(default!, Bus: "Board")));
+
+        stateMachine = new(CardState.Idle);
         stateMachine.RegisterState(CardState.Idle,
             enter: IdleEnter,
             update: IdleUpdate
@@ -56,19 +64,11 @@ public partial class Card : BoardUI, IBoardUIPickable
             update: CooldownUpdate
             );
         stateMachine.RegisterState(CardState.Picked,
-            enter: PickedEnter,
-            exit: _ => Modulate = Color.Color8(255, 255, 255, 255)
+            enter: this.PickedEnter,
+            exit: _ => Modulate = GodotColor.Color8(255, 255, 255, 255)
             );
         stateMachine.EnterCurrent();
 
-        Cooldown = 0.0f;
-        UpdateFromPropertyId(WeaponPropertyId);
-        pickShownConfig = new()
-        {
-            Texture = contentSprite.Texture,
-            Transform = Transform2D.Identity
-        };
-        tapAudiosPlayerChooser = SalAudioPool.ChooserFromArray(tapAudios, (new(default!, Bus: "Board")));
     }
 
     protected void PickedEnter(CardState s)
@@ -85,7 +85,7 @@ public partial class Card : BoardUI, IBoardUIPickable
 
     protected void RestoreMask()
     {
-        (shadowMask.Visible, Modulate) = (false, Color.Color8(255, 255, 255, 255));
+        (shadowMask.Visible, Modulate) = (false, GodotColor.Color8(255, 255, 255, 255));
         UpdateMaskRegion(0f);
     }
 

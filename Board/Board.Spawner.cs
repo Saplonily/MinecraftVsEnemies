@@ -1,3 +1,4 @@
+using System.Reflection;
 using MVE.SalExt;
 
 namespace MVE;
@@ -75,6 +76,8 @@ public partial class Board : Node
         //放置选卡ui
         var ui = selectingUIScene.Instantiate<SelectingUI>();
         layerOverlay.AddChild(ui);
+        layerOverlay.MoveChild(ui, boardUIManager.GetIndex() - 1);
+        ui.Modulate = ui.Modulate with { A = 0 };
         ui.StartAppearAnimation();
         await ToSignal(ui, SelectingUI.SignalName.CardSelectingFinished);
 
@@ -97,6 +100,7 @@ public partial class Board : Node
             {
                 Vector2 targetPos = Extensions.SwitchTransform(ui, boardUIManager, c.Position) + boardUIManager.CardsLayoutStartPos;
                 cardTween.TweenProperty(c, "position", targetPos, 0.5);
+                c.ChangeDisabledState(true);
                 c.Switch2DParent(boardUIManager);
             }
 
@@ -114,8 +118,8 @@ public partial class Board : Node
                 var s = cardScene.Instantiate<Card>();
                 s.Position = pos;
                 s.WeaponPropertyId = c.WeaponPropertyId;
-                boardUIManager.AddChild(s);
                 c.Free();
+                boardUIManager.AddChild(s);
             }
         }
 

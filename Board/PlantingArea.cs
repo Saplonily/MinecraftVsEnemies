@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace MVE;
 
-public record struct PlantHintBox(bool Enabled, Rect2 LocalRegion, Color Color)
+public record struct PlantHintBox(bool Enabled, Rect2 LocalRegion, GodotColor Color)
 {
     public Rect2I GridRegion
     {
@@ -24,9 +24,9 @@ public partial class PlantingArea : Area2D
     protected Weapon?[,] gridWeapons = default!;
 
     [Export]
-    public Color PlaceAllowColor { get; set; }
+    public GodotColor PlaceAllowColor { get; set; }
     [Export]
-    public Color PlaceNotAllowColor { get; set; }
+    public GodotColor PlaceNotAllowColor { get; set; }
 
     public Vector2I GridMousePosition => LocalPosToGridPos(GetLocalMousePosition());
 

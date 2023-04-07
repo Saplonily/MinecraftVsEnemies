@@ -31,6 +31,9 @@ position = Vector2(372, 188)
 shape = SubResource("RectangleShape2D_dmonr")
 metadata/_edit_lock_ = true
 
+[node name="LayerOverlay" parent="Board" index="1"]
+follow_viewport_scale = -1.0
+
 [node name="Label" parent="Board/LayerOverlay" index="1"]
 offset_top = 440.0
 offset_right = 240.0

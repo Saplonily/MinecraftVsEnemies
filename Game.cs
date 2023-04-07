@@ -27,7 +27,7 @@ public partial class Game : Node
             .WithLevelLimit(LogLevel.Trace)
             .Build();
 
-        logger.LogInfo("Game", "Hello SalLogger in godot 4.0 .net6!");
+        logger.LogInfo("Game", "Hello SalLogger in godot 4.0 .net7!");
         logger.LogInfo("Game", $"Current version: {Version}");
 
         logger.LogInfo("Game", "Loading WeaponProperties...");

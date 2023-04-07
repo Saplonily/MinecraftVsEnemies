@@ -31,7 +31,6 @@ public partial class SelectingUI : Node2D
         startButton = GetNode<Button>("ForSelectingUI/StartButton");
         startButton.Pressed += this.StartButton_Pressed;
 
-        Modulate = Modulate with { A = 0 };
         PlaceCardsForSelecting(CardsForSelecting);
     }
 
@@ -61,9 +60,14 @@ public partial class SelectingUI : Node2D
         QueueFree();
     }
 
-    public void StartAppearAnimation()
+    public async void StartAppearAnimation()
     {
+        var allCards = CardsForSelectingNode2D.GetChildren().OfType<CardForSelecting>();
+        foreach (var card in allCards) card.ChangeDisabledState(true, false);
         animationPlayer.Play("Appear");
+        await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+        foreach (var card in allCards) card.ChangeDisabledState(false, false);
+
     }
 
     /// <summary>

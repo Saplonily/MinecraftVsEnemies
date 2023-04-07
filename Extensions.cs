@@ -1,4 +1,5 @@
-global using Color = Godot.Color;
+global using GodotColor = Godot.Color;
+global using Color = System.Drawing.Color;
 global using GodotFileAccess = Godot.FileAccess;
 global using Timer = Godot.Timer;
 global using FileAccess = System.IO.FileAccess;
@@ -159,6 +160,9 @@ public static class Extensions
         }
         return result;
     }
+
+    public static GodotColor ToGd(this Color sysColor)
+        => GodotColor.Color8(sysColor.R, sysColor.G, sysColor.B, sysColor.A);
 
     #endregion
 }

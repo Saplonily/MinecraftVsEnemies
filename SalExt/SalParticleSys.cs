@@ -288,21 +288,21 @@ public partial class SalParticleSys : Node2D
         if (Engine.IsEditorHint() && DebugDraw)
         {
             if (ParticleTexture is null) return;
-            DrawCircle(ParticlePosition, 2, Color.Color8(100, 100, 255, 50));
+            DrawCircle(ParticlePosition, 2, GodotColor.Color8(100, 100, 255, 50));
             DrawRect(
                 new Rect2(ParticlePosition - ParticlePositionRandomness, ParticlePositionRandomness * 2),
-                Color.Color8(100, 100, 255, 50),
+                GodotColor.Color8(100, 100, 255, 50),
                 false,
                 2
                 );
 
             DrawSetTransformMatrix(ParticleSelfShapeTransform);
-            ParticleSelfShape?.Draw(GetCanvasItem(), Color.Color8(255, 255, 255, 127));
+            ParticleSelfShape?.Draw(GetCanvasItem(), GodotColor.Color8(255, 255, 255, 127));
             if (ParticleCollideShapeWiths is not null)
                 for (int i = 0; i < ParticleCollideShapeWiths.Count; i++)
                 {
                     DrawSetTransformMatrix(ParticleCollideShapeWithsTransforms[i]);
-                    ParticleCollideShapeWiths[i].Draw(GetCanvasItem(), Color.Color8(127, 127, 127, 127));
+                    ParticleCollideShapeWiths[i].Draw(GetCanvasItem(), GodotColor.Color8(127, 127, 127, 127));
                 }
         }
 #endif
@@ -328,7 +328,7 @@ public partial class SalParticleSys : Node2D
 
         public Vector2 Position { get; set; }
 
-        public Color Color { get; set; }
+        public GodotColor Color { get; set; }
 
         public float Rotation { get; set; }
 
@@ -349,7 +349,7 @@ public partial class SalParticleSys : Node2D
                 p.Position = default;
                 p.MaxLifeTime = default;
                 p.Rotation = default;
-                p.Color = new Color(1, 1, 1, 1);
+                p.Color = new GodotColor(1, 1, 1, 1);
                 p.RotationSpeed = default;
                 p.AnimationProcess = 0;
                 return true;

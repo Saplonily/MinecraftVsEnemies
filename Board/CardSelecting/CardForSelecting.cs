@@ -16,7 +16,7 @@ public partial class CardForSelecting : Node2D
     protected TextureButton button = default!;
     protected Chooser<AudioStreamPlayer> tapAudioPlayerChooser = default!;
 
-    protected bool selected = false;
+    protected bool disabled = false;
 
     public bool IsForSelectedDisplay { get; protected set; }
     public CardForSelecting? ForSelectedSource { get; protected set; }
@@ -37,11 +37,11 @@ public partial class CardForSelecting : Node2D
 
     protected void Button_ButtonDown()
     {
-        if (selected) return;
+        if (disabled) return;
         tapAudioPlayerChooser.Choose().Play();
         if (!IsForSelectedDisplay)
         {
-            ChangeSelectState(true);
+            ChangeDisabledState(true);
 
             var newCard = Scene.Instantiate<CardForSelecting>();
             newCard.IsForSelectedDisplay = true;
@@ -49,6 +49,7 @@ public partial class CardForSelecting : Node2D
             newCard.ForSelectedSource = this;
             newCard.WeaponPropertyId = WeaponPropertyId;
             selectingUI.AddChild(newCard);
+            newCard.ChangeDisabledState(true, false);
             var targetPos = selectingUI.AddSelected(newCard);
             var tween = newCard.CreateTween()
                 .SetEase(Tween.EaseType.Out)
@@ -57,10 +58,12 @@ public partial class CardForSelecting : Node2D
             tween.TweenCallback(Callable.From(() =>
             {
                 newCard.Switch2DParent(selectingUI.SelectedCardsNode2D);
+                newCard.ChangeDisabledState(false, false);
             }));
         }
         else
         {
+            ChangeDisabledState(true, false);
             this.Switch2DParent(selectingUI);
             var tween = CreateTween()
                 .SetEase(Tween.EaseType.Out)
@@ -68,8 +71,8 @@ public partial class CardForSelecting : Node2D
             tween.TweenProperty(this, "position", Extensions.SwitchTransform(ForSelectedSource!, selectingUI), 0.3d);
             tween.TweenCallback(Callable.From(() =>
             {
+                ForSelectedSource!.ChangeDisabledState(false);
                 QueueFree();
-                ForSelectedSource!.ChangeSelectState(false);
             }));
             selectingUI.RemoveSelected(this);
         }
@@ -83,16 +86,19 @@ public partial class CardForSelecting : Node2D
         costLabel.Text = property.Cost.ToString();
     }
 
-    public void ChangeSelectState(bool value)
+    public void ChangeDisabledState(bool value, bool graify = true)
     {
-        if (selected == value) return;
+        if (disabled == value) return;
         button.MouseDefaultCursorShape =
             value ? Control.CursorShape.Arrow :
             Control.CursorShape.PointingHand;
-        if (value)
-            Modulate = (Modulate *= 0.6f) with { A = 1f };
-        else
-            Modulate = (Modulate /= 0.6f) with { A = 1f };
-        selected = value;
+        if (graify)
+        {
+            if (value)
+                CreateTween().TweenProperty(this, "modulate", (Modulate * 0.6f) with { A = 1f }, 0.1f);
+            else
+                Modulate = (Modulate / 0.6f) with { A = 1f };
+        }
+        disabled = value;
     }
 }
