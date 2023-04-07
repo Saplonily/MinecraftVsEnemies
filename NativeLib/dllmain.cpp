@@ -20,7 +20,7 @@ extern "C"
 		hr = pfd->SetFileTypes(size, fileTypes);
 		hr = pfd->SetFileTypeIndex(1);
 		hr = pfd->Show(NULL);
-		if (hr == HRESULT_FROM_WIN32(ERROR_CANCELLED))
+		if (!SUCCEEDED(hr))
 		{
 			pfd->Release();
 			return nullptr;
