@@ -85,7 +85,7 @@ public partial class Board : Node
 
         var tree = GetTree();
         debugLabel.Text = $"Enemy count: {tree.GetNodesInGroup("Enemy").Count}\n" +
-            $"Weapon conut: {tree.GetNodesInGroup("Weapon").Count}\n" +
+            $"Weapon count: {tree.GetNodesInGroup("Weapon").Count}\n" +
             $"Bullet count: {tree.GetNodesInGroup("Bullet").Count}\n" +
             $"Current wave: {CurrentWave}/{LevelData.TotalWaves}\n" +
             $"fps: {Engine.GetFramesPerSecond()}\n" +

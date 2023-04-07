@@ -36,6 +36,7 @@ public partial class PlayerHead : Node2D
             await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
             currentStopStone.OnEnter(this);
         }
+#if GODOT_WINDOWS
         if (currentStopStone is LevelStopStone && ie is InputEventKey iek && iek.Keycode == Key.Key1 && iek.Pressed)
         {
             unsafe
@@ -56,6 +57,7 @@ public partial class PlayerHead : Node2D
                 Game.Instance.SwitchToLevelNativePath(result);
             }
         }
+#endif
     }
 
     public override void _PhysicsProcess(double delta)

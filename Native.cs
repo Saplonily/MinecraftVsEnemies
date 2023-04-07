@@ -14,7 +14,7 @@ internal static unsafe class Native
     };
 
 #if DEBUG
-    internal const string NativeDllName = @"D:\Projects\MinecraftVsEnemies\x64\Debug\NativeLib.dll";
+    internal const string NativeDllName = @".\x64\Debug\NativeLib.dll";
 #elif TRACE
     internal const string NativeDllName = @"NativeLib.dll";
 #endif
