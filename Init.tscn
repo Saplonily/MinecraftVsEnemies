@@ -6,4 +6,3 @@
 [node name="Init" type="Node"]
 script = ExtResource("1_78e5s")
 initGotoScene = ExtResource("2_fsrup")
-initGotoLevel = "res://Levels/Level01.json"

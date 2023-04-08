@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://bv2edc1dlutly"]
+[gd_scene load_steps=5 format=3 uid="uid://bv2edc1dlutly"]
 
 [ext_resource type="PackedScene" uid="uid://w1hme4omb3vx" path="res://LevelSelecting/StopStone.tscn" id="1_jbyg6"]
 [ext_resource type="Texture2D" uid="uid://wmtgqyj6g1v3" path="res://LevelSelecting/TrapDoorEntry.png" id="2_6qrad"]
 [ext_resource type="Script" path="res://LevelSelecting/LevelStopStone.cs" id="2_7jc3q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2n6aw"]
+line_spacing = 0.0
+font_size = 18
+shadow_color = Color(0, 0, 0, 0.34902)
 
 [node name="LevelStopStone" instance=ExtResource("1_jbyg6")]
 script = ExtResource("2_7jc3q")
@@ -16,3 +21,14 @@ metadata/_edit_lock_ = true
 scale = Vector2(2, 2)
 texture = ExtResource("2_6qrad")
 metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+
+[node name="Label" type="Label" parent="." index="3"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+text = "1"
+label_settings = SubResource("LabelSettings_2n6aw")
+horizontal_alignment = 1
