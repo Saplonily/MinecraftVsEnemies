@@ -37,7 +37,6 @@ follow_viewport_scale = -1.0
 [node name="Label" parent="Board/LayerOverlay" index="1"]
 offset_top = 440.0
 offset_right = 240.0
-text = "debug text here"
 
 [node name="BoardUI" parent="Board/LayerOverlay" index="3" instance=ExtResource("3_t6j7e")]
 

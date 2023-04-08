@@ -1,4 +1,6 @@
+using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Saladim.SalLogger;
 
 namespace MVE;
@@ -6,6 +8,7 @@ namespace MVE;
 public partial class Game : Node
 {
     protected Logger logger;
+    protected JsonSerializerOptions levelLoadingOptions;
 
     public static Game Instance { get; protected set; } = default!;
     public static Logger Logger => Instance.logger;
@@ -16,12 +19,22 @@ public partial class Game : Node
     public Version Version { get; protected set; }
     public UserConfig Config { get; protected set; }
     public Random Random => Random.Shared;
+    public SaveData SaveData { get; protected set; }
 
     public Game()
     {
         Instance = this;
         Version = new Version(0, 0, 1, 0);
         Config = new();
+        levelLoadingOptions = new()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Converters =
+            {
+                new SidConverter()
+            }
+        };
+
         logger = new LoggerBuilder()
             .WithAction(GD.Print)
             .WithLevelLimit(LogLevel.Trace)
@@ -38,6 +51,14 @@ public partial class Game : Node
 
         logger.LogInfo("Game", "Loading LevelSceneProperties...");
         LoadLevelSceneProperties();
+
+        logger.LogInfo("Game", "Loading savedata...");
+        SaveData = LoadSaveData();
+    }
+
+    public override void _ExitTree()
+    {
+        SaveSaveData();
     }
 
     public static bool OnInterval(int frames)
@@ -101,7 +122,7 @@ public partial class Game : Node
     {
         try
         {
-            var d = JsonSerializer.Deserialize<LevelData>(json)
+            var d = JsonSerializer.Deserialize<LevelData>(json, levelLoadingOptions)
                 ?? throw new LevelLoadFailedException("LevelDataReading", "Failed to deserialize LevelData.");
             PackedScene scene = Instance.LevelSceneProperties[d.SceneId].Scene;
             var node = scene.Instantiate();
@@ -125,5 +146,31 @@ public partial class Game : Node
     }
 
     public void SwitchToLevelNativePath(string levelJsonNativePath)
-        => SwitchToLevelJson(System.IO.File.ReadAllText(levelJsonNativePath));
+        => SwitchToLevelJson(File.ReadAllText(levelJsonNativePath));
+
+    public SaveData LoadSaveData()
+    {
+        SaveData sd = new();
+        string fpath = ProjectSettings.GlobalizePath("user://temp_save.bin");
+        if (File.Exists(fpath))
+        {
+            try
+            {
+                sd.ReadFromNative(fpath);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("SaveDataLoading", e, "error when loading SaveData, restoring.");
+                sd = new();
+            }
+        }
+        return sd;
+    }
+
+    public SaveData SaveSaveData()
+    {
+        string fpath = ProjectSettings.GlobalizePath("user://temp_save.bin");
+        SaveData.SaveToNative(fpath);
+        return SaveData;
+    }
 }

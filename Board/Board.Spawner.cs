@@ -75,9 +75,13 @@ public partial class Board : Node
 
         //放置选卡ui
         var ui = selectingUIScene.Instantiate<SelectingUI>();
+        ui.Modulate = ui.Modulate with { A = 0 };
+        var finalCards = Game.Instance.SaveData.OwnedCards
+            .Union(LevelData.Inventory.CardsAlwaysIncludes)
+            .ToList();
+        ui.CardsForSelecting = finalCards;
         layerOverlay.AddChild(ui);
         layerOverlay.MoveChild(ui, boardUIManager.GetIndex() - 1);
-        ui.Modulate = ui.Modulate with { A = 0 };
         ui.StartAppearAnimation();
         await ToSignal(ui, SelectingUI.SignalName.CardSelectingFinished);
 
@@ -179,7 +183,7 @@ public partial class Board : Node
             int row = Random.Next(0, 5);
             var prop = Game.Instance.EnemyProperties["zombie"];
             placingHandler(prop, row);
-            var u = spawningData.EnemyPool.FirstOrDefault(u => u.InternalId == "zombie");
+            var u = spawningData.EnemyPool.FirstOrDefault(u => u.Id == "zombie");
             rowWeights[row] -= u is not null ? u.Cost : 100;
             return;
         }
@@ -196,7 +200,7 @@ public partial class Board : Node
             (int i, int ind) result = Chooser<(int, int)>.ChooseFrom(Random, allMaxList);
             rowWeights[result.ind] -= unit.Cost;
 
-            placingHandler(Game.Instance.EnemyProperties[unit.InternalId], result.ind);
+            placingHandler(Game.Instance.EnemyProperties[unit.Id], result.ind);
         }
     }
 }

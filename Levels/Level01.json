@@ -4,39 +4,39 @@
     "EnemiesSpawning": {
         "EnemyPool": [
             {
-                "Marker": "normal",
-                "InternalId": "zombie",
+                "Id": "zombie",
                 "Weight": 200,
                 "Cost": 200
             },
             {
-                "Marker": "leather",
-                "InternalId": "leat_zombie",
+                "Id": "leat_zombie",
                 "Weight": 200,
                 "Cost": 400
             },
             {
-                "Marker": "iron",
-                "InternalId": "iron_zombie",
+                "Id": "iron_zombie",
                 "Weight": 100,
                 "Cost": 600
             }
         ],
         "PointsAddFactor": 50
     },
-    "WaveEvents": {
+    "Inventory": {
+        "CardsAlwaysIncludes": [ "dispenser" ]
+    },
+    "WaveEvent": {
         "EventStores": {
             "sm1": {
                 "$Event": "AttachedEnemies",
                 "Row": 1,
-                "Marker": "normal"
+                "Id": "zombie"
             }
         },
         "0": [
             {
                 "$Event": "AttachedEnemies",
                 "Row": 1,
-                "Marker": "normal"
+                "Id": "leat_zombie"
             }
         ],
         "1": [
@@ -46,7 +46,14 @@
             },
             {
                 "$Event": "Forward",
-                "Marker": "sm1"
+                "Id": "sm1"
+            }
+        ],
+        "2": [
+            {
+                "$Event": "WeightModify",
+                "Set": 10,
+                "Id": "zombie"
             }
         ]
     },

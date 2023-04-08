@@ -8,6 +8,15 @@ public partial class Init : Node
 
     public override void _Ready()
     {
+        //SaveData sd = new()
+        //{
+        //    OwnedCards =
+        //    {
+        //        "MVE/furnace"
+        //    }
+        //};
+        //sd.SaveToUser("user://temp_test.bin");
+
         Engine.TimeScale = TimeScale;
 #if GODOT_WINDOWS
         Native.ComInit();

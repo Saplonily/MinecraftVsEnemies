@@ -14,14 +14,14 @@ public class SaveData
 
     public void SaveTo(Stream stream)
     {
-        using BinaryWriter bw = new(stream, Encoding.UTF8);
-        bw.Write(new Version(0, 0, 1, 0));
+        using BinaryWriter bw = new(stream, Encoding.ASCII);
+        bw.Write(Game.Instance.Version);
         bw.WriteList(OwnedCards, (bw, v) => bw.Write(v));
     }
 
     public void ReadFrom(Stream stream)
     {
-        using BinaryReader br = new(stream, Encoding.UTF8);
+        using BinaryReader br = new(stream, Encoding.ASCII);
         Version v = br.ReadVersion();
         if (v is { Major: 0, Minor: 0, Build: 1 })
         {
