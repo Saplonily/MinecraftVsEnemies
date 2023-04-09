@@ -34,10 +34,10 @@ metadata/_edit_lock_ = true
 [node name="LayerOverlay" parent="Board" index="1"]
 follow_viewport_scale = -1.0
 
-[node name="Label" parent="Board/LayerOverlay" index="1"]
+[node name="BoardUI" parent="Board/LayerOverlay" index="0" instance=ExtResource("3_t6j7e")]
+
+[node name="Label" parent="Board/LayerOverlay" index="2"]
 offset_top = 440.0
 offset_right = 240.0
-
-[node name="BoardUI" parent="Board/LayerOverlay" index="3" instance=ExtResource("3_t6j7e")]
 
 [editable path="Board"]

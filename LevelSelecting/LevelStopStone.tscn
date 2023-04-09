@@ -11,8 +11,7 @@ shadow_color = Color(0, 0, 0, 0.34902)
 
 [node name="LevelStopStone" instance=ExtResource("1_jbyg6")]
 script = ExtResource("2_7jc3q")
-LevelFile = null
-DirectionAllowed = null
+LevelFile = ""
 
 [node name="Area2D" parent="." index="0"]
 metadata/_edit_lock_ = true
@@ -22,9 +21,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_6qrad")
 metadata/_edit_lock_ = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
-
-[node name="Label" type="Label" parent="." index="3"]
+[node name="Label" type="Label" parent="." index="2"]
 offset_left = -16.0
 offset_top = -16.0
 offset_right = 16.0

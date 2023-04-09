@@ -1,4 +1,3 @@
-using System.Reflection;
 using MVE.SalExt;
 
 namespace MVE;
@@ -16,8 +15,9 @@ public partial class Board : Node
     }
 
     [Export] protected PackedScene cardScene = default!;
-    [Export] protected AudioStream awoogaAudio = default!;
     [Export] protected PackedScene selectingUIScene = default!;
+    [Export] protected PackedScene readySetScene = default!;
+    [Export] protected AudioStream awoogaAudio = default!;
     [Export] protected Vector2 cameraStartPos;
     [Export] protected Vector2 cameraBoardPos;
     [Export] protected Vector2 cameraCardSelectingPos;
@@ -114,6 +114,11 @@ public partial class Board : Node
             cameraTween2.TweenProperty(camera, "position", cameraBoardPos, 1d);
             await ToSignal(cameraTween2, Tween.SignalName.Finished);
 
+            ReadySetUI u = readySetScene.Instantiate<ReadySetUI>();
+            u.Position = GetViewport().GetVisibleRect().GetCenter();
+            boardUIManager.AddChild(u);
+            await u.PlayAndFree();
+            u.QueueFree();
 
             //销毁所有的ForSelecting的Card并生成并赋值真正的Card
             foreach (var c in selectedCards)
@@ -127,9 +132,11 @@ public partial class Board : Node
             }
         }
 
+
         //显示除卡以外的其他ui
         boardUIManager.PlayDisplayAnimation();
-        //切换ui显示模式
+
+        //切换ui显示模式(从LayerOverlay到LayerMain)
         boardUIManager.Switch2DParent(layerMain);
         layerMain.MoveChild(boardUIManager, -2);
 
