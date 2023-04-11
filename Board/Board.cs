@@ -8,7 +8,7 @@ public partial class Board : Node
     protected Sprite2D pickingSprite = default!;
     protected RedstoneDisplayer redstoneDisplayer = default!;
     protected Label debugLabel = default!;
-    protected BoardUIManager boardUIManager = default!;
+    protected MainBoardUIManager boardUIManager = default!;
     protected Camera2D camera = default!;
     protected CanvasLayer layerOverlay = default!;
     protected CanvasLayer layerMain = default!;
@@ -45,7 +45,7 @@ public partial class Board : Node
         debugLabel = GetNode<Label>("LayerOverlay/Label");
         layerOverlay = GetNode<CanvasLayer>("LayerOverlay");
         pickingSprite = GetNode<Sprite2D>("LayerOverlay/Picking");
-        boardUIManager = GetNode<BoardUIManager>("LayerOverlay/BoardUI");
+        boardUIManager = GetNode<MainBoardUIManager>("LayerOverlay/MainBoardUIs");
         redstoneDisplayer = boardUIManager.RedstoneDisplayer;
 
         InitAudios();

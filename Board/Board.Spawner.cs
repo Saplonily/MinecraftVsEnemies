@@ -56,7 +56,7 @@ public partial class Board : Node
     public async void LevelOpeningWaiting(LevelState pst)
     {
         CurrentWave = 0;
-        boardUIManager.PlayHideAnimation();
+        boardUIManager.MakeMainHide();
         //开场等待
         await ToSignal(GetTree().CreateTimer(1d), SceneTreeTimer.SignalName.Timeout);
 
@@ -74,16 +74,13 @@ public partial class Board : Node
         await ToSignal(cameraTween, Tween.SignalName.Finished);
 
         //放置选卡ui
-        var ui = selectingUIScene.Instantiate<SelectingUI>();
-        ui.Modulate = ui.Modulate with { A = 0 };
         var finalCards = Game.Instance.SaveData.OwnedCards
             .Union(LevelData.Inventory.CardsAlwaysIncludes)
             .ToList();
+        var ui = selectingUIScene.Instantiate<SelectingUI>();
         ui.CardsForSelecting = finalCards;
         layerOverlay.AddChild(ui);
-        layerOverlay.MoveChild(ui, boardUIManager.GetIndex() - 1);
-        ui.StartAppearAnimation();
-        await ToSignal(ui, SelectingUI.SignalName.CardSelectingFinished);
+        await ui.StartAndWaitSelecting();
 
         selectingUI = ui;
         stateMachine.State = LevelState.Main;
@@ -114,12 +111,6 @@ public partial class Board : Node
             cameraTween2.TweenProperty(camera, "position", cameraBoardPos, 1d);
             await ToSignal(cameraTween2, Tween.SignalName.Finished);
 
-            ReadySetUI u = readySetScene.Instantiate<ReadySetUI>();
-            u.Position = GetViewport().GetVisibleRect().GetCenter();
-            boardUIManager.AddChild(u);
-            await u.PlayAndFree();
-            u.QueueFree();
-
             //销毁所有的ForSelecting的Card并生成并赋值真正的Card
             foreach (var c in selectedCards)
             {
@@ -139,6 +130,16 @@ public partial class Board : Node
         //切换ui显示模式(从LayerOverlay到LayerMain)
         boardUIManager.Switch2DParent(layerMain);
         layerMain.MoveChild(boardUIManager, -2);
+
+        if(pst is LevelState.TravelToSelecting)
+        {
+            //ready set ui
+            ReadySetUI u = readySetScene.Instantiate<ReadySetUI>();
+            u.Position = GetViewport().GetVisibleRect().GetCenter();
+            layerOverlay.AddChild(u);
+            await u.PlayAndFree();
+            u.QueueFree();
+        }
 
         //刷怪开始
         updater = _ =>

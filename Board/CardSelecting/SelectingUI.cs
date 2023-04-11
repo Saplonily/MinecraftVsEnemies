@@ -49,25 +49,21 @@ public partial class SelectingUI : Node2D
     {
         EmitSignal(SignalName.CardSelectingFinished, this);
         animationPlayer.Play("Disappear");
-        Variant[] args;
-        do
-        {
-            args = await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
-            if (args[0].AsStringName() == "Disappear")
-                break;
-        }
-        while (true);
+        await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
         QueueFree();
     }
 
-    public async void StartAppearAnimation()
+    public async Task StartAndWaitSelecting()
     {
         var allCards = CardsForSelectingNode2D.GetChildren().OfType<CardForSelecting>();
         foreach (var card in allCards) card.ChangeDisabledState(true, false);
-        animationPlayer.Play("Appear");
-        await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
-        foreach (var card in allCards) card.ChangeDisabledState(false, false);
 
+        animationPlayer.Play("Appear");
+        animationPlayer.Advance(0);
+        await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+
+        foreach (var card in allCards) card.ChangeDisabledState(false, false);
+        await ToSignal(this, SignalName.CardSelectingFinished);
     }
 
     /// <summary>

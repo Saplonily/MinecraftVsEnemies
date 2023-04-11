@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3]
+[gd_scene load_steps=42 format=3 uid="uid://o76j1k4feyq7"]
 
 [ext_resource type="PackedScene" path="res://Board/Enemies/EnemyBase.tscn" id="1_o4wry"]
 [ext_resource type="Script" path="res://Board/Enemies/Zombie/Zombie.cs" id="1_okrin"]
@@ -13,7 +13,6 @@
 [ext_resource type="Script" path="res://SalExt/SalParticleSys.cs" id="7_op2yc"]
 [ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="7_yqo61"]
 [ext_resource type="Texture2D" uid="uid://cvbkhjm22srht" path="res://Board/AtlasSmokeParticle.png" id="9_b8fhj"]
-
 
 [sub_resource type="Animation" id="Animation_74g6l"]
 resource_name = "Attack"

@@ -19,7 +19,6 @@ public partial class ReadySetUI : BoardUI
         var player = SalAudioPool.GetPlayer(new(audio, Bus: "UI"));
         player.Play();
         animationPlayer.Play("Main");
-        // srds我懒的封装这一长串为函数了
-        while (true) if ((await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished))[0].As<StringName>() == "Main") break;
+        await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
     }
 }

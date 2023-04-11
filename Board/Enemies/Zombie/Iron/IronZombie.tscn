@@ -1,9 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://t14lsoxyyc35"]
+[gd_scene load_steps=29 format=3 uid="uid://t14lsoxyyc35"]
 
 [ext_resource type="PackedScene" path="res://Board/Enemies/Zombie/Zombie.tscn" id="1_k8324"]
 [ext_resource type="Texture2D" uid="uid://bnwrihvg3is53" path="res://Board/Enemies/Zombie/Iron/IronCap.png" id="2_1mv8q"]
 [ext_resource type="Script" path="res://Board/Enemies/Zombie/Iron/IronZombie.cs" id="2_dhg0i"]
 [ext_resource type="Curve" uid="uid://bcykge5goyyxk" path="res://Resource/EaseOutCurve.tres" id="3_c6cnc"]
+[ext_resource type="AudioStream" uid="uid://b3ttkyay08x0i" path="res://Board/Enemies/Zombie/Iron/Hit1.ogg" id="3_kf66c"]
+[ext_resource type="AudioStream" uid="uid://dqu6qcm6uq5gu" path="res://Board/Enemies/Zombie/Iron/Hit2.ogg" id="4_405a1"]
 
 [sub_resource type="Animation" id="Animation_85m6g"]
 resource_name = "Attack"
@@ -344,9 +346,7 @@ node_connections = [&"output", 0, &"CapHitOneShot", &"CapHitOneShot", 0, &"HitOn
 
 [node name="IronZombie" instance=ExtResource("1_k8324")]
 script = ExtResource("2_dhg0i")
-ironBeHitAudios = null
-beHitAudios = null
-deathAudio = null
+ironBeHitAudios = Array[AudioStream]([ExtResource("3_kf66c"), ExtResource("4_405a1")])
 
 [node name="IronCap" type="Sprite2D" parent="Sprites" index="6"]
 position = Vector2(0, -86)

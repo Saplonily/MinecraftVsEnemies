@@ -1,6 +1,6 @@
 namespace MVE;
 
-public partial class BoardUIManager : Node2D
+public partial class MainBoardUIManager : Node2D
 {
     protected AnimationPlayer animationPlayer = default!;
 
@@ -16,11 +16,21 @@ public partial class BoardUIManager : Node2D
 
     public void PlayDisplayAnimation()
     {
-        animationPlayer.Play("Display");
+        animationPlayer.Play("MainDisplay");
+        animationPlayer.Advance(0);
     }
 
-    public void PlayHideAnimation()
+    public void MakeMainHide()
     {
-        animationPlayer.Play("Hide");
+        animationPlayer.Play("MainHide");
+        animationPlayer.Advance(0);
+    }
+
+    public void RequestAllDisabledChange(bool toDisabled)
+    {
+        foreach (var u in this.GetChildren().OfType<BoardUI>())
+        {
+            u.Disabled = toDisabled;
+        }
     }
 }

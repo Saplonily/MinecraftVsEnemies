@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://chmiphfo7fvfq"]
+[gd_scene load_steps=14 format=3 uid="uid://bp76hmn13kr44"]
 
 [ext_resource type="Script" path="res://Board/Board.cs" id="1"]
 [ext_resource type="Script" path="res://Board/Lawn.cs" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://dtxe0ebmrpw1v" path="res://Board/Weapons/Sounds/Stone4.ogg" id="7_33uif"]
 [ext_resource type="PackedScene" uid="uid://cl7pkdjqctkcq" path="res://Board/UI/ReadySet/ReadySet.tscn" id="8_n5heh"]
 [ext_resource type="PackedScene" uid="uid://wgbcgbjcnyb" path="res://Board/CardSelecting/SelectingUI.tscn" id="8_nhxlh"]
+[ext_resource type="PackedScene" uid="uid://bmki4fntj00a" path="res://Board/UI/MainBoardUIs.tscn" id="12_m76ad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2u03"]
 size = Vector2(750, 375)
@@ -47,14 +48,16 @@ shape = SubResource("RectangleShape2D_j2u03")
 
 [node name="LayerOverlay" type="CanvasLayer" parent="."]
 
-[node name="Picking" type="Sprite2D" parent="LayerOverlay"]
-texture_filter = 1
+[node name="MainBoardUIs" parent="LayerOverlay" instance=ExtResource("12_m76ad")]
 
 [node name="Label" type="Label" parent="LayerOverlay"]
 offset_top = 455.0
 offset_right = 260.0
 offset_bottom = 600.0
 vertical_alignment = 2
+
+[node name="Picking" type="Sprite2D" parent="LayerOverlay"]
+texture_filter = 1
 
 [node name="Camera2D" type="Camera2D" parent="LayerOverlay"]
 anchor_mode = 0

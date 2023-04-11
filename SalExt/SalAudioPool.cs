@@ -49,6 +49,6 @@ public partial class SalAudioPool : Node
         && player.PitchScale == config.PitchScale
         && player.MaxPolyphony == config.MaxPolyPhony;
 
-    public static Chooser<AudioStreamPlayer> ChooserFromArray(Godot.Collections.Array<AudioStream> streamArray, SalAudioConfig baseConfig)
+    public static Chooser<AudioStreamPlayer> GetChooserFromArray(Godot.Collections.Array<AudioStream> streamArray, SalAudioConfig baseConfig)
         => new(Random.Shared, streamArray.Select(s => GetPlayer(baseConfig with { Stream = s })));
 }

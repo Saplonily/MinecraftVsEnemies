@@ -51,47 +51,37 @@ public partial class Card : BoardUI, IBoardUIPickable
             Texture = contentSprite.Texture,
             Transform = Transform2D.Identity
         };
-        tapAudiosPlayerChooser = SalAudioPool.ChooserFromArray(tapAudios, (new(default!, Bus: "Board")));
+        tapAudiosPlayerChooser = SalAudioPool.GetChooserFromArray(tapAudios, (new(default!, Bus: "Board")));
 
         stateMachine = new(CardState.Idle);
-        stateMachine.RegisterState(CardState.Idle,
-            enter: IdleEnter,
-            update: IdleUpdate
-            );
-        stateMachine.RegisterState(CardState.Cooldown,
-            enter: _ => MakeMasked(),
-            exit: _ => RestoreMask(),
-            update: CooldownUpdate
-            );
-        stateMachine.RegisterState(CardState.Picked,
-            enter: this.PickedEnter,
-            exit: _ => Modulate = GodotColor.Color8(255, 255, 255, 255)
-            );
+        stateMachine.RegisterState(CardState.Idle, IdleEnter, update: IdleUpdate);
+        stateMachine.RegisterState(CardState.Cooldown, update: CooldownUpdate);
+        stateMachine.RegisterState(CardState.Picked, PickedEnter, PickedExit);
         stateMachine.EnterCurrent();
-
     }
 
     protected void PickedEnter(CardState s)
     {
-        Modulate = SelfMaskColor;
+        SetMaskState(true);
         pickAudioPlayer.Play();
     }
 
-    protected void MakeMasked()
+    protected void PickedExit(CardState s)
     {
-        (shadowMask.Visible, Modulate) = (true, SelfMaskColor);
-        UpdateMaskRegion(0f);
+        SetMaskState(false);
     }
 
-    protected void RestoreMask()
+    protected void SetMaskState(bool basicMask, float cooldownMaskPercent = 0f)
     {
-        (shadowMask.Visible, Modulate) = (false, GodotColor.Color8(255, 255, 255, 255));
-        UpdateMaskRegion(0f);
+        shadowMask.Visible = basicMask;
+        Modulate = basicMask ? SelfMaskColor : Color.White.ToGd();
+        var rect = cardSprite.GetRect();
+        shadowMask.RegionRect = rect with { Size = new(rect.Size.X, rect.Size.Y * cooldownMaskPercent) };
     }
 
     protected bool IsAvailable()
     {
-        if (Board.Bank.Redstone < WeaponProperty.Cost)
+        if (Board.Bank.Redstone < WeaponProperty.Cost || Disabled)
         {
             return false;
         }
@@ -99,33 +89,17 @@ public partial class Card : BoardUI, IBoardUIPickable
     }
 
     protected void IdleEnter(CardState s)
-    {
-        if (IsAvailable())
-            RestoreMask();
-        else
-            MakeMasked();
-    }
+        => stateMachine.Update(GetProcessDeltaTime());
 
     protected void IdleUpdate(double delta)
-    {
-        if (IsAvailable())
-            RestoreMask();
-        else
-            MakeMasked();
-    }
-
-    protected void UpdateMaskRegion(float percent)
-    {
-        var rect = cardSprite.GetRect();
-        shadowMask.RegionRect = rect with { Size = new(rect.Size.X, rect.Size.Y * percent) };
-    }
+        => SetMaskState(!IsAvailable());
 
     protected void CooldownUpdate(double delta)
     {
         Cooldown -= CooldownStep * delta;
         if (Cooldown <= 0.0f)
             stateMachine.State = CardState.Idle;
-        UpdateMaskRegion((float)Cooldown);
+        SetMaskState(true, (float)Cooldown);
     }
 
     public override void _Process(double delta)
@@ -163,8 +137,14 @@ public partial class Card : BoardUI, IBoardUIPickable
     {
         if (travelType is PickingTravelType.PlayerCancel)
         {
-            stateMachine.State = CardState.Idle;
             tapAudiosPlayerChooser.Choose().Play();
+            stateMachine.State = CardState.Idle;
+        }
+        if (travelType is PickingTravelType.Used)
+        {
+            Cooldown = 1.0f;
+            stateMachine.State = CardState.Cooldown;
+            Board.Bank.ReduceRedstone(WeaponProperty.Cost);
         }
     }
 
@@ -173,9 +153,6 @@ public partial class Card : BoardUI, IBoardUIPickable
 
     public void OnUsed()
     {
-        Cooldown = 1.0f;
-        stateMachine.State = CardState.Cooldown;
-        Board.Bank.ReduceRedstone(WeaponProperty.Cost);
         Board.DoPick(PickingType.Idle, PickingTravelType.Used, null);
     }
 
