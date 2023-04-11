@@ -1,7 +1,7 @@
 global using GodotColor = Godot.Color;
-global using Color = System.Drawing.Color;
 global using GodotFileAccess = Godot.FileAccess;
 global using Timer = Godot.Timer;
+global using Color = System.Drawing.Color;
 global using FileAccess = System.IO.FileAccess;
 using System.IO;
 

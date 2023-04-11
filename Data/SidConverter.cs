@@ -7,7 +7,7 @@ public class SidConverter : JsonConverter<Sid>
 {
     public override Sid Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string? str = reader.GetString() 
+        string? str = reader.GetString()
             ?? throw new JsonException("The string of the Sid string-formed one cannot be null.");
         return Sid.Parse(str);
     }
