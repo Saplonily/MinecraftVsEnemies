@@ -57,7 +57,7 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"queue_redraw"
+"method": &"queue_free"
 }]
 }
 
