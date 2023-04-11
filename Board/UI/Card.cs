@@ -94,6 +94,9 @@ public partial class Card : BoardUI, IBoardUIPickable
     protected void IdleUpdate(double delta)
         => SetMaskState(!IsAvailable());
 
+    public override void OnDisabledChanged(bool isDisabled)
+        => SetMaskState(!IsAvailable());
+
     protected void CooldownUpdate(double delta)
     {
         Cooldown -= CooldownStep * delta;
@@ -106,7 +109,7 @@ public partial class Card : BoardUI, IBoardUIPickable
     {
         base._Process(delta);
         stateMachine.Update(delta);
-        if (mouseIn && stateMachine.State is CardState.Idle or CardState.Cooldown)
+        if (!Disabled && mouseIn && stateMachine.State is CardState.Idle or CardState.Cooldown)
         {
             Board.ExpectCursorShape = Game.Instance.Config.CursorShapeReadyToPickCard;
         }

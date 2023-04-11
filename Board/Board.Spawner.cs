@@ -123,22 +123,23 @@ public partial class Board : Node
             }
         }
 
-
-        //显示除卡以外的其他ui
-        boardUIManager.PlayDisplayAnimation();
-
         //切换ui显示模式(从LayerOverlay到LayerMain)
         boardUIManager.Switch2DParent(layerMain);
         layerMain.MoveChild(boardUIManager, -2);
 
-        if(pst is LevelState.TravelToSelecting)
+        if (pst is LevelState.TravelToSelecting)
         {
+            boardUIManager.RequestAllDisabledChange(true);
+            //显示除卡以外的其他ui
+            await boardUIManager.PlayDisplayAnimation();
+
             //ready set ui
             ReadySetUI u = readySetScene.Instantiate<ReadySetUI>();
             u.Position = GetViewport().GetVisibleRect().GetCenter();
             layerOverlay.AddChild(u);
             await u.PlayAndFree();
             u.QueueFree();
+            boardUIManager.RequestAllDisabledChange(false);
         }
 
         //刷怪开始

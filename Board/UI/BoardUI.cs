@@ -12,7 +12,7 @@ public partial class BoardUI : Node2D
             if (disabled != value)
             {
                 disabled = !disabled;
-                if (disabled) OnDisabled(); else OnEnabled();
+                OnDisabledChanged(disabled);
             }
         }
     }
@@ -24,6 +24,5 @@ public partial class BoardUI : Node2D
         Board = this.FindParent<Board>() ?? throw new NodeNotFoundException(nameof(MVE.Board));
     }
 
-    public virtual void OnDisabled() { }
-    public virtual void OnEnabled() { }
+    public virtual void OnDisabledChanged(bool isDisabled) { }
 }

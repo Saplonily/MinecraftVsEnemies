@@ -77,7 +77,6 @@ public abstract partial class Weapon : LawnEntity
 
     public virtual void OnPlaced(PlantingArea plantingArea)
     {
-        Game.Logger.LogInfo("qwq", "placed");
         Board.StoneSoundPlayerChooser.Choose().Play();
     }
 

@@ -35,7 +35,7 @@ public partial class Pickaxe : BoardUI, IBoardUIPickable
     public override void _Process(double delta)
     {
         base._Process(delta);
-        if (mouseIn)
+        if (!Disabled && mouseIn)
         {
             Board.ExpectCursorShape = Game.Instance.Config.CursorShapeReadyToPickPickaxe;
         }
@@ -44,7 +44,7 @@ public partial class Pickaxe : BoardUI, IBoardUIPickable
 
     protected void Area2D_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
     {
-        if (!picked && ie.IsActionPressed(InputNames.Using) && Board.Picking is PickingType.Idle)
+        if (!Disabled && !picked && ie.IsActionPressed(InputNames.Using) && Board.Picking is PickingType.Idle)
         {
             picked = true;
             Board.DoPick(PickingType.Pickaxe, PickingTravelType.PlayerSelect, this);

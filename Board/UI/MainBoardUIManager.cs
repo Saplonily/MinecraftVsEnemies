@@ -14,10 +14,11 @@ public partial class MainBoardUIManager : Node2D
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
-    public void PlayDisplayAnimation()
+    public async Task PlayDisplayAnimation()
     {
         animationPlayer.Play("MainDisplay");
         animationPlayer.Advance(0);
+        await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
     }
 
     public void MakeMainHide()
