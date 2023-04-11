@@ -1,16 +1,16 @@
 ﻿// dllmain.cpp : 定义 DLL 应用程序的入口点。
 #include "pch.hpp"
 
-#define native_export __declspec(dllexport)
+#define native_export __declspec(dllexport) __stdcall
 
 extern "C"
 {
-	native_export HRESULT __stdcall ComInit()
+	HRESULT native_export ComInit()
 	{
 		return CoInitialize(NULL);
 	}
 
-	native_export LPWSTR __stdcall OpenDialog(const COMDLG_FILTERSPEC* fileTypes, int size)
+	LPWSTR native_export OpenDialog(const COMDLG_FILTERSPEC* fileTypes, int size)
 	{
 		IFileDialog* pfd = NULL;
 		HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
@@ -34,8 +34,13 @@ extern "C"
 		return *pszFilePath;
 	}
 
-	native_export void __stdcall ComFree(const void* ptr)
+	void native_export ComFree(const void* ptr)
 	{
 		CoTaskMemFree((LPVOID)ptr);
+	}
+
+	int native_export NativeMessageBox(const wchar_t* title, const wchar_t* content)
+	{
+		return MessageBoxW(NULL, content, title, MB_OK);
 	}
 }

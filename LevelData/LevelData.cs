@@ -1,23 +1,24 @@
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace MVE;
 
 [DebuggerDisplay("Scene: {SceneId,nq},TotalWaves: {TotalWaves}")]
 public class LevelData
 {
-    public required Sid SceneId { get; init; }
-    public required int TotalWaves { get; init; }
-    public required EnemiesSpawningData EnemiesSpawning { get; init; }
-    public LevelInventory Inventory { get; init; } = new();
-    public WaveEventsData WaveEvent { get; init; } = new();
-    public Dictionary<string, string> Meta { get; init; } = new();
+    public required Sid SceneId { get; set; }
+    public required int TotalWaves { get; set; }
+    public required EnemiesSpawningData EnemiesSpawning { get; set; }
+    public LevelInventory Inventory { get; set; } = new();
+    public WaveEventData? WaveEvent { get; set; }
+    public Dictionary<string, string> Meta { get; set; } = new();
 }
 
 [DebuggerDisplay("EnemyPool, Count={EnemyPool.Count}")]
 public class EnemiesSpawningData
 {
-    public required List<EnemyPoolUnit> EnemyPool { get; init; }
-    public int PointsAddFactor { get; init; } = 50;
+    public required List<EnemyPoolUnit> EnemyPool { get; set; }
+    public int PointsAddFactor { get; set; } = 50;
 
     /// <summary>
     /// 从该出怪配置中使用最大花费选出一只Enemy, 返回null时表示当前总花费不可寻找任何一只Enemy
@@ -53,14 +54,19 @@ public class EnemiesSpawningData
 [DebuggerDisplay("Marker: {Marker,nq}, Id: {InternalId}, Weight: {Weight}, Cost: {Cost}")]
 public class EnemyPoolUnit
 {
-    public required string Id { get; init; }
-    public required int Weight { get; init; }
-    public required int Cost { get; init; }
+    public required Sid Id { get; set; }
+    public required int Weight { get; set; }
+    public required int Cost { get; set; }
 }
 
 public class LevelInventory
 {
-    public List<Sid> CardsAlwaysIncludes { get; init; } = new();
+    public List<Sid> CardsAlwaysIncludes { get; set; } = new();
 }
 
-public record WaveEventsData();
+public class WaveEventData
+{
+    public Dictionary<string, WaveEvent> EventStores { get; set; } = new();
+
+    public Dictionary<string, List<WaveEvent>> Events { get; set; } = new();
+}

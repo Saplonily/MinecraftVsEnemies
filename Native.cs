@@ -27,6 +27,9 @@ internal static unsafe class Native
 
     [DllImport(NativeDllName)]
     internal static extern void ComFree(void* ptr);
+
+    [DllImport(NativeDllName, CharSet = CharSet.Unicode)]
+    internal static extern int NativeMessageBox(string title, string content);
 }
 
 #endif

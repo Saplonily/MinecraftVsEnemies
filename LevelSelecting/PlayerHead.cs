@@ -54,7 +54,17 @@ public partial class PlayerHead : Node2D
                 }
                 string result = new(c);
                 Native.ComFree(c);
-                Game.Instance.SwitchToLevelNativePath(result);
+                try
+                {
+                    Game.Instance.SwitchToLevelNativePath(result);
+                }
+                catch (Exception e)
+                {
+                    animationPlayer.Play("RESET");
+                    animationPlayer.Advance(0d);
+                    Native.NativeMessageBox("Exception", $"{e.GetType().Name}-{e.Message}");
+                    Game.Logger.LogError("LevelLoading", e);
+                }
             }
         }
 #endif

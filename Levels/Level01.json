@@ -32,30 +32,32 @@
                 "Id": "zombie"
             }
         },
-        "0": [
-            {
-                "$Event": "AttachedEnemies",
-                "Row": 1,
-                "Id": "leat_zombie"
-            }
-        ],
-        "1": [
-            {
-                "$Event": "PointsModify",
-                "Set": 200
-            },
-            {
-                "$Event": "Forward",
-                "Id": "sm1"
-            }
-        ],
-        "2": [
-            {
-                "$Event": "WeightModify",
-                "Set": 10,
-                "Id": "zombie"
-            }
-        ]
+        "Events": {
+            "1": [
+                {
+                    "$Event": "AttachedEnemies",
+                    "Row": 1,
+                    "Id": "leat_zombie"
+                }
+            ],
+            "2": [
+                {
+                    "$Event": "PointsModify",
+                    "Set": 200
+                },
+                {
+                    "$Event": "Forward",
+                    "Id": "sm1"
+                }
+            ],
+            "3": [
+                {
+                    "$Event": "WeightModify",
+                    "Set": 100,
+                    "Id": "zombie"
+                }
+            ]
+        }
     },
     "Meta": {}
 }

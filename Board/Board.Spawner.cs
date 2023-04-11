@@ -178,11 +178,18 @@ public partial class Board : Node
 
         int points = CurrentWave * LevelData.EnemiesSpawning.PointsAddFactor;
 
+        if (LevelData.WaveEvent is not null && LevelData.WaveEvent.Events.TryGetValue(CurrentWave.ToString(), out var events))
+        {
+            foreach (var e in events)
+                e.Execute(this, ref points);
+        }
+
         SummonEnemiesBy(LevelData.EnemiesSpawning, points, PlaceEnemy);
 
-        Enemy PlaceEnemy(in EnemyProperty property, int row)
-            => Lawn.PlantingArea.PlaceEnemyAt(new Vector2I(Random.Next(10, 13), row), property);
     }
+
+    public Enemy PlaceEnemy(in EnemyProperty property, int row)
+        => Lawn.PlantingArea.PlaceEnemyAt(new Vector2I(Random.Next(10, 13), row), property);
 
     public delegate Enemy EnemyPlacingHandler(in EnemyProperty property, int row);
 
