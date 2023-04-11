@@ -92,7 +92,6 @@ public static class Extensions
     /// </summary>
     public static Vector2 SwitchTransform(Node2D from, Node2D to)
         => SwitchTransform(from, to, Vector2.Zero);
-
     #endregion
 
     #region math

@@ -30,6 +30,7 @@ public partial class SelectingUI : Node2D
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         startButton = GetNode<Button>("ForSelectingUI/StartButton");
         startButton.Pressed += this.StartButton_Pressed;
+        startButton.Disabled = true;
 
         PlaceCardsForSelecting(CardsForSelecting);
     }
@@ -71,6 +72,7 @@ public partial class SelectingUI : Node2D
     /// </summary>
     public Vector2 AddSelected(CardForSelecting card)
     {
+        startButton.Disabled = false;
         if (SelectedCards.Count == 0)
         {
             var pos = Extensions.SwitchTransform(SelectedCardsNode2D, this);
@@ -106,5 +108,8 @@ public partial class SelectingUI : Node2D
             }
             SelectedCards.RemoveAt(index);
         }
+
+        if (SelectedCards.Count == 0)
+            startButton.Disabled = true;
     }
 }

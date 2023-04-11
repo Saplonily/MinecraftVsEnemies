@@ -133,6 +133,8 @@ public partial class Board : Node
             //显示除卡以外的其他ui
             await boardUIManager.PlayDisplayAnimation();
 
+            await ToSignal(GetTree().CreateTimer(0.25d), SceneTreeTimer.SignalName.Timeout);
+
             //ready set ui
             ReadySetUI u = readySetScene.Instantiate<ReadySetUI>();
             u.Position = GetViewport().GetVisibleRect().GetCenter();
