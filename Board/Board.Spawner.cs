@@ -39,6 +39,7 @@ public partial class Board : Node
         if (LevelData is null)
         {
             Game.Logger.LogError("LevelLoading", "No LevelData is assigned.");
+            throw new Exception("No LevelData is assigned.");
         }
         awoogaAudioPlayer = SalAudioPool.GetPlayer(new(awoogaAudio, Bus: "Board"));
 
@@ -79,7 +80,7 @@ public partial class Board : Node
             .ToList();
         var ui = selectingUIScene.Instantiate<SelectingUI>();
         ui.CardsForSelecting = finalCards;
-        layerOverlay.AddChild(ui);
+        boardUIManager.AddChild(ui);
         await ui.StartAndWaitSelecting();
 
         selectingUI = ui;
