@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://drtn77m3m7fs4"]
 
 [ext_resource type="Script" path="res://Board/UI/Pickaxe.cs" id="1_e5fnq"]
 [ext_resource type="Texture2D" uid="uid://cwrnyulp6hd8n" path="res://Board/UI/PickaxeSlot.png" id="1_wwpjt"]

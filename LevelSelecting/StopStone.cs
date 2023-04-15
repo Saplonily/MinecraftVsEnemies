@@ -4,8 +4,24 @@ namespace MVE.LevelSelecting;
 
 public partial class StopStone : Node2D
 {
+    protected Area2D area = default!;
     [Export] public Direction DirectionAllowed { get; set; }
     public virtual bool AbleToEnter => false;
+
+    public override void _Ready()
+    {
+        area = GetNode<Area2D>("Area2D");
+
+        area.InputEvent += this.Area_InputEvent;
+    }
+
+    private void Area_InputEvent(Node viewport, InputEvent @event, long shapeIdx)
+    {
+        if (AbleToEnter && @event is InputEventScreenTouch)
+        {
+            this.OnEnter(null!);
+        }
+    }
 
     public virtual void OnEnter(PlayerHead playerHead)
     {
