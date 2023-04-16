@@ -1,63 +1,17 @@
 {
     "SceneId": "grasswalk",
-    "TotalWaves": 20,
+    "TotalWaves": 10,
     "EnemiesSpawning": {
         "EnemyPool": [
             {
                 "Id": "zombie",
                 "Weight": 200,
-                "Cost": 200
-            },
-            {
-                "Id": "leat_zombie",
-                "Weight": 200,
-                "Cost": 400
-            },
-            {
-                "Id": "iron_zombie",
-                "Weight": 100,
-                "Cost": 600
+                "Cost": 100
             }
         ],
         "PointsAddFactor": 50
     },
     "Inventory": {
         "CardsAlwaysIncludes": [ "dispenser" ]
-    },
-    "WaveEvent": {
-        "EventStores": {
-            "sm1": {
-                "$Event": "AttachedEnemies",
-                "Row": 1,
-                "Id": "zombie"
-            }
-        },
-        "Events": {
-            "1": [
-                {
-                    "$Event": "AttachedEnemies",
-                    "Row": 1,
-                    "Id": "leat_zombie"
-                }
-            ],
-            "2": [
-                {
-                    "$Event": "PointsModify",
-                    "Set": 200
-                },
-                {
-                    "$Event": "Forward",
-                    "Id": "sm1"
-                }
-            ],
-            "3": [
-                {
-                    "$Event": "WeightModify",
-                    "Set": 100,
-                    "Id": "zombie"
-                }
-            ]
-        }
-    },
-    "Meta": {}
+    }
 }

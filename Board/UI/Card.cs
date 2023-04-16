@@ -19,15 +19,14 @@ public partial class Card : BoardUI, IBoardUIPickable
     protected StateMachine<CardState> stateMachine = default!;
     protected bool mouseIn = false;
 
-    private const byte ColorByte = (byte)(255 * 0.6f);
+    protected const byte ColorByte = (byte)(255 * 0.6f);
+
     public GodotColor SelfMaskColor { get; set; } = GodotColor.Color8(ColorByte, ColorByte, ColorByte, 0xff);
-
     public Sid WeaponPropertyId { get; set; } = "dispenser";
-
     public double Cooldown { get; set; } = 1.0;
-
     public double CooldownStep { get; protected set; } = 1.0 / 100.0;
 
+    [Export] public string? InitWeaponSid { get => WeaponPropertyId.ToString(); set => WeaponPropertyId = Sid.Parse(value!); }
     public WeaponProperty WeaponProperty { get; protected set; } = default!;
 
     public override void _Ready()

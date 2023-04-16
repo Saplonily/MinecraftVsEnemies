@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bp76hmn13kr44"]
+[gd_scene load_steps=15 format=3 uid="uid://bp76hmn13kr44"]
 
 [ext_resource type="Script" path="res://Board/Board.cs" id="1"]
 [ext_resource type="Script" path="res://Board/Lawn.cs" id="2"]
@@ -11,10 +11,11 @@
 [ext_resource type="AudioStream" uid="uid://dtxe0ebmrpw1v" path="res://Board/Weapons/Sounds/Stone4.ogg" id="7_33uif"]
 [ext_resource type="PackedScene" uid="uid://cl7pkdjqctkcq" path="res://Board/UI/ReadySet/ReadySet.tscn" id="8_n5heh"]
 [ext_resource type="PackedScene" uid="uid://wgbcgbjcnyb" path="res://Board/CardSelecting/SelectingUI.tscn" id="8_nhxlh"]
+[ext_resource type="Script" path="res://Board/PlantingArea.cs" id="12_8d3xi"]
 [ext_resource type="PackedScene" uid="uid://bmki4fntj00a" path="res://Board/UI/MainBoardUIs.tscn" id="12_m76ad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2u03"]
-size = Vector2(750, 375)
+size = Vector2(825, 375)
 
 [node name="Board" type="Node"]
 script = ExtResource("1")
@@ -23,7 +24,7 @@ cardScene = ExtResource("6_3lrlr")
 selectingUIScene = ExtResource("8_nhxlh")
 readySetScene = ExtResource("8_n5heh")
 awoogaAudio = ExtResource("6_7cblf")
-cameraBoardPos = Vector2(55, 0)
+cameraBoardPos = Vector2(192, 0)
 cameraCardSelectingPos = Vector2(600, 0)
 
 [node name="LayerMain" type="CanvasLayer" parent="."]
@@ -39,11 +40,16 @@ centered = false
 script = ExtResource("2")
 
 [node name="PlantingArea" type="Area2D" parent="LayerMain/Lawn"]
+position = Vector2(150, 150)
 collision_layer = 32
 collision_mask = 0
+script = ExtResource("12_8d3xi")
+PlaceAllowColor = Color(0, 0.968627, 0.294118, 0.662745)
+PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LayerMain/Lawn/PlantingArea"]
-position = Vector2(595, 340)
+z_index = 294
+position = Vector2(412.5, 187.5)
 shape = SubResource("RectangleShape2D_j2u03")
 
 [node name="LayerOverlay" type="CanvasLayer" parent="."]

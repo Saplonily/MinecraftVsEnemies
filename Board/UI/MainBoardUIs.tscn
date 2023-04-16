@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bmki4fntj00a"]
+[gd_scene load_steps=9 format=3 uid="uid://bmki4fntj00a"]
 
 [ext_resource type="Script" path="res://Board/UI/MainBoardUIManager.cs" id="1_veycd"]
 [ext_resource type="PackedScene" uid="uid://dybr4mypcw41w" path="res://Board/UI/RedstoneDisplayer.tscn" id="2_xc67k"]
-[ext_resource type="PackedScene" path="res://Board/UI/Pickaxe.tscn" id="3_yoe67"]
+[ext_resource type="PackedScene" uid="uid://c7cooe25v85i5" path="res://Board/UI/Pickaxe.tscn" id="3_yoe67"]
+[ext_resource type="PackedScene" uid="uid://ii07htob2e1b" path="res://Board/UI/Progresser/WaveProgresser.tscn" id="4_jenpf"]
 
 [sub_resource type="Animation" id="Animation_ce1m7"]
 resource_name = "MainDisplay"
@@ -228,3 +229,6 @@ position = Vector2(520, 0)
 libraries = {
 "": SubResource("AnimationLibrary_h2738")
 }
+
+[node name="WaveProgresser" parent="." instance=ExtResource("4_jenpf")]
+position = Vector2(624, 552)

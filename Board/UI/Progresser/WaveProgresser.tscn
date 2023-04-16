@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://ii07htob2e1b"]
+
+[ext_resource type="Texture2D" uid="uid://b07yug32ae3s1" path="res://Board/UI/Progresser/Bg.png" id="1_45lod"]
+[ext_resource type="Script" path="res://Board/UI/Progresser/Progresser.cs" id="1_rx1ux"]
+[ext_resource type="Texture2D" uid="uid://c3qgepc04y3lw" path="res://Board/UI/Progresser/WaveFlag.png" id="1_ua6bn"]
+[ext_resource type="Texture2D" uid="uid://os8ei5y0h7je" path="res://Board/UI/Progresser/Fg.png" id="2_h5qq0"]
+[ext_resource type="Script" path="res://SalExt/RemoteDrawer.cs" id="3_uq7a1"]
+
+[node name="WaveProgresser" type="Node2D"]
+script = ExtResource("1_rx1ux")
+WaveFlagTexture = ExtResource("1_ua6bn")
+
+[node name="Bg" type="Sprite2D" parent="."]
+texture = ExtResource("1_45lod")
+centered = false
+
+[node name="Fg" type="Sprite2D" parent="."]
+texture = ExtResource("2_h5qq0")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 32)
+
+[node name="Flags" type="Node2D" parent="."]
+script = ExtResource("3_uq7a1")

@@ -30,6 +30,8 @@ public partial class Board : Node
 
     protected int[] rowWeights = new int[5];
 
+    public LevelState InitState { get; set; } = LevelState.OpeningWaiting;
+
     public int CurrentWave { get; protected set; }
     public LevelData LevelData { get; set; } = default!;
     public bool SpawnerBeginningReadyed { get; protected set; } = false;
@@ -43,7 +45,7 @@ public partial class Board : Node
         }
         awoogaAudioPlayer = SalAudioPool.GetPlayer(new(awoogaAudio, Bus: "Board"));
 
-        stateMachine = new(LevelState.OpeningWaiting);
+        stateMachine = new(InitState);
         stateMachine.RegisterState(LevelState.OpeningWaiting, LevelOpeningWaiting);
         stateMachine.RegisterState(LevelState.TravelToSelecting, LevelTravelToSelecting);
         stateMachine.RegisterState(LevelState.Main, LevelMain);
@@ -123,6 +125,9 @@ public partial class Board : Node
                 boardUIManager.AddChild(s);
             }
         }
+
+        camera.Position = cameraBoardPos;
+        await ToSignal(GetTree().CreateTimer(0.05d), SceneTreeTimer.SignalName.Timeout);
 
         //切换ui显示模式(从LayerOverlay到LayerMain)
         boardUIManager.Switch2DParent(layerMain);
