@@ -3,7 +3,11 @@ global using GodotFileAccess = Godot.FileAccess;
 global using Timer = Godot.Timer;
 global using Color = System.Drawing.Color;
 global using FileAccess = System.IO.FileAccess;
+global using Vector2 = Godot.Vector2;
+global using Vector3 = Godot.Vector3;
 using System.IO;
+using System.Numerics;
+using System.Linq;
 
 namespace MVE;
 
@@ -191,5 +195,19 @@ public static class Calculate
             return target;
         Vector3 diff = (target - val) with { Z = 0 };
         return diff.LengthSquared() <= maxMove * maxMove ? target with { Z = val.Z } : val + (diff.Normalized() * maxMove);
+    }
+
+    public static T? ChooseByWeight<T>(Random random, IEnumerable<T> items, IEnumerable<int> weights)
+    {
+        var randomValue = random.NextDouble() * weights.Sum();
+        var i = 0;
+        foreach (var weight in weights)
+        {
+            if (randomValue < weight)
+                return items.ElementAt(i);
+            randomValue -= weight;
+            i++;
+        }
+        return default;
     }
 }

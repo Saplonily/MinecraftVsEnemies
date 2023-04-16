@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvohejmrk280g"]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://Init.cs" id="1_78e5s"]
-[ext_resource type="PackedScene" uid="uid://svn2mwrhk8jx" path="res://LevelSelecting/Level0.tscn" id="2_fsrup"]
+[ext_resource type="PackedScene" path="res://LevelSelecting/Level0.tscn" id="2_fsrup"]
 
 [node name="Init" type="Node"]
 script = ExtResource("1_78e5s")

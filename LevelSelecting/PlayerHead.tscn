@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bclhk2qys0gak"]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://LevelSelecting/PlayerHead.cs" id="1_7gxaj"]
 [ext_resource type="Texture2D" uid="uid://dqslmymc6qkip" path="res://LevelSelecting/PlayerHead.png" id="1_fbow6"]

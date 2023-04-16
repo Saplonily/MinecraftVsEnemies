@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://svn2mwrhk8jx"]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Texture2D" uid="uid://d14c2cpmynidq" path="res://LevelSelecting/Bg0.png" id="1_2teof"]
-[ext_resource type="PackedScene" uid="uid://bclhk2qys0gak" path="res://LevelSelecting/PlayerHead.tscn" id="2_gw0dr"]
-[ext_resource type="PackedScene" uid="uid://w1hme4omb3vx" path="res://LevelSelecting/StopStone.tscn" id="3_gjwn5"]
-[ext_resource type="PackedScene" uid="uid://bv2edc1dlutly" path="res://LevelSelecting/LevelStopStone.tscn" id="4_uc0vl"]
+[ext_resource type="PackedScene" path="res://LevelSelecting/PlayerHead.tscn" id="2_gw0dr"]
+[ext_resource type="PackedScene" path="res://LevelSelecting/StopStone.tscn" id="3_gjwn5"]
+[ext_resource type="PackedScene" path="res://LevelSelecting/LevelStopStone.tscn" id="4_uc0vl"]
 
 [node name="Level0" type="Node2D"]
 

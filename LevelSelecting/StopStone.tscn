@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://w1hme4omb3vx"]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://LevelSelecting/StopStone.cs" id="1_u0blc"]
 

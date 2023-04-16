@@ -30,28 +30,17 @@ public class EnemiesSpawningData
     public EnemyPoolUnit? ChooseUnit(Random random, int maxCost)
     {
         var costablePool = EnemyPool.Where(u => u.Cost <= maxCost);
-        if (!costablePool.Any()) return null;
+        if (!costablePool.Any()) 
+            return null;
 
-        int totalWeight = costablePool.Sum(u => u.Weight);
-        int targetWeight = random.Next(totalWeight);
-        int currentWeight = 0;
-        EnemyPoolUnit? unitSelected = null;
-        foreach (var unit in costablePool)
-        {
-            currentWeight += unit.Weight;
-            if (currentWeight >= targetWeight)
-            {
-                unitSelected = unit;
-                break;
-            }
-        }
-        if (unitSelected is null)
-            throw new Exception("No unit found.");
+        EnemyPoolUnit? unitSelected = 
+            Calculate.ChooseByWeight(random, costablePool, costablePool.Select(p => p.Weight))
+            ?? throw new Exception("No unit found.");
         return unitSelected;
     }
 }
 
-[DebuggerDisplay("Marker: {Marker,nq}, Id: {InternalId}, Weight: {Weight}, Cost: {Cost}")]
+[DebuggerDisplay("Id: {Id}, Weight: {Weight}, Cost: {Cost}")]
 public class EnemyPoolUnit
 {
     public required Sid Id { get; set; }

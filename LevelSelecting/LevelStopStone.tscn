@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bv2edc1dlutly"]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource type="PackedScene" uid="uid://w1hme4omb3vx" path="res://LevelSelecting/StopStone.tscn" id="1_jbyg6"]
+[ext_resource type="PackedScene" path="res://LevelSelecting/StopStone.tscn" id="1_jbyg6"]
 [ext_resource type="Texture2D" uid="uid://wmtgqyj6g1v3" path="res://LevelSelecting/TrapDoorEntry.png" id="2_6qrad"]
 [ext_resource type="Script" path="res://LevelSelecting/LevelStopStone.cs" id="2_7jc3q"]
 
