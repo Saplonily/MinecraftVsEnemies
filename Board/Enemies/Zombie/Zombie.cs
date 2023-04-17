@@ -69,6 +69,15 @@ public partial class Zombie : Enemy
         stateMachine.Update(delta);
     }
 
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        if (deathParticleSys.GetParent() is null)
+        {
+            deathParticleSys.Free();
+        }
+    }
+
     public override void OnHpUseUp()
     {
         if (stateMachine.State != ZombieState.Dying)

@@ -36,6 +36,9 @@ public partial class Board : Node
     public LevelData LevelData { get; set; } = default!;
     public bool SpawnerBeginningReadyed { get; protected set; } = false;
 
+    public delegate void BoardWaveChangedEventHandler(Board board, int preWave, int curWave);
+    public event BoardWaveChangedEventHandler? WaveChanged;
+
     public void InitSpawner()
     {
         if (LevelData is null)

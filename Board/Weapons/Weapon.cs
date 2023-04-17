@@ -53,6 +53,12 @@ public abstract partial class Weapon : LawnEntity
     protected void MakeLight()
         => (sprite.Modulate, onPickingLighted) = (sprite.Modulate * 1.5f, true);
 
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        Board.PickingChanged -= EnterLightCheck;
+    }
+
     protected void HitBoxArea_InputEvent(Node viewport, InputEvent ie, long shapeIdx)
     {
         if (Board.Picking is PickingType.Pickaxe && ie.IsActionPressed(InputNames.Using))

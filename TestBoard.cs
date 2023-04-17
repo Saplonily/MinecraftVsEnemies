@@ -11,7 +11,7 @@ public partial class TestBoard : Board
             new() { Cost = 100, Weight = 1, Id = "leat_zombie" },
             new() { Cost = 100, Weight = 1, Id = "iron_zombie" }
         };
-        EnemiesSpawningData esd = new() { EnemyPool = pool, PointsAddFactor = 100 };
+        EnemiesSpawningData esd = new() { EnemyPool = pool, PointsAddFactor = 50 };
         LevelData = new()
         {
             SceneId = "grasswalk",

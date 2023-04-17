@@ -30,10 +30,10 @@ public class EnemiesSpawningData
     public EnemyPoolUnit? ChooseUnit(Random random, int maxCost)
     {
         var costablePool = EnemyPool.Where(u => u.Cost <= maxCost);
-        if (!costablePool.Any()) 
+        if (!costablePool.Any())
             return null;
-
-        EnemyPoolUnit? unitSelected = 
+        // 1919810
+        EnemyPoolUnit? unitSelected =
             Calculate.ChooseByWeight(random, costablePool, costablePool.Select(p => p.Weight))
             ?? throw new Exception("No unit found.");
         return unitSelected;

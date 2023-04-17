@@ -127,23 +127,22 @@ public partial class PlantingArea : Area2D
 
     public bool TryPlantAt(Vector2I gridPosition, WeaponProperty weaponProp, out Weapon? weapon)
     {
-        if (TryGetWeaponAt(gridPosition, out Weapon? weaponAt))
+        if (TryGetWeaponAt(gridPosition, out Weapon? weaponAt) && weaponAt is null)
         {
-            if (weaponAt is null)
-            {
-                var ins = weaponProp.Scene.Instantiate<Weapon>();
-                Vector2 localPos = new(GridBoxSize * (gridPosition.X + .5f), GridBoxSize * (gridPosition.Y + 1));
-                lawn.AddBoardEntity(ins, (localPos + Position).ToVec3WithZ0());
+            var ins = weaponProp.Scene.Instantiate<Weapon>();
+            Vector2 localPos = new(GridBoxSize * (gridPosition.X + .5f), GridBoxSize * (gridPosition.Y + 1));
+            lawn.AddBoardEntity(ins, (localPos + Position).ToVec3WithZ0());
 
-                gridWeapons[gridPosition.X, gridPosition.Y] = ins;
-                weapon = ins;
-                weapon!.Destroyed += () =>
-                {
-                    gridWeapons[gridPosition.X, gridPosition.Y] = null;
-                };
-                weapon.OnPlaced(this);
-                return true;
+            gridWeapons[gridPosition.X, gridPosition.Y] = ins;
+            weapon = ins;
+            ins.Destroyed += OnWeaponDestroyed;
+            void OnWeaponDestroyed()
+            {
+                gridWeapons[gridPosition.X, gridPosition.Y] = null;
+                ins.Destroyed -= OnWeaponDestroyed;
             }
+            weapon.OnPlaced(this);
+            return true;
         }
         weapon = null;
         return false;
