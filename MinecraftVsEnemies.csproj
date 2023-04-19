@@ -27,7 +27,7 @@
   <PropertyGroup>
     <StartAction>Program</StartAction>
     <StartProgram>D:\MyGodotSpace\4.0\Godot_v4.0.1-stable_mono_win64.exe</StartProgram>
-    <StartArguments>--verbose --path D:\Projects\MinecraftVsEnemies</StartArguments>
+    <StartArguments>--verbose --path D:\Projects\MinecraftVsEnemies --position "560,220" res://TestScene.tscn</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants);GAME_DEBUG</DefineConstants>

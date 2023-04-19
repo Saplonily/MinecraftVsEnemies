@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://Board/PlantingArea.cs" id="12_8d3xi"]
 [ext_resource type="PackedScene" uid="uid://bmki4fntj00a" path="res://Board/UI/MainBoardUIs.tscn" id="12_m76ad"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_j2u03"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6mn7u"]
 size = Vector2(825, 375)
 
 [node name="Board" type="Node"]
@@ -50,7 +50,7 @@ PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LayerMain/Lawn/PlantingArea"]
 z_index = 294
 position = Vector2(412.5, 187.5)
-shape = SubResource("RectangleShape2D_j2u03")
+shape = SubResource("RectangleShape2D_6mn7u")
 
 [node name="LayerOverlay" type="CanvasLayer" parent="."]
 

@@ -72,7 +72,7 @@ public partial class PlantingArea : Area2D
                 Game.Logger.LogError("Board", "LawnPlanting", "Board.Picking == PickingType.Card but with none-card PickedNode.");
                 return;
             }
-            if (!hintBox.Enabled)
+            if (!hintBox.Enabled && TryGetWeaponAt(GetLocalMousePosition(), out _))
             {
                 Game.Logger.LogError("Board", "LawnPlanting", "hintBox not enabled");
                 return;

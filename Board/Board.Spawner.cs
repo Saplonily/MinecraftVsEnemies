@@ -185,6 +185,8 @@ public partial class Board : Node
     {
         CurrentWave += 1;
 
+        WaveChanged?.Invoke(this, CurrentWave - 1, CurrentWave);
+
         int points = CurrentWave * LevelData.EnemiesSpawning.PointsAddFactor;
 
         if (LevelData.WaveEvent is not null && LevelData.WaveEvent.Events.TryGetValue(CurrentWave.ToString(), out var events))

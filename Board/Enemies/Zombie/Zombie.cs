@@ -42,8 +42,6 @@ public partial class Zombie : Enemy
         beHitAudioPlayerChooser = SalAudioPool.GetChooserFromArray(beHitAudios, (new(default!, Bus: "Board")));
         deathAudioPlayer = SalAudioPool.GetPlayer(new(deathAudio, Bus: "Board"));
 
-        RemoveChild(deathParticleSys);
-
         hitBox.AreaEntered += Area2D_AreaEntered;
         animationTree.Active = true;
 
@@ -67,15 +65,6 @@ public partial class Zombie : Enemy
     {
         base._Process(delta);
         stateMachine.Update(delta);
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-        if (deathParticleSys.GetParent() is null)
-        {
-            deathParticleSys.Free();
-        }
     }
 
     public override void OnHpUseUp()
@@ -162,6 +151,7 @@ public partial class Zombie : Enemy
 
     public void OnDieAnimationEnded()
     {
+        RemoveChild(deathParticleSys);
         LeftParticle lp = new(deathParticleSys)
         {
             LevelPos = LevelPos + deathParticleSys.Position.ToVec3WithZ0()

@@ -1,7 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://dpxfc32qriwdp"]
 
 [ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Resource/ShadowGradient.tres" id="1_v408m"]
-
 
 [node name="Enemy" type="Node2D" groups=["Enemy"]]
 texture_filter = 1

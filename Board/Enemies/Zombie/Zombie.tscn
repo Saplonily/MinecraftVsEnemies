@@ -1,6 +1,6 @@
 [gd_scene load_steps=42 format=3 uid="uid://o76j1k4feyq7"]
 
-[ext_resource type="PackedScene" path="res://Board/Enemies/EnemyBase.tscn" id="1_o4wry"]
+[ext_resource type="PackedScene" uid="uid://dpxfc32qriwdp" path="res://Board/Enemies/EnemyBase.tscn" id="1_o4wry"]
 [ext_resource type="Script" path="res://Board/Enemies/Zombie/Zombie.cs" id="1_okrin"]
 [ext_resource type="Texture2D" uid="uid://cq8oonp2yb7kv" path="res://Board/Enemies/Zombie/Hand.png" id="2_71thr"]
 [ext_resource type="AudioStream" uid="uid://ccs8vpps8ff37" path="res://Board/Enemies/Zombie/Hit1.ogg" id="3_402kt"]
