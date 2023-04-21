@@ -2,7 +2,7 @@
 
 public partial class TestBoard : Board
 {
-    public override void _Ready()
+    public TestBoard()
     {
         InitState = LevelState.Main;
         List<EnemyPoolUnit> pool = new()
@@ -15,9 +15,8 @@ public partial class TestBoard : Board
         LevelData = new()
         {
             SceneId = "grasswalk",
-            TotalWaves = 10,
+            TotalWaves = 20,
             EnemiesSpawning = esd
         };
-        base._Ready();
     }
 }
