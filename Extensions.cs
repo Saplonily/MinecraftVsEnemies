@@ -105,9 +105,13 @@ public static class Extensions
     public static double NextDouble(this Random r, double max)
         => r.NextDouble(0f, max);
 
+    public static double Next1m1Double(this Random r, double num)
+        => r.NextDouble(-num, num);
+
     public static float NextFloat(this Random r)
         => (float)r.NextDouble();
 
+    // idk how to name it
     public static float Next1m1Float(this Random r, float num)
         => r.NextFloat(-num, num);
 

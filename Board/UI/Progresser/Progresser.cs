@@ -9,6 +9,7 @@ public partial class Progresser : BoardUI
     protected Rect2 fgSprRect;
     protected Tween? percentDisplayTween;
     protected float[] flagRisingPercents = default!;
+    protected float flagRisingHeight = 100;
 
     [Export] public Texture2D WaveFlagTexture { get; protected set; } = default!;
     public float Percent { get; protected set; }
@@ -23,6 +24,8 @@ public partial class Progresser : BoardUI
 
         fgSprRect = fgSprite.GetRect();
         flagsDrawer.AssignAction(DrawFlag);
+
+        flagRisingHeight = fgSprRect.Size.Y / 2;
 
         // temp
         int totalWaves = Board.LevelData.TotalWaves;
@@ -54,16 +57,33 @@ public partial class Progresser : BoardUI
 
     public void DrawFlag(RemoteDrawer d)
     {
+        float wFlag = WaveFlagTexture.GetSize().X;
         for (int i = 0; i < FlagPositions.Length; i++)
         {
             float xOffset = fgSprRect.Size.X * (1f - FlagPositions[i]);
-            d.DrawTexture(WaveFlagTexture, d.Position with { X = xOffset - WaveFlagTexture.GetSize().X / 2 });
+            float x = xOffset - wFlag / 1.2f;
+            float y = d.Position.Y - flagRisingHeight * flagRisingPercents[i];
+            d.DrawTexture(WaveFlagTexture, new Vector2(x, y));
         }
     }
 
     public void TweenFgPercent(float percent)
     {
         percent = Math.Clamp(percent, 0f, 1f);
+        for (int i = 0; i < FlagPositions.Length; i++)
+        {
+            if (percent >= FlagPositions[i] && flagRisingPercents[i] == 0f)
+            {
+                int curi = i;
+                var risingTween = CreateTween()
+                    .SetEase(Tween.EaseType.Out)
+                    .SetTrans(Tween.TransitionType.Sine)
+                    .TweenMethod(Callable.From<float>(f =>
+                    {
+                        flagRisingPercents[curi] = f;
+                    }), 0f, 1f, 2d);
+            }
+        }
         percentDisplayTween?.Kill();
         percentDisplayTween = CreateTween()
             .SetEase(Tween.EaseType.Out)

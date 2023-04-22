@@ -22,9 +22,10 @@ public partial class Board : Node
     [Export] protected Vector2 cameraBoardPos;
     [Export] protected Vector2 cameraCardSelectingPos;
     protected AudioStreamPlayer awoogaAudioPlayer = default!;
-    protected SceneTreeTimer? sceneTreeTimer;
+    protected SceneTreeTimer sceneTreeTimer;
     protected SelectingUI selectingUI = default!;
     protected StateMachine<LevelState> stateMachine = default!;
+    protected Timer waveTimer = default!;
 
     protected Action<double> updater = default!;
 
@@ -156,23 +157,35 @@ public partial class Board : Node
         //刷怪开始
         updater = _ =>
         {
-            var count = GetTree().GetNodesInGroup("Enemy").Count;
-            if (count == 0 && SpawnerBeginningReadyed)
+            var enemyCount = GetTree().GetNodesInGroup(GroupNames.Enemy).Count;
+            if (enemyCount == 0 && SpawnerBeginningReadyed)
             {
                 sceneTreeTimer!.TimeLeft = Math.Clamp(sceneTreeTimer!.TimeLeft, 0d, 0.75d);
             }
         };
         SpawnerBeginningReadyed = false;
         sceneTreeTimer = GetTree().CreateTimer(50d);
-        await ToSignal(sceneTreeTimer, SceneTreeTimer.SignalName.Timeout);
+        sceneTreeTimer.Timeout += OnSpawnerBeginningReadyed;
+    }
+
+    public void OnSpawnerBeginningReadyed()
+    {
+        sceneTreeTimer.Timeout -= OnSpawnerBeginningReadyed;
         SpawnerBeginningReadyed = true;
         awoogaAudioPlayer.Play();
         NextWave();
-        while (true)
+        OnMainLoop();
+    }
+
+    public void OnMainLoop()
+    {
+        sceneTreeTimer = GetTree().CreateTimer(LevelData.WaveTimerBase + Random.Next1m1Double(LevelData.WaveTimerTemperature));
+        sceneTreeTimer.Timeout += Timeout;
+        void Timeout()
         {
-            sceneTreeTimer = GetTree().CreateTimer(Random.NextDouble(10, 14));
-            await ToSignal(sceneTreeTimer, SceneTreeTimer.SignalName.Timeout);
+            sceneTreeTimer.Timeout -= Timeout;
             NextWave();
+            OnMainLoop();
         }
     }
 

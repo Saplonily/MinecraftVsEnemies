@@ -68,3 +68,5 @@ texture_filter = 1
 [node name="Camera2D" type="Camera2D" parent="LayerOverlay"]
 anchor_mode = 0
 ignore_rotation = false
+
+[node name="WaveTimer" type="Timer" parent="."]
