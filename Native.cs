@@ -1,4 +1,4 @@
-﻿#if DEBUG
+﻿#if GODOT_WINDOWS
 
 using System.Runtime.InteropServices;
 
