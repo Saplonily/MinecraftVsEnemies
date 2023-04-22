@@ -1,4 +1,4 @@
-﻿#if GODOT_WINDOWS
+﻿#if DEBUG
 
 using System.Runtime.InteropServices;
 
@@ -13,7 +13,7 @@ internal static unsafe class Native
         [MarshalAs(UnmanagedType.LPWStr)] public string pszSpec;
     };
 
-#if DEBUG
+#if DEBUG && !EXPORTDEBUG
     internal const string NativeDllName = @".\x64\Debug\NativeLib.dll";
 #elif TRACE
     internal const string NativeDllName = @"NativeLib.dll";
