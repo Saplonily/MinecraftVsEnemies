@@ -7,3 +7,4 @@ NativeLib/Debug/**
 NativeLib/Release/**
 NativeLib/x64/**
 x64/**
+*.translation

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bp76hmn13kr44"]
+[gd_scene load_steps=16 format=3 uid="uid://bp76hmn13kr44"]
 
 [ext_resource type="Script" path="res://Board/Board.cs" id="1"]
 [ext_resource type="Script" path="res://Board/Lawn.cs" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://dtxe0ebmrpw1v" path="res://Board/Weapons/Sounds/Stone4.ogg" id="7_33uif"]
 [ext_resource type="PackedScene" uid="uid://cl7pkdjqctkcq" path="res://Board/UI/ReadySet/ReadySet.tscn" id="8_n5heh"]
 [ext_resource type="PackedScene" uid="uid://wgbcgbjcnyb" path="res://Board/CardSelecting/SelectingUI.tscn" id="8_nhxlh"]
+[ext_resource type="PackedScene" uid="uid://bqou0f6aa72e1" path="res://Board/UI/WaveTitle/WaveTitle.tscn" id="9_2retk"]
 [ext_resource type="Script" path="res://Board/PlantingArea.cs" id="12_8d3xi"]
 [ext_resource type="PackedScene" uid="uid://bmki4fntj00a" path="res://Board/UI/MainBoardUIs.tscn" id="12_m76ad"]
 
@@ -23,6 +24,7 @@ audioStones = Array[AudioStream]([ExtResource("4_16c0y"), ExtResource("5_u554h")
 cardScene = ExtResource("6_3lrlr")
 selectingUIScene = ExtResource("8_nhxlh")
 readySetScene = ExtResource("8_n5heh")
+hugeWaveTitleScene = ExtResource("9_2retk")
 awoogaAudio = ExtResource("6_7cblf")
 cameraBoardPos = Vector2(192, 0)
 cameraCardSelectingPos = Vector2(600, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://c55gbsmtcs6ax"]
 
 [ext_resource type="Script" path="res://Init.cs" id="1_78e5s"]
 [ext_resource type="PackedScene" path="res://LevelSelecting/Level0.tscn" id="2_fsrup"]

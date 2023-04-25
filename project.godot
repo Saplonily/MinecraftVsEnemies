@@ -119,6 +119,12 @@ move_down={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://global_trans.en.translation", "res://global_trans.zh.translation")
+locale/test="zh"
+locale/locale_filter_mode=0
+
 [layer_names]
 
 2d_physics/layer_1="Weapon/PlayerHead"

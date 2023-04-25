@@ -17,12 +17,13 @@ public partial class Board : Node
     [Export] protected PackedScene cardScene = default!;
     [Export] protected PackedScene selectingUIScene = default!;
     [Export] protected PackedScene readySetScene = default!;
+    [Export] protected PackedScene hugeWaveTitleScene = default!;
     [Export] protected AudioStream awoogaAudio = default!;
     [Export] protected Vector2 cameraStartPos;
     [Export] protected Vector2 cameraBoardPos;
     [Export] protected Vector2 cameraCardSelectingPos;
     protected AudioStreamPlayer awoogaAudioPlayer = default!;
-    protected SceneTreeTimer sceneTreeTimer;
+    protected SceneTreeTimer sceneTreeTimer = default!;
     protected SelectingUI selectingUI = default!;
     protected StateMachine<LevelState> stateMachine = default!;
     protected Timer waveTimer = default!;
@@ -185,6 +186,13 @@ public partial class Board : Node
         {
             sceneTreeTimer.Timeout -= Timeout;
             NextWave();
+            if (CurrentWave % 10 == 0)
+            {
+                var s = hugeWaveTitleScene.Instantiate<WaveTitle>();
+                s.Position = GetViewport().GetVisibleRect().GetCenter();
+                layerOverlay.AddChild(s);
+                _ = s.PlayAppear();
+            }
             OnMainLoop();
         }
     }
