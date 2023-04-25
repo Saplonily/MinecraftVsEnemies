@@ -72,3 +72,6 @@ anchor_mode = 0
 ignore_rotation = false
 
 [node name="WaveTimer" type="Timer" parent="."]
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [PackedStringArray("Card", "Card.tscn", "ReadySet.tscn", "SelectingUI.tscn", "WaveTitle.tscn"), [ExtResource("6_3lrlr"), ExtResource("6_3lrlr"), ExtResource("8_n5heh"), ExtResource("8_nhxlh"), ExtResource("9_2retk")]]

@@ -131,13 +131,6 @@ public partial class Board : Node
             }
         }
 
-        camera.Position = cameraBoardPos;
-        await ToSignal(GetTree().CreateTimer(0.05d), SceneTreeTimer.SignalName.Timeout);
-
-        //切换ui显示模式(从LayerOverlay到LayerMain)
-        boardUIManager.Switch2DParent(layerMain);
-        layerMain.MoveChild(boardUIManager, -2);
-
         if (pst is LevelState.TravelToSelecting)
         {
             boardUIManager.RequestAllDisabledChange(true);
@@ -154,6 +147,13 @@ public partial class Board : Node
             u.QueueFree();
             boardUIManager.RequestAllDisabledChange(false);
         }
+
+        camera.Position = cameraBoardPos;
+        await ToSignal(GetTree().CreateTimer(0.05d), SceneTreeTimer.SignalName.Timeout);
+
+        //切换ui显示模式(从LayerOverlay到LayerMain)
+        boardUIManager.Switch2DParent(layerMain);
+        layerMain.MoveChild(boardUIManager, -2);
 
         //刷怪开始
         updater = _ =>
