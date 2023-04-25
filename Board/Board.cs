@@ -1,5 +1,5 @@
-using System.Diagnostics;
 using NullLib.CommandLine;
+using System.Diagnostics;
 
 namespace MVE;
 

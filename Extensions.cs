@@ -1,13 +1,11 @@
 global using GodotColor = Godot.Color;
 global using GodotFileAccess = Godot.FileAccess;
 global using Timer = Godot.Timer;
-global using Color = System.Drawing.Color;
-global using FileAccess = System.IO.FileAccess;
 global using Vector2 = Godot.Vector2;
 global using Vector3 = Godot.Vector3;
+global using Color = System.Drawing.Color;
+global using FileAccess = System.IO.FileAccess;
 using System.IO;
-using System.Numerics;
-using System.Linq;
 
 namespace MVE;
 
