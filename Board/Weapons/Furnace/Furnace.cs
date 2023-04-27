@@ -39,7 +39,7 @@ public partial class Furnace : Weapon
     public void Produce()
     {
         var redstone = RedstoneScene.Instantiate<Redstone>();
-        float velocity = Board.Random.NextFloat(200, 400);
+        float velocity = Board.Random.NextFloat(150, 250);
         float dir =
             Board.Random.Next1m1() is 1 ?
             Board.Random.NextFloat(MathF.PI / 8 * 2, MathF.PI / 8 * 3) :
