@@ -16,8 +16,8 @@ public partial class Furnace : Weapon
         base._Ready();
         flameSalPSys = GetNode<SalParticleSys>("FlameParticles");
         flame2SalPSys = GetNode<SalParticleSys>("Flame2Particles");
-        flameTimer = GetNode<Godot.Timer>("FlameTimer");
-        produceTimer = GetNode<Godot.Timer>("ProduceTimer");
+        flameTimer = GetNode<Timer>("FlameTimer");
+        produceTimer = GetNode<Timer>("ProduceTimer");
 
         flameTimer.Timeout += EmitParticle;
         produceTimer.Timeout += () =>
@@ -39,7 +39,14 @@ public partial class Furnace : Weapon
     public void Produce()
     {
         var redstone = RedstoneScene.Instantiate<Redstone>();
-        redstone.ApplyVelocity(new Vector3(Game.Instance.Random.NextFloat(-200, 200), 0, Game.Instance.Random.NextFloat(300)));
+        float velocity = Board.Random.NextFloat(200, 400);
+        float dir =
+            Board.Random.Next1m1() is 1 ?
+            Board.Random.NextFloat(MathF.PI / 8 * 2, MathF.PI / 8 * 3) :
+            Board.Random.NextFloat(MathF.PI / 8 * 5, MathF.PI / 8 * 6);
+        Vector2 vec2 = Vector2.FromAngle(-dir) * velocity;
+        Vector3 result = new(vec2.X, 0f, -vec2.Y);
+        redstone.ApplyVelocity(result);
         Lawn.AddBoardEntity(redstone, LevelPos);
     }
 }

@@ -17,7 +17,7 @@ public abstract partial class LawnEntity : BoardEntity
 
     public ref Vector3 Velocity => ref velocity;
 
-    public float Friction { get; set; } = 200f;
+    public float Friction { get; set; } = 250f;
 
     public bool EnableGravity { get; protected set; } = true;
 

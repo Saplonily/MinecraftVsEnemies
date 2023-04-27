@@ -11,7 +11,7 @@ size = Vector2(750, 375)
 
 [node name="Board" parent="." instance=ExtResource("1_khhba")]
 script = ExtResource("1_gs04n")
-StartUpCmds = "set_redstone 114514"
+StartUpCmds = "set_redstone 2333"
 
 [node name="Lawn" parent="Board/LayerMain" index="1"]
 Column = 10

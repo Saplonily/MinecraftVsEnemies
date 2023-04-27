@@ -14,12 +14,13 @@ public partial class Board : Node
         Lost
     }
 
-    [Export] protected PackedScene cardScene = default!;
+    [Export, ExportGroup("Scenes")] protected PackedScene cardScene = default!;
     [Export] protected PackedScene selectingUIScene = default!;
     [Export] protected PackedScene readySetScene = default!;
     [Export] protected PackedScene hugeWaveTitleScene = default!;
-    [Export] protected AudioStream awoogaAudio = default!;
-    [Export] protected Vector2 cameraStartPos;
+    [Export] protected PackedScene bluePrintScene = default!;
+    [Export, ExportGroup("Audios")] protected AudioStream awoogaAudio = default!;
+    [Export, ExportGroup("Coordinates")] protected Vector2 cameraStartPos;
     [Export] protected Vector2 cameraBoardPos;
     [Export] protected Vector2 cameraCardSelectingPos;
     protected AudioStreamPlayer awoogaAudioPlayer = default!;

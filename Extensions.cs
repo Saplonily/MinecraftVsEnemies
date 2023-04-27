@@ -5,6 +5,7 @@ global using Vector2 = Godot.Vector2;
 global using Vector3 = Godot.Vector3;
 global using Color = System.Drawing.Color;
 global using FileAccess = System.IO.FileAccess;
+using MVE.SalExt;
 using System.IO;
 
 namespace MVE;
@@ -103,13 +104,14 @@ public static class Extensions
     public static double NextDouble(this Random r, double max)
         => r.NextDouble(0f, max);
 
+    // idk how to name it
     public static double Next1m1Double(this Random r, double num)
         => r.NextDouble(-num, num);
 
     public static float NextFloat(this Random r)
         => (float)r.NextDouble();
 
-    // idk how to name it
+    // idk how to name it too
     public static float Next1m1Float(this Random r, float num)
         => r.NextFloat(-num, num);
 
@@ -118,6 +120,14 @@ public static class Extensions
 
     public static float NextFloat(this Random r, float max)
         => r.NextFloat(0f, max);
+
+    // idk how to name it too too
+    public static int Next1m1(this Random r)
+        => r.Next(2) * 2 - 1;
+
+    // idk how to name it tooooo
+    public static float Next1m1Float(this Random r, float min, float max)
+        => r.NextFloat(min, max) * r.Next1m1();
 
     #endregion
 

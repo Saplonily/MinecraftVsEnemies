@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://4byfaxtngbpk"]
+
+[ext_resource type="PackedScene" uid="uid://cj2co3jeeiy0" path="res://Board/Drop/DropBase.tscn" id="1_54rmc"]
+[ext_resource type="Script" path="res://Board/Drop/BluePrint.cs" id="2_0hj4j"]
+[ext_resource type="Texture2D" uid="uid://cq3lkaj324gfa" path="res://Board/Drop/BluePrint.png" id="2_mat18"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_koikm"]
+radius = 30.0
+height = 100.0
+
+[node name="BluePrint" instance=ExtResource("1_54rmc")]
+script = ExtResource("2_0hj4j")
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2(0, -30)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_koikm")
+
+[node name="ShadowSprite" parent="." index="1"]
+position = Vector2(0, -3)
+scale = Vector2(2, 0.73)
+metadata/_edit_lock_ = true
+
+[node name="BluePrint" type="Sprite2D" parent="." index="2"]
+position = Vector2(0, -30)
+scale = Vector2(5, 5)
+texture = ExtResource("2_mat18")
+metadata/_edit_lock_ = true

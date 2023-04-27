@@ -1,7 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://cj2co3jeeiy0"]
 
 [ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Resource/ShadowGradient.tres" id="1_2denn"]
-
 
 [node name="DropBase" type="Node2D"]
 

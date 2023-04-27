@@ -4,9 +4,7 @@ namespace MVE;
 
 public partial class Board : Node
 {
-#nullable disable
-    [Export] protected Godot.Collections.Array<AudioStream> audioStones;
-#nullable restore
+    [Export, ExportGroup("Audios")] protected Godot.Collections.Array<AudioStream> audioStones = default!;
 
     public Chooser<AudioStreamPlayer> StoneSoundPlayerChooser { get; set; } = default!;
 

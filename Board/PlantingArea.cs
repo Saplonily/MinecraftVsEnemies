@@ -90,7 +90,14 @@ public partial class PlantingArea : Area2D
     [Conditional("GAME_DEBUG")]
     protected void OnDebugPlantInput()
     {
-        this.PlaceEnemyAt(GridMousePosition, Game.Instance.EnemyProperties["zombie"]);
+        if (Input.IsKeyPressed(Key.Z))
+            PlaceEnemyAt(GridMousePosition, Game.Instance.EnemyProperties["zombie"]);
+        if (Input.IsKeyPressed(Key.A))
+        {
+            var award = GD.Load<PackedScene>("res://Board/Drop/BluePrint.tscn").Instantiate<BluePrint>();
+            board.Lawn.AddBoardEntity(award, lawn.GetLocalMousePosition().ToVec3WithZ0());
+            award.ApplyVelocity(new Vector3(board.Random.Next1m1Float(100, 300), 0, board.Random.NextFloat(50, 200)));
+        }
     }
 
     protected void OnInputMotion(Vector2 localPosition)

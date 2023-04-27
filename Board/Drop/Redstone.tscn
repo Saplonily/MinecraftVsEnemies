@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bty32rgm4g18j"]
 
-[ext_resource type="PackedScene" uid="uid://cnfhyrovo3hrk" path="res://Board/Drop/DropBase.tscn" id="1_e7g5l"]
+[ext_resource type="PackedScene" uid="uid://cj2co3jeeiy0" path="res://Board/Drop/DropBase.tscn" id="1_e7g5l"]
 [ext_resource type="Script" path="res://Board/Drop/Redstone.cs" id="1_xvv5u"]
 [ext_resource type="Texture2D" uid="uid://ddhhpfws8dtok" path="res://Board/Drop/Redstone.png" id="2_6jj24"]
 [ext_resource type="AudioStream" uid="uid://35b7wbhun68d" path="res://Board/Drop/Pick.ogg" id="4_e8pm3"]

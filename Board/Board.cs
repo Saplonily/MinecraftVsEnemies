@@ -16,9 +16,9 @@ public partial class Board : Node
 
     protected PickingType picking;
 
-    public readonly Vector3 Gravity = new(0, 0, -1000);
+    public readonly Vector3 Gravity = new(0, 0, -800);
 
-    [Export(PropertyHint.MultilineText)]
+    [Export(PropertyHint.MultilineText), ExportGroup("")]
     public string StartUpCmds { get; set; } = default!;
     public CommandObject<MiscCmd> Command { get; set; } = default!;
     public Node? PickedNode { get; set; }
