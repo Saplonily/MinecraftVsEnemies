@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://4byfaxtngbpk"]
+[gd_scene load_steps=8 format=3 uid="uid://4byfaxtngbpk"]
 
 [ext_resource type="PackedScene" uid="uid://cj2co3jeeiy0" path="res://Board/Drop/DropBase.tscn" id="1_54rmc"]
 [ext_resource type="Script" path="res://Board/Drop/BluePrint.cs" id="2_0hj4j"]
@@ -7,6 +7,44 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_koikm"]
 radius = 30.0
 height = 100.0
+
+[sub_resource type="Animation" id="Animation_yyjy3"]
+resource_name = "Floating"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BluePrint:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -30), Vector2(0, -40), Vector2(0, -30), Vector2(0, -20)]
+}
+
+[sub_resource type="Animation" id="Animation_e28or"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BluePrint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -30)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_enw7i"]
+_data = {
+"Floating": SubResource("Animation_yyjy3"),
+"RESET": SubResource("Animation_e28or")
+}
 
 [node name="BluePrint" instance=ExtResource("1_54rmc")]
 script = ExtResource("2_0hj4j")
@@ -26,3 +64,8 @@ position = Vector2(0, -30)
 scale = Vector2(5, 5)
 texture = ExtResource("2_mat18")
 metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_enw7i")
+}

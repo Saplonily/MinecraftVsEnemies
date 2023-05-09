@@ -18,7 +18,7 @@ public partial class Drop : LawnEntity
 
     private void HitBox_InputEvent(Node viewport, InputEvent e, long shapeIdx)
     {
-        if (e.IsActionPressed(InputNames.Using))
+        if (!picked && e.IsActionPressed(InputNames.Using))
         {
             OnPicking();
         }
@@ -47,6 +47,6 @@ public partial class Drop : LawnEntity
     /// <returns></returns>
     public virtual bool OnHover()
     {
-        return true;
+        return !picked;
     }
 }

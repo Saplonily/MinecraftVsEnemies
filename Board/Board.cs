@@ -1,5 +1,6 @@
 using NullLib.CommandLine;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 namespace MVE;
 
@@ -88,8 +89,9 @@ public partial class Board : Node
             $"Weapon count: {tree.GetNodesInGroup("Weapon").Count}\n" +
             $"Bullet count: {tree.GetNodesInGroup("Bullet").Count}\n" +
             $"Current wave: {CurrentWave}/{LevelData.TotalWaves}\n" +
-            $"fps: {Engine.GetFramesPerSecond()}\n" +
-            $"Wave timer: {sceneTreeTimer?.TimeLeft:F2}";
+            $"FPS: {Engine.GetFramesPerSecond()}\n" +
+            $"Wave timer: {waveTimer?.TimeLeft:F2}\n"+
+            $"Level state: {State}";
     }
 
     [Conditional("GAME_DEBUG")]
@@ -109,8 +111,7 @@ public partial class Board : Node
 
             if (key.Keycode == Key.N)
             {
-                if (sceneTreeTimer is not null)
-                    sceneTreeTimer.TimeLeft = 0d;
+                waveTimer?.Start(0.1d);
             }
 
             if (key.Keycode == Key.H)

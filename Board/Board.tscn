@@ -19,7 +19,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mn7u"]
 size = Vector2(825, 375)
 
-[node name="Board" type="Node"]
+[node name="Board" type="Node" node_paths=PackedStringArray("waveTimer")]
 script = ExtResource("1")
 audioStones = Array[AudioStream]([ExtResource("4_16c0y"), ExtResource("5_u554h"), ExtResource("6_1se0y"), ExtResource("7_33uif")])
 cardScene = ExtResource("6_3lrlr")
@@ -30,6 +30,7 @@ bluePrintScene = ExtResource("10_0e1oe")
 awoogaAudio = ExtResource("6_7cblf")
 cameraBoardPos = Vector2(192, 0)
 cameraCardSelectingPos = Vector2(600, 0)
+waveTimer = NodePath("WaveTimer")
 
 [node name="LayerMain" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -76,4 +77,4 @@ ignore_rotation = false
 [node name="WaveTimer" type="Timer" parent="."]
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [PackedStringArray("Card", "Card.tscn", "ReadySet.tscn", "SelectingUI.tscn", "WaveTitle.tscn"), [ExtResource("6_3lrlr"), ExtResource("6_3lrlr"), ExtResource("8_n5heh"), ExtResource("8_nhxlh"), ExtResource("9_2retk")]]
+resources = [PackedStringArray("Card.tscn", "ReadySet.tscn", "SelectingUI.tscn", "WaveTitle.tscn"), [ExtResource("6_3lrlr"), ExtResource("8_n5heh"), ExtResource("8_nhxlh"), ExtResource("9_2retk")]]

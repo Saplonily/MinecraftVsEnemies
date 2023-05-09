@@ -23,10 +23,10 @@ public partial class PlantingArea : Area2D
     protected Lawn lawn = default!;
     protected Weapon?[,] gridWeapons = default!;
 
-    [Export]
-    public GodotColor PlaceAllowColor { get; set; }
-    [Export]
-    public GodotColor PlaceNotAllowColor { get; set; }
+    [Export] public GodotColor PlaceAllowColor { get; set; }
+    [Export] public GodotColor PlaceNotAllowColor { get; set; }
+
+    public CollisionShape2D CollisionShape { get; set; } = default!;
 
     public Vector2I GridMousePosition => LocalPosToGridPos(GetLocalMousePosition());
 
@@ -35,6 +35,8 @@ public partial class PlantingArea : Area2D
         base._Ready();
         board = this.FindParent<Board>()!;
         lawn = this.FindParent<Lawn>()!;
+        CollisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+
         gridWeapons = new Weapon?[lawn.Column, lawn.Rows];
         InputEvent += PlantingArea_InputEvent;
         MouseExited += () =>
@@ -42,6 +44,7 @@ public partial class PlantingArea : Area2D
             hintBox.Enabled = false;
             QueueRedraw();
         };
+
     }
 
     public override void _Draw()
@@ -59,7 +62,7 @@ public partial class PlantingArea : Area2D
             OnDebugPlantInput();
         if (ie is InputEventMouseMotion iemm)
         {
-            OnInputMotion(this.GetGlobalTransformWithCanvas().AffineInverse() * iemm.Position);
+            OnInputMotion(GetGlobalTransformWithCanvas().AffineInverse() * iemm.Position);
         }
     }
 
@@ -96,7 +99,7 @@ public partial class PlantingArea : Area2D
         {
             var award = GD.Load<PackedScene>("res://Board/Drop/BluePrint.tscn").Instantiate<BluePrint>();
             board.Lawn.AddBoardEntity(award, lawn.GetLocalMousePosition().ToVec3WithZ0());
-            award.ApplyVelocity(new Vector3(board.Random.Next1m1Float(100, 300), 0, board.Random.NextFloat(50, 200)));
+            award.ApplyVelocity(new Vector3(board.Random.Next1m1Float(100, 200), 0, board.Random.NextFloat(100, 200)));
         }
     }
 

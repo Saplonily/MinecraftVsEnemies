@@ -22,6 +22,7 @@ position = Vector2(225, 150)
 [node name="CollisionShape2D" parent="Board/LayerMain/Lawn/PlantingArea" index="0"]
 position = Vector2(375, 187.5)
 shape = SubResource("RectangleShape2D_qysos")
+metadata/_edit_lock_ = true
 
 [node name="MainBoardUIs" parent="Board/LayerOverlay" index="0"]
 metadata/_edit_lock_ = true

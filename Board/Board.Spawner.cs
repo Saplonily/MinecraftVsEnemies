@@ -1,6 +1,8 @@
 using MVE.SalExt;
+using System.Threading;
 
 namespace MVE;
+
 
 public partial class Board : Node
 {
@@ -10,8 +12,8 @@ public partial class Board : Node
         OpeningWaiting,
         TravelToSelecting,
         Main,
-        Finished,
-        Lost
+        Ending,
+        Losing
     }
 
     [Export, ExportGroup("Scenes")] protected PackedScene cardScene = default!;
@@ -19,20 +21,25 @@ public partial class Board : Node
     [Export] protected PackedScene readySetScene = default!;
     [Export] protected PackedScene hugeWaveTitleScene = default!;
     [Export] protected PackedScene bluePrintScene = default!;
+
     [Export, ExportGroup("Audios")] protected AudioStream awoogaAudio = default!;
+
     [Export, ExportGroup("Coordinates")] protected Vector2 cameraStartPos;
     [Export] protected Vector2 cameraBoardPos;
     [Export] protected Vector2 cameraCardSelectingPos;
+
     protected AudioStreamPlayer awoogaAudioPlayer = default!;
-    protected SceneTreeTimer sceneTreeTimer = default!;
+    [Export, ExportGroup("Nodes")] protected Timer waveTimer = default!;
+    protected Drop? awardDrop;
     protected SelectingUI selectingUI = default!;
     protected StateMachine<LevelState> stateMachine = default!;
-    protected Timer waveTimer = default!;
 
     protected Action<double> updater = default!;
 
     protected int[] rowWeights = new int[5];
 
+
+    public LevelState State => stateMachine.State;
     public LevelState InitState { get; set; } = LevelState.OpeningWaiting;
 
     public int CurrentWave { get; protected set; }
@@ -55,8 +62,8 @@ public partial class Board : Node
         stateMachine.RegisterState(LevelState.OpeningWaiting, LevelOpeningWaiting);
         stateMachine.RegisterState(LevelState.TravelToSelecting, LevelTravelToSelecting);
         stateMachine.RegisterState(LevelState.Main, LevelMain);
-        stateMachine.RegisterState(LevelState.Finished);
-        stateMachine.RegisterState(LevelState.Lost);
+        stateMachine.RegisterState(LevelState.Ending);
+        stateMachine.RegisterState(LevelState.Losing);
         stateMachine.EnterCurrent();
     }
 
@@ -130,10 +137,7 @@ public partial class Board : Node
                 c.Free();
                 boardUIManager.AddChild(s);
             }
-        }
 
-        if (pst is LevelState.TravelToSelecting)
-        {
             boardUIManager.RequestAllDisabledChange(true);
             //显示除卡以外的其他ui
             await boardUIManager.PlayDisplayAnimation();
@@ -162,39 +166,63 @@ public partial class Board : Node
             var enemyCount = GetTree().GetNodesInGroup(GroupNames.Enemy).Count;
             if (enemyCount == 0 && SpawnerBeginningReadyed)
             {
-                sceneTreeTimer!.TimeLeft = Math.Clamp(sceneTreeTimer!.TimeLeft, 0d, 0.75d);
+                if (waveTimer.TimeLeft > 0.75d)
+                    waveTimer.Start(0.75d);
             }
         };
         SpawnerBeginningReadyed = false;
-        sceneTreeTimer = GetTree().CreateTimer(50d);
-        sceneTreeTimer.Timeout += OnSpawnerBeginningReadyed;
+        waveTimer.Start(50d);
+        waveTimer.Timeout += OnSpawnerBeginningReadyed;
     }
 
     public void OnSpawnerBeginningReadyed()
     {
-        sceneTreeTimer.Timeout -= OnSpawnerBeginningReadyed;
+        waveTimer.Timeout -= OnSpawnerBeginningReadyed;
         SpawnerBeginningReadyed = true;
         awoogaAudioPlayer.Play();
-        NextWave();
-        OnMainLoop();
-    }
+        waveTimer.Timeout += Timeout;
+        Timeout();
 
-    public void OnMainLoop()
-    {
-        sceneTreeTimer = GetTree().CreateTimer(LevelData.WaveTimerBase + Random.Next1m1Double(LevelData.WaveTimerTemperature));
-        sceneTreeTimer.Timeout += Timeout;
         void Timeout()
         {
-            sceneTreeTimer.Timeout -= Timeout;
-            NextWave();
-            if (CurrentWave % 10 == 0)
+            double time = LevelData.WaveTimerBase + Random.Next1m1Double(LevelData.WaveTimerTemperature);
+            waveTimer.Start(time);
+            OnMainWave();
+            //Game.Logger.LogInfo(Name, $"timeout, cur wave: {CurrentWave}");
+        }
+    }
+
+    public void OnMainWave()
+    {
+        if (CurrentWave == LevelData.TotalWaves)
+        {
+            //Game.Logger.LogInfo(Name, "Next wave of final wave...enter finished state.");
+            waveTimer.Stop();
+            updater = d =>
             {
-                var s = hugeWaveTitleScene.Instantiate<WaveTitle>();
-                s.Position = GetViewport().GetVisibleRect().GetCenter();
-                layerOverlay.AddChild(s);
-                _ = s.PlayAppear();
+                if (!GetEnemies().Any() && awardDrop is null)
+                {
+                    var award = bluePrintScene.Instantiate<BluePrint>();
+                    Lawn.AddBoardEntity(award, Lawn.ToLocal(GetViewport().GetCamera2D().GetScreenCenterPosition()).ToVec3WithZ0());
+                    award.ApplyVelocity(new Vector3(Random.Next1m1Float(100, 200), 0, Random.NextFloat(100, 200)));
+                    awardDrop = award;
+                }
+            };
+            return;
+        }
+        CurrentWave += 1;
+        WaveChanged?.Invoke(this, CurrentWave - 1, CurrentWave);
+        ProcessWave(CurrentWave);
+        if (CurrentWave % 10 is 0)
+        {
+            var s = hugeWaveTitleScene.Instantiate<WaveTitle>();
+            s.Position = GetViewport().GetVisibleRect().GetCenter();
+            layerOverlay.AddChild(s);
+            _ = s.PlayAppear();
+            if (CurrentWave == LevelData.TotalWaves)
+            {
+                //Game.Logger.LogInfo(Name, "Final wave...");
             }
-            OnMainLoop();
         }
     }
 
@@ -203,13 +231,9 @@ public partial class Board : Node
     public void UpdateSpawner(double delta)
         => updater?.Invoke(delta);
 
-    public void NextWave()
+    public void ProcessWave(int wave)
     {
-        CurrentWave += 1;
-
-        WaveChanged?.Invoke(this, CurrentWave - 1, CurrentWave);
-
-        int points = CurrentWave * LevelData.EnemiesSpawning.PointsAddFactor;
+        int points = wave * LevelData.EnemiesSpawning.PointsAddFactor;
 
         if (LevelData.WaveEvent is not null && LevelData.WaveEvent.Events.TryGetValue(CurrentWave.ToString(), out var events))
         {
@@ -226,7 +250,7 @@ public partial class Board : Node
 
     public delegate Enemy EnemyPlacingHandler(in EnemyProperty property, int row);
 
-    public void SummonEnemiesBy(EnemiesSpawningData spawningData, int points, EnemyPlacingHandler placingHandler)
+    public void SummonEnemiesBy(in EnemiesSpawningData spawningData, int points, EnemyPlacingHandler placingHandler)
     {
         var leastCost = spawningData.EnemyPool.Min(u => u.Cost);
         if (leastCost > points)
