@@ -200,7 +200,7 @@ public partial class Board : Node
             waveTimer.Stop();
             updater = d =>
             {
-                if (!GetEnemies().Any() && awardDrop is null)
+                if (awardDrop is null && !GetEnemies().Any())
                 {
                     var award = bluePrintScene.Instantiate<BluePrint>();
                     Lawn.AddBoardEntity(award, Lawn.ToLocal(GetViewport().GetCamera2D().GetScreenCenterPosition()).ToVec3WithZ0());

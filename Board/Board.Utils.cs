@@ -3,5 +3,5 @@
 public partial class Board
 {
     public IEnumerable<Enemy> GetEnemies()
-        => GetTree().GetNodesInGroup(GroupNames.Enemy).Where(n => n.FindParent<Board>() == this).Cast<Enemy>();
+        => GetTree().GetNodesInGroup(GroupNames.Enemy).Cast<Enemy>().Where(n => n.Board == this);
 }
