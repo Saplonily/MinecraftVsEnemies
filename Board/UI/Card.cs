@@ -73,7 +73,7 @@ public partial class Card : BoardUI, IBoardUIPickable
     protected void SetMaskState(bool basicMask, float cooldownMaskPercent = 0f)
     {
         shadowMask.Visible = basicMask;
-        Modulate = basicMask ? SelfMaskColor : Color.White.ToGd();
+        Modulate = basicMask ? SelfMaskColor : Colors.White;
         var rect = cardSprite.GetRect();
         shadowMask.RegionRect = rect with { Size = new(rect.Size.X, rect.Size.Y * cooldownMaskPercent) };
     }

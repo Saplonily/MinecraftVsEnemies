@@ -175,10 +175,6 @@ public static class Extensions
         }
         return result;
     }
-
-    public static GodotColor ToGd(this Color sysColor)
-        => GodotColor.Color8(sysColor.R, sysColor.G, sysColor.B, sysColor.A);
-
     #endregion
 }
 

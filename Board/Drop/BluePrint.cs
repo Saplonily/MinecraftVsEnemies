@@ -38,5 +38,8 @@ public partial class BluePrint : Drop
         tween.TweenMethod(Callable.From<Vector3>(p => LevelPos = p), LevelPos, target3, Math.Max(distance / 200f, 0.5f));
         await ToSignal(tween, Tween.SignalName.Finished);
         animationPlayer.Play("Floating");
+
+        await ToSignal(GetTree().CreateTimer(2), SceneTreeTimer.SignalName.Timeout);
+        Board.StateMachine.TravelTo(Board.LevelState.Ending);
     }
 }

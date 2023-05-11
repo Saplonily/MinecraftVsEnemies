@@ -2,6 +2,8 @@ namespace MVE;
 
 public partial class Init : Node
 {
+    [Export] public PackedScene mainScene = default!;
+
     [Export] public float TimeScale = 1.0f;
     [Export] protected PackedScene initGotoScene = default!;
     [Export] protected string? initGotoLevel;
@@ -17,6 +19,7 @@ public partial class Init : Node
         //};
         //sd.SaveToUser("user://temp_test.bin");
         Engine.TimeScale = TimeScale;
+        Game.Instance.MainScene = mainScene;
 #if GODOT_WINDOWS
         Native.ComInit();
 #endif

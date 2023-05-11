@@ -97,7 +97,7 @@ public partial class Progresser : BoardUI
         float width = fgSprRect.Size.X;
         float pWidth = width * percent;
         float lpWidth = fgSprRect.Size.X - pWidth;
-        fgSprite.Position = fgSprite.Position with { X = lpWidth };
-        fgSprite.RegionRect = new(fgSprite.Position, fgSprRect.Size with { X = pWidth });
+        fgSprite.Position = fgSprite.Position with { X = MathF.Round(lpWidth) };
+        fgSprite.RegionRect = new(fgSprite.Position, fgSprRect.Size with { X = MathF.Round(pWidth) });
     }
 }

@@ -90,8 +90,8 @@ public partial class Board : Node
             $"Bullet count: {tree.GetNodesInGroup("Bullet").Count}\n" +
             $"Current wave: {CurrentWave}/{LevelData.TotalWaves}\n" +
             $"FPS: {Engine.GetFramesPerSecond()}\n" +
-            $"Wave timer: {waveTimer?.TimeLeft:F2}\n"+
-            $"Level state: {State}";
+            $"Wave timer: {waveTimer?.TimeLeft:F2}\n" +
+            $"Level state: {StateMachine.State}";
     }
 
     [Conditional("GAME_DEBUG")]

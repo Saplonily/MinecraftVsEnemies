@@ -32,16 +32,13 @@ public partial class Board : Node
     [Export, ExportGroup("Nodes")] protected Timer waveTimer = default!;
     protected Drop? awardDrop;
     protected SelectingUI selectingUI = default!;
-    protected StateMachine<LevelState> stateMachine = default!;
 
     protected Action<double> updater = default!;
 
     protected int[] rowWeights = new int[5];
 
-
-    public LevelState State => stateMachine.State;
+    public StateMachine<LevelState> StateMachine { get; set; } = default!;
     public LevelState InitState { get; set; } = LevelState.OpeningWaiting;
-
     public int CurrentWave { get; protected set; }
     public LevelData LevelData { get; set; } = default!;
     public bool SpawnerBeginningReadyed { get; protected set; } = false;
@@ -58,28 +55,28 @@ public partial class Board : Node
         }
         awoogaAudioPlayer = SalAudioPool.GetPlayer(new(awoogaAudio, Bus: "Board"));
 
-        stateMachine = new(InitState);
-        stateMachine.RegisterState(LevelState.OpeningWaiting, LevelOpeningWaiting);
-        stateMachine.RegisterState(LevelState.TravelToSelecting, LevelTravelToSelecting);
-        stateMachine.RegisterState(LevelState.Main, LevelMain);
-        stateMachine.RegisterState(LevelState.Ending);
-        stateMachine.RegisterState(LevelState.Losing);
-        stateMachine.EnterCurrent();
+        StateMachine = new(InitState);
+        StateMachine.RegisterState(LevelState.OpeningWaiting, LevelOpeningWaitingEnter);
+        StateMachine.RegisterState(LevelState.TravelToSelecting, LevelTravelToSelectingEnter);
+        StateMachine.RegisterState(LevelState.Main, LevelMainEnter);
+        StateMachine.RegisterState(LevelState.Ending, LevelEndingEnter);
+        StateMachine.RegisterState(LevelState.Losing);
+        StateMachine.EnterCurrent();
     }
 
     #region LevelCoroutine
 
-    public async void LevelOpeningWaiting(LevelState pst)
+    public async void LevelOpeningWaitingEnter(LevelState pst)
     {
         CurrentWave = 0;
         boardUIManager.MakeMainHide();
         //开场等待
         await ToSignal(GetTree().CreateTimer(1d), SceneTreeTimer.SignalName.Timeout);
 
-        stateMachine.State = LevelState.TravelToSelecting;
+        StateMachine.State = LevelState.TravelToSelecting;
     }
 
-    public async void LevelTravelToSelecting(LevelState pst)
+    public async void LevelTravelToSelectingEnter(LevelState pst)
     {
         //开场移动到最右边
         camera.Position = cameraStartPos;
@@ -99,10 +96,10 @@ public partial class Board : Node
         await ui.StartAndWaitSelecting();
 
         selectingUI = ui;
-        stateMachine.State = LevelState.Main;
+        StateMachine.State = LevelState.Main;
     }
 
-    public async void LevelMain(LevelState pst)
+    public async void LevelMainEnter(LevelState pst)
     {
         if (pst is LevelState.TravelToSelecting)
         {
@@ -175,6 +172,26 @@ public partial class Board : Node
         waveTimer.Timeout += OnSpawnerBeginningReadyed;
     }
 
+    public async void LevelEndingEnter(LevelState pst)
+    {
+        float lightPercent = 0f;
+        RemoteDrawer rd = new();
+        rd.AssignAction(Draw);
+        layerOverlay.AddChild(rd);
+
+        var t = CreateTween().SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
+        t.TweenMethod(Callable.From<float>(v => lightPercent = v), 0f, 1f, 2d);
+
+        await ToSignal(t, Tween.SignalName.Finished);
+        var n = Game.Instance.MainScene.Instantiate();
+        Game.Instance.ChangeSceneTo(n);
+
+        void Draw(RemoteDrawer d)
+        {
+            d.DrawRect(rd.GetViewportRect(), Colors.White with { A = lightPercent });
+        }
+    }
+
     public void OnSpawnerBeginningReadyed()
     {
         waveTimer.Timeout -= OnSpawnerBeginningReadyed;
@@ -242,7 +259,6 @@ public partial class Board : Node
         }
 
         SummonEnemiesBy(LevelData.EnemiesSpawning, points, PlaceEnemy);
-
     }
 
     public Enemy PlaceEnemy(in EnemyProperty property, int row)

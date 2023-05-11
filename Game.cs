@@ -10,6 +10,7 @@ public partial class Game : Node
     protected Logger logger;
     protected JsonSerializerOptions levelLoadingOptions;
 
+    [Export] public PackedScene MainScene = default!;
     public static Game Instance { get; protected set; } = default!;
     public static Logger Logger => Instance.logger;
 
@@ -58,6 +59,7 @@ public partial class Game : Node
 
     public override void _ExitTree()
     {
+        logger.LogInfo("Game", "Saving savedata...");
         SaveSaveData();
     }
 
