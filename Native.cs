@@ -1,5 +1,6 @@
 ﻿#if GODOT_WINDOWS
 
+using HRESULT = System.Int32;
 using System.Runtime.InteropServices;
 
 namespace MVE;
@@ -20,7 +21,7 @@ internal static unsafe class Native
 #endif
 
     [DllImport(NativeDllName)]
-    internal static extern int ComInit();
+    internal static extern HRESULT ComInit();
 
     [DllImport(NativeDllName)]
     internal static extern char* OpenDialog(ref COMDLG_FILTERSPEC fileTypes, int size);

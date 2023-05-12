@@ -25,5 +25,6 @@ public partial class WaveTitle : Node2D
         animationPlayer.Play("Appear");
         animationPlayer.Advance(0d);
         await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+        Free();
     }
 }
