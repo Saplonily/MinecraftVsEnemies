@@ -9,8 +9,7 @@
 		<!--make me happy-->
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace>MVE</RootNamespace>
-		<!--make native library happy-->
-		<Platforms>AnyCPU;x86</Platforms>
+		<Platforms>AnyCPU</Platforms>
 	</PropertyGroup>
 
 	<PropertyGroup>
