@@ -7,7 +7,7 @@ extern "C"
 {
 	HRESULT native_export ComInit()
 	{
-		return CoInitialize(NULL);
+		return CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	}
 
 	LPWSTR native_export OpenDialog(const COMDLG_FILTERSPEC* fileTypes, int size)

@@ -1,4 +1,6 @@
-﻿#if GODOT_WINDOWS
+﻿#pragma warning disable SYSLIB1054 // 使用 “LibraryImportAttribute” 而不是 “DllImportAttribute” 在编译时生成 P/Invoke 封送代码
+
+#if GODOT_WINDOWS
 
 using HRESULT = System.Int32;
 using System.Runtime.InteropServices;
