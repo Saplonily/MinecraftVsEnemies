@@ -15,7 +15,7 @@ public partial class Lawn : Node2D
 
         board = this.FindParent<Board>()!;
 
-        ChildEnteredTree += n => levelEntitiesSortDirty = n is BoardEntity;
+        ChildEnteredTree += n => levelEntitiesSortDirty = n is BoardEntity || levelEntitiesSortDirty;
     }
 
     public override void _Process(double delta)
@@ -38,7 +38,7 @@ public partial class Lawn : Node2D
             foreach (var (node, index) in sortedWithIndex)
                 if (node.GetIndex() != index)
                     MoveChild(node, index);
-
+            
             levelEntitiesSortDirty = false;
         }
     }

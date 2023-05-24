@@ -53,6 +53,7 @@ PlaceAllowColor = Color(0, 0.968627, 0.294118, 0.662745)
 PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LayerMain/Lawn/PlantingArea"]
+modulate = Color(0, 0, 0, 0.290196)
 z_index = 294
 position = Vector2(375, 187.5)
 shape = SubResource("RectangleShape2D_6mn7u")
