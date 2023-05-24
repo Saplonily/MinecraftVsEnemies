@@ -65,6 +65,7 @@ shape = SubResource("RectangleShape2D_6mn7u")
 offset_top = 455.0
 offset_right = 260.0
 offset_bottom = 600.0
+auto_translate = false
 vertical_alignment = 2
 
 [node name="Picking" type="Sprite2D" parent="LayerOverlay"]

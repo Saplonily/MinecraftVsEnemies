@@ -59,6 +59,7 @@ offset_top = 66.0
 offset_right = 54.0
 offset_bottom = 89.0
 grow_vertical = 2
+auto_translate = false
 text = "-1"
 label_settings = SubResource("LabelSettings_xsf6d")
 
