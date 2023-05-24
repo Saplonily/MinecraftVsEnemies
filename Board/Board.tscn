@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bmki4fntj00a" path="res://Board/UI/MainBoardUIs.tscn" id="12_m76ad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mn7u"]
-size = Vector2(825, 375)
+size = Vector2(750, 375)
 
 [node name="Board" type="Node" node_paths=PackedStringArray("waveTimer")]
 script = ExtResource("1")
@@ -28,7 +28,7 @@ readySetScene = ExtResource("8_n5heh")
 hugeWaveTitleScene = ExtResource("9_2retk")
 bluePrintScene = ExtResource("10_0e1oe")
 awoogaAudio = ExtResource("6_7cblf")
-cameraBoardPos = Vector2(192, 0)
+cameraBoardPos = Vector2(110, 0)
 cameraCardSelectingPos = Vector2(600, 0)
 waveTimer = NodePath("WaveTimer")
 
@@ -54,7 +54,7 @@ PlaceNotAllowColor = Color(1, 0.211765, 0.160784, 0.764706)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LayerMain/Lawn/PlantingArea"]
 z_index = 294
-position = Vector2(412.5, 187.5)
+position = Vector2(375, 187.5)
 shape = SubResource("RectangleShape2D_6mn7u")
 
 [node name="LayerOverlay" type="CanvasLayer" parent="."]

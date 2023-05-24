@@ -20,7 +20,6 @@ public partial class Init : Node
         //};
         //sd.SaveToUser("user://temp_test.bin");
         Engine.TimeScale = TimeScale;
-        Game.Logger.LogInfo("S", "What the fuck?");
         Game.Instance.MainScene = MainScene;
 #if GODOT_WINDOWS
         HRESULT hr = Native.ComInit();

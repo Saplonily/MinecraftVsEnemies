@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace MVE;
 
@@ -6,17 +8,16 @@ namespace MVE;
 /// 游戏配置辨识符
 /// </summary>
 [DebuggerDisplay("\"{Area,nq}/{Id,nq}\"")]
-public struct Sid
+public struct Sid : IEquatable<Sid>
 {
+    public const string MVE = "MVE";
+
     public string Area { get; set; }
 
     public string Id { get; set; }
 
     public Sid(string area, string id)
-    {
-        Area = area;
-        Id = id;
-    }
+        => (Area, Id) = (area, id);
 
     public static bool operator ==(Sid sidA, Sid sidB)
         => sidA.Area == sidB.Area && sidA.Id == sidB.Id;
@@ -24,13 +25,13 @@ public struct Sid
     public static bool operator !=(Sid sidA, Sid sidB)
         => !(sidA == sidB);
 
-    public override bool Equals(object? obj)
+    public readonly override bool Equals(object? obj)
         => obj is Sid sid && sid == this;
 
-    public override int GetHashCode()
+    public readonly override int GetHashCode()
         => HashCode.Combine(Area, Id);
 
-    public override string ToString()
+    public readonly override string ToString()
         => $"{Area}/{Id}";
 
     public static Sid Parse(string str)
@@ -39,14 +40,17 @@ public struct Sid
         return strs.Length switch
         {
             2 => new(strs[0], strs[1]),
-            1 => new("MVE", strs[0]),
+            1 => new(MVE, strs[0]),
             _ => throw new ArgumentException($"{strs.Length} parts found in `str`, expect 2 or 1.", nameof(str))
         };
     }
 
-    public static implicit operator Sid(string str)
-        => Parse(str);
+    public static implicit operator Sid(string id)
+        => new(MVE, id);
 
     public static implicit operator Sid((string area, string str) tuple)
         => new(tuple.area, tuple.str);
+
+    readonly bool IEquatable<Sid>.Equals(Sid other)
+        => this == other;
 }

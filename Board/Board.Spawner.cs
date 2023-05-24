@@ -204,12 +204,12 @@ public partial class Board : Node
         {
             double time = LevelData.WaveTimerBase + Random.Next1m1Double(LevelData.WaveTimerTemperature);
             waveTimer.Start(time);
-            OnMainWave();
+            OnMainWaveTick();
             //Game.Logger.LogInfo(Name, $"timeout, cur wave: {CurrentWave}");
         }
     }
 
-    public void OnMainWave()
+    public void OnMainWaveTick()
     {
         if (CurrentWave == LevelData.TotalWaves)
         {

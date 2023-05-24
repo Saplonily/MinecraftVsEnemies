@@ -16,11 +16,7 @@ StartUpCmds = "set_redstone 2333"
 [node name="Lawn" parent="Board/LayerMain" index="1"]
 Column = 10
 
-[node name="PlantingArea" parent="Board/LayerMain/Lawn" index="0"]
-position = Vector2(225, 150)
-
 [node name="CollisionShape2D" parent="Board/LayerMain/Lawn/PlantingArea" index="0"]
-position = Vector2(375, 187.5)
 shape = SubResource("RectangleShape2D_qysos")
 metadata/_edit_lock_ = true
 
@@ -46,7 +42,7 @@ offset_right = 800.0
 metadata/_edit_lock_ = true
 
 [node name="Camera2D" parent="Board/LayerOverlay" index="3"]
-position = Vector2(192, 0)
+position = Vector2(110, 0)
 metadata/_edit_lock_ = true
 
 [editable path="Board"]

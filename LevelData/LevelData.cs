@@ -8,7 +8,8 @@ public class LevelData
     public required Sid SceneId { get; set; }
     public required int TotalWaves { get; set; }
     public required EnemiesSpawningData EnemiesSpawning { get; set; }
-    public double WaveTimerBase { get; set; } = 15f;
+    public double WaveOpeningTimer { get; set; } = 50f;
+    public double WaveTimerBase { get; set; } = 20f;
     public double WaveTimerTemperature { get; set; } = 5f;
     public LevelInventory Inventory { get; set; } = new();
     public WaveEventData? WaveEvent { get; set; }

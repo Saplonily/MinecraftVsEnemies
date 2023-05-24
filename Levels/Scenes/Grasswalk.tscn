@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1yhwata8c6wk"]
+[gd_scene load_steps=2 format=3 uid="uid://ngrbvhyca0pv"]
 
 [ext_resource type="PackedScene" uid="uid://bp76hmn13kr44" path="res://Board/Board.tscn" id="5"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dmonr"]
-size = Vector2(750, 375)
 
 [node name="TestLevel" type="Node"]
 metadata/_edit_vertical_guides_ = [800.0]
@@ -11,19 +8,14 @@ metadata/_edit_horizontal_guides_ = [600.0]
 
 [node name="Board" parent="." instance=ExtResource("5")]
 StartUpCmds = "set_redstone 100"
-cameraBoardPos = Vector2(100, 0)
+cameraBoardPos = Vector2(110, 0)
 
 [node name="Lawn" parent="Board/LayerMain" index="1"]
 Rows = 6
 Column = 10
 metadata/_edit_lock_ = true
 
-[node name="PlantingArea" parent="Board/LayerMain/Lawn" index="0"]
-position = Vector2(128, 160)
-
 [node name="CollisionShape2D" parent="Board/LayerMain/Lawn/PlantingArea" index="0"]
-position = Vector2(372, 188)
-shape = SubResource("RectangleShape2D_dmonr")
 metadata/_edit_lock_ = true
 
 [node name="LayerOverlay" parent="Board" index="1"]
@@ -32,5 +24,8 @@ follow_viewport_scale = -1.0
 [node name="Label" parent="Board/LayerOverlay" index="1"]
 offset_top = 440.0
 offset_right = 240.0
+
+[node name="Camera2D" parent="Board/LayerOverlay" index="3"]
+position = Vector2(110, 0)
 
 [editable path="Board"]

@@ -8,7 +8,7 @@ namespace MVE;
 public partial class Game : Node
 {
     protected Logger logger;
-    protected JsonSerializerOptions levelLoadingOptions;
+    protected JsonSerializerOptions levelLoadingJsonOptions;
 
     public PackedScene MainScene = default!;
 
@@ -28,7 +28,7 @@ public partial class Game : Node
         Instance = this;
         Version = new Version(0, 0, 1, 0);
         Config = new();
-        levelLoadingOptions = new()
+        levelLoadingJsonOptions = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters =
@@ -72,12 +72,12 @@ public partial class Game : Node
 
     public void ChangeSceneTo(Node sceneNode)
     {
-        Callable.From<Node>(sceneNode =>
+        Callable.From<Node>(n =>
         {
             var tree = GetTree();
             tree.UnloadCurrentScene();
-            tree.Root.AddChild(sceneNode);
-            tree.CurrentScene = sceneNode;
+            tree.Root.AddChild(n);
+            tree.CurrentScene = n;
         }).CallDeferred(sceneNode);
     }
 
@@ -85,7 +85,7 @@ public partial class Game : Node
     {
         LevelSceneProperties = new()
         {
-            ["grasswalk"] = new(GD.Load<PackedScene>("res://TestLevel.tscn"))
+            ["grasswalk"] = new(GD.Load<PackedScene>("res://Levels/Scenes/Grasswalk.tscn"))
         };
     }
 
@@ -125,7 +125,7 @@ public partial class Game : Node
     {
         try
         {
-            var d = JsonSerializer.Deserialize<LevelData>(json, levelLoadingOptions)
+            var d = JsonSerializer.Deserialize<LevelData>(json, levelLoadingJsonOptions)
                 ?? throw new LevelLoadFailedException("LevelDataReading", "Failed to deserialize LevelData.");
             PackedScene scene = Instance.LevelSceneProperties[d.SceneId].Scene;
             var node = scene.Instantiate();
