@@ -24,7 +24,4 @@ follow_viewport_scale = -1.0
 offset_top = 440.0
 offset_right = 240.0
 
-[node name="Camera2D" parent="Board/LayerOverlay" index="3"]
-position = Vector2(110, 0)
-
 [editable path="Board"]

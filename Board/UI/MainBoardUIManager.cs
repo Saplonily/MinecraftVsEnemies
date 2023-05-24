@@ -14,7 +14,7 @@ public partial class MainBoardUIManager : Node2D
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
-    public async Task PlayDisplayAnimation()
+    public async Task DisplayMain()
     {
         animationPlayer.Play("MainDisplay");
         animationPlayer.Advance(0);
@@ -25,6 +25,13 @@ public partial class MainBoardUIManager : Node2D
     {
         animationPlayer.Play("MainHide");
         animationPlayer.Advance(0);
+    }
+
+    public async Task DisplayProgresser()
+    {
+        animationPlayer.Play("ProgresserDisplay");
+        animationPlayer.Advance(0);
+        await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
     }
 
     public void RequestAllDisabledChange(bool toDisabled)

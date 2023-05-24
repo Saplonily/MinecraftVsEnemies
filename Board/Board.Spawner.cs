@@ -137,7 +137,7 @@ public partial class Board : Node
 
             boardUIManager.RequestAllDisabledChange(true);
             //显示除卡以外的其他ui
-            await boardUIManager.PlayDisplayAnimation();
+            await boardUIManager.DisplayMain();
 
             await ToSignal(GetTree().CreateTimer(0.25d), SceneTreeTimer.SignalName.Timeout);
 
@@ -195,6 +195,7 @@ public partial class Board : Node
     public void OnSpawnerBeginningReadyed()
     {
         waveTimer.Timeout -= OnSpawnerBeginningReadyed;
+        _ = boardUIManager.DisplayProgresser();
         SpawnerBeginningReadyed = true;
         awoogaAudioPlayer.Play();
         waveTimer.Timeout += Timeout;
