@@ -1,4 +1,6 @@
 ﻿<Project Sdk="Godot.NET.Sdk/4.0.3">
+	<Import Project="envconfig.props" />
+
 	<PropertyGroup>
 		<TargetFramework>net7</TargetFramework>
 		<LangVersion>preview</LangVersion>
@@ -13,14 +15,10 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<!--TODO: change these to environment variables-->
 		<StartAction>Program</StartAction>
-		<StartProgram>D:\MyGodotSpace\4.0\Godot_v4.0.3-stable_mono_win64.exe</StartProgram>
-		<StartArguments>--verbose --path D:\Projects\MinecraftVsEnemies</StartArguments>
+		<StartProgram>$(MVEGodotExecutablePath)</StartProgram>
+		<StartArguments>$(MVEGodotLaunchArguments) --path $(MVEGodotProjectPath)</StartArguments>
 	</PropertyGroup>
-	<ItemGroup>
-		<None Include=".editorconfig" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Godot" />

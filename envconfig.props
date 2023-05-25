@@ -1,0 +1,8 @@
+<Project>
+	<PropertyGroup>
+		<!--在调试时更改至你自己的项目路径及Godot路径-->
+		<MVEGodotExecutablePath>D:\MyGodotSpace\4.0\Godot_v4.0.3-stable_mono_win64.exe</MVEGodotExecutablePath>
+		<MVEGodotProjectPath>D:\Projects\MinecraftVsEnemies</MVEGodotProjectPath>
+		<MVEGodotLaunchArguments>--verbose</MVEGodotLaunchArguments>
+	</PropertyGroup>
+</Project>
