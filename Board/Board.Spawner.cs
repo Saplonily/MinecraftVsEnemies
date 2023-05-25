@@ -33,7 +33,7 @@ public partial class Board : Node
     protected Drop? awardDrop;
     protected SelectingUI selectingUI = default!;
 
-    protected Action<double> updater = default!;
+    protected Action<double>? updater;
 
     protected int[] rowWeights = new int[5];
 
@@ -42,11 +42,12 @@ public partial class Board : Node
     public int CurrentWave { get; protected set; }
     public LevelData LevelData { get; set; } = default!;
     public bool SpawnerBeginningReadyed { get; protected set; } = false;
+    public bool IsFinalWave => LevelData.TotalWaves == CurrentWave;
 
     public delegate void BoardWaveChangedEventHandler(Board board, int preWave, int curWave);
     public event BoardWaveChangedEventHandler? WaveChanged;
 
-    public void InitSpawner()
+    protected void InitSpawner()
     {
         if (LevelData is null)
         {
@@ -64,9 +65,12 @@ public partial class Board : Node
         StateMachine.EnterCurrent();
     }
 
+    public void UpdateSpawner(double delta)
+        => updater?.Invoke(delta);
+
     #region LevelCoroutine
 
-    public async void LevelOpeningWaitingEnter(LevelState pst)
+    protected async void LevelOpeningWaitingEnter(LevelState pst)
     {
         CurrentWave = 0;
         boardUIManager.MakeMainHide();
@@ -76,7 +80,7 @@ public partial class Board : Node
         StateMachine.State = LevelState.TravelToSelecting;
     }
 
-    public async void LevelTravelToSelectingEnter(LevelState pst)
+    protected async void LevelTravelToSelectingEnter(LevelState pst)
     {
         //开场移动到最右边
         camera.Position = cameraStartPos;
@@ -99,7 +103,7 @@ public partial class Board : Node
         StateMachine.State = LevelState.Main;
     }
 
-    public async void LevelMainEnter(LevelState pst)
+    protected async void LevelMainEnter(LevelState pst)
     {
         if (pst is LevelState.TravelToSelecting)
         {
@@ -172,7 +176,7 @@ public partial class Board : Node
         waveTimer.Timeout += OnSpawnerBeginningReadyed;
     }
 
-    public async void LevelEndingEnter(LevelState pst)
+    protected async void LevelEndingEnter(LevelState pst)
     {
         float lightPercent = 0f;
         RemoteDrawer rd = new();
@@ -192,10 +196,11 @@ public partial class Board : Node
         }
     }
 
-    public void OnSpawnerBeginningReadyed()
+    protected void OnSpawnerBeginningReadyed()
     {
         waveTimer.Timeout -= OnSpawnerBeginningReadyed;
-        _ = boardUIManager.DisplayProgresser();
+        if (!boardUIManager.Progresser.Visible)
+            _ = boardUIManager.DisplayProgresser();
         SpawnerBeginningReadyed = true;
         awoogaAudioPlayer.Play();
         waveTimer.Timeout += Timeout;
@@ -210,22 +215,14 @@ public partial class Board : Node
         }
     }
 
-    public void OnMainWaveTick()
+    protected void OnMainWaveTick()
     {
+        // 最后一波
         if (CurrentWave == LevelData.TotalWaves)
         {
             //Game.Logger.LogInfo(Name, "Next wave of final wave...enter finished state.");
             waveTimer.Stop();
-            updater = d =>
-            {
-                if (awardDrop is null && !GetEnemies().Any())
-                {
-                    var award = bluePrintScene.Instantiate<BluePrint>();
-                    Lawn.AddBoardEntity(award, Lawn.ToLocal(GetViewport().GetCamera2D().GetScreenCenterPosition()).ToVec3WithZ0());
-                    award.ApplyVelocity(new Vector3(Random.Next1m1Float(100, 200), 0, Random.NextFloat(100, 200)));
-                    awardDrop = award;
-                }
-            };
+            updater = null;
             return;
         }
         CurrentWave += 1;
@@ -246,8 +243,18 @@ public partial class Board : Node
 
     #endregion
 
-    public void UpdateSpawner(double delta)
-        => updater?.Invoke(delta);
+    public void DropFinalAward(Vector3 position)
+    {
+        if (awardDrop is null)
+        {
+            var award = bluePrintScene.Instantiate<BluePrint>();
+            Rect2 cameraRect = GetViewport().GetCamera2D().GetCameraRect().Grow(-75f);
+            Lawn.AddBoardEntity(award, position);
+            award.LevelPos = MathM.ClampNoZ(award.LevelPos, cameraRect.Position, cameraRect.End);
+            award.ApplyVelocity(new Vector3(Random.Next1m1Float(100, 200), 0, Random.NextFloat(100, 200)));
+            awardDrop = award;
+        }
+    }
 
     public void ProcessWave(int wave)
     {

@@ -41,7 +41,7 @@ public abstract partial class LawnEntity : BoardEntity
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-        Velocity = Calculate.ApproachNonZ(Velocity, Vector3.Zero, Friction * (float)delta);
+        Velocity = MathM.ApproachNoZ(Velocity, Vector3.Zero, Friction * (float)delta);
         if (EnableGravity)
             ApplyVelocity(Board.Gravity * (float)delta);
         LevelPos += Velocity * (float)delta;

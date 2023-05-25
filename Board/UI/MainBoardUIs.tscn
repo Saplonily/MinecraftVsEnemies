@@ -280,8 +280,11 @@ _data = {
 "RESET": SubResource("Animation_xf8hs")
 }
 
-[node name="MainBoardUIs" type="Node2D"]
+[node name="MainBoardUIs" type="Node2D" node_paths=PackedStringArray("animationPlayer", "Progresser", "RedstoneDisplayer")]
 script = ExtResource("1_veycd")
+animationPlayer = NodePath("AnimationPlayer")
+Progresser = NodePath("WaveProgresser")
+RedstoneDisplayer = NodePath("RedstoneDisplayer")
 CardsLayoutStartPos = Vector2(64, 0)
 
 [node name="RedstoneDisplayer" parent="." instance=ExtResource("2_xc67k")]

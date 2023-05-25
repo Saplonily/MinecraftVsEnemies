@@ -28,6 +28,12 @@ public abstract partial class Enemy : LawnEntity
         }
     }
 
+    public virtual void DropLoot()
+    {
+        if (Board.IsFinalWave && Board.GetEnemies().SingleOrDefault(e => e == this) == this)
+            Board.DropFinalAward(LevelPos);
+    }
+
     public virtual void OnHpUseUp()
     {
     }
@@ -40,6 +46,6 @@ public abstract partial class Enemy : LawnEntity
     {
     }
 
-    public void OnDead()
+    public virtual void OnDead()
         => Dead?.Invoke(this);
 }

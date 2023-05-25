@@ -95,9 +95,19 @@ public static class Extensions
     /// </summary>
     public static Vector2 SwitchTransform(Node2D from, Node2D to)
         => SwitchTransform(from, to, Vector2.Zero);
+
+    public static Rect2 GetCameraRect(this Camera2D camera)
+    {
+        Vector2 size = camera.GetViewportRect().Size / 2 / camera.Zoom;
+        Vector2 leftTop = camera.AnchorMode is Camera2D.AnchorModeEnum.DragCenter ? 
+            camera.GetTargetPosition() : 
+            camera.GetTargetPosition() - size / 2;
+        return new Rect2(leftTop, size);
+    }
+
     #endregion
 
-    #region math
+    #region random math
     public static double NextDouble(this Random r, double min, double max)
         => (r.NextDouble() * (max - min)) + min;
 
@@ -131,7 +141,7 @@ public static class Extensions
 
     #endregion
 
-    #region format
+    #region formating
 
     public static void Write(this BinaryWriter binaryWriter, Sid sid)
         => binaryWriter.Write(sid.ToString());
@@ -178,8 +188,14 @@ public static class Extensions
     #endregion
 }
 
-public static class Calculate
+public static class MathM
 {
+    public static Vector3 ClampNoZ(this Vector3 vector, float minX, float maxX, float minY, float maxY)
+        => new(Math.Clamp(vector.X, minX, maxX), Math.Clamp(vector.Y, minY, maxY), vector.Z);
+
+    public static Vector3 ClampNoZ(this Vector3 vector, Vector2 min, Vector2 max)
+        => ClampNoZ(vector, min.X, max.X, min.Y, max.Y);
+
     public static float Approach(float val, float target, float maxMove)
         => val <= target ? Math.Min(val + maxMove, target) : Math.Max(val - maxMove, target);
 
@@ -197,7 +213,7 @@ public static class Calculate
         return diff.LengthSquared() <= maxMove * maxMove ? target : val + (diff.Normalized() * maxMove);
     }
 
-    public static Vector3 ApproachNonZ(Vector3 val, Vector3 target, float maxMove)
+    public static Vector3 ApproachNoZ(Vector3 val, Vector3 target, float maxMove)
     {
         if (val == target)
             return target;

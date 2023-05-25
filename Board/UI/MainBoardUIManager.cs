@@ -2,17 +2,12 @@ namespace MVE;
 
 public partial class MainBoardUIManager : Node2D
 {
-    protected AnimationPlayer animationPlayer = default!;
-
-    public RedstoneDisplayer RedstoneDisplayer { get; set; } = default!;
+    [Export] protected AnimationPlayer animationPlayer = default!;
+    [Export] public Progresser Progresser { get; set; } = default!;
+    [Export] public RedstoneDisplayer RedstoneDisplayer { get; set; } = default!;
 
     [Export] public Vector2 CardsLayoutStartPos { get; protected set; }
 
-    public override void _Ready()
-    {
-        RedstoneDisplayer = GetNode<RedstoneDisplayer>("RedstoneDisplayer");
-        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-    }
 
     public async Task DisplayMain()
     {

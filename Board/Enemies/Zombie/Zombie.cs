@@ -7,10 +7,10 @@ public record struct ZombieAttackInfo(Weapon? Attacking)
 {
     public bool IsAttacking
     {
-        get => Attacking is not null;
+        readonly get => Attacking is not null;
         set
         {
-            Debug.Assert(!value);
+            Debug.Assert(value == false);
             if (!value) Attacking = null;
         }
     }
@@ -144,8 +144,8 @@ public partial class Zombie : Enemy
     {
         stateMachine.State = ZombieState.Dying;
         mainAtSmPlayBack.Travel("Die");
-        hitBox.CollisionLayer &= 1 << 0;
-        hitBox.CollisionLayer |= 1 << 5;
+        hitBox.SetCollisionLayerValue(2, false);
+        hitBox.SetCollisionLayerValue(7, true);
         deathAudioPlayer.Play();
     }
 
@@ -168,6 +168,7 @@ public partial class Zombie : Enemy
             deathParticleSys.EmitAt(pos);
         }
         Lawn.AddChild(lp);
+        DropLoot();
         OnDead();
         QueueFree();
     }

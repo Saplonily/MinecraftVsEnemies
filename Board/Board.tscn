@@ -28,8 +28,9 @@ readySetScene = ExtResource("8_n5heh")
 hugeWaveTitleScene = ExtResource("9_2retk")
 bluePrintScene = ExtResource("10_0e1oe")
 awoogaAudio = ExtResource("6_7cblf")
-cameraBoardPos = Vector2(110, 0)
-cameraCardSelectingPos = Vector2(600, 0)
+cameraStartPos = Vector2(400, 300)
+cameraBoardPos = Vector2(510, 300)
+cameraCardSelectingPos = Vector2(1000, 300)
 waveTimer = NodePath("WaveTimer")
 
 [node name="LayerMain" type="CanvasLayer" parent="."]
@@ -73,10 +74,12 @@ vertical_alignment = 2
 texture_filter = 1
 
 [node name="Camera2D" type="Camera2D" parent="LayerOverlay"]
-anchor_mode = 0
+position = Vector2(400, 300)
 ignore_rotation = false
+editor_draw_drag_margin = true
 
 [node name="WaveTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [PackedStringArray("Card.tscn", "ReadySet.tscn", "SelectingUI.tscn", "WaveTitle.tscn"), [ExtResource("6_3lrlr"), ExtResource("8_n5heh"), ExtResource("8_nhxlh"), ExtResource("9_2retk")]]

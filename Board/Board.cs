@@ -97,7 +97,7 @@ public partial class Board : Node
     [Conditional("GAME_DEBUG")]
     public void HandleDebugInputs(InputEvent ie)
     {
-        if (ie is InputEventKey key && !key.IsEcho() && key.Pressed)
+        if (ie is InputEventKey key && key.Pressed)
         {
             if (key.Keycode == Key.P)
             {
@@ -111,7 +111,12 @@ public partial class Board : Node
 
             if (key.Keycode == Key.N)
             {
-                waveTimer?.Start(0.1d);
+                waveTimer.Start(GetProcessDeltaTime());
+            }
+
+            if (key.Keycode == Key.F && waveTimer.TimeLeft is >= 0.1d)
+            {
+                waveTimer.Start(GetProcessDeltaTime());
             }
 
             if (key.Keycode == Key.H)
