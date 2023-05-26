@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://c55gbsmtcs6ax"]
+[gd_scene load_steps=4 format=3 uid="uid://c55gbsmtcs6ax"]
 
 [ext_resource type="Script" path="res://Init.cs" id="1_78e5s"]
 [ext_resource type="PackedScene" path="res://LevelSelecting/Level0.tscn" id="2_fsrup"]
+[ext_resource type="PackedScene" uid="uid://wb55ly422djp" path="res://TestScene.tscn" id="3_47bsr"]
 
 [node name="Init" type="Node"]
 script = ExtResource("1_78e5s")
 MainScene = ExtResource("2_fsrup")
-initGotoLevel = "res://Levels/Level01.json"
+initGotoScene = ExtResource("3_47bsr")

@@ -30,7 +30,7 @@ public abstract partial class Enemy : LawnEntity
 
     public virtual void DropLoot()
     {
-        if (Board.IsFinalWave && Board.GetEnemies().SingleOrDefault(e => e == this) == this)
+        if (Board.IsFinalWave && Board.GetEnemies().Only(this))
             Board.DropFinalAward(LevelPos);
     }
 

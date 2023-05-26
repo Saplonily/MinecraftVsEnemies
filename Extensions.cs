@@ -17,6 +17,15 @@ public static class Extensions
     public static T? AsCast<T>(this object obj) where T : class
         => obj as T;
 
+    public static bool Only<T>(this IEnumerable<T> ie, T instance) where T : class
+    {
+        using IEnumerator<T> ieo = ie.GetEnumerator();
+        if (!ieo.MoveNext()) return false;
+        var cur = ieo.Current;
+        if (ieo.MoveNext()) return false;
+        return ReferenceEquals(cur, instance);
+    }
+
     #endregion
 
     #region gd
@@ -99,8 +108,8 @@ public static class Extensions
     public static Rect2 GetCameraRect(this Camera2D camera)
     {
         Vector2 size = camera.GetViewportRect().Size / 2 / camera.Zoom;
-        Vector2 leftTop = camera.AnchorMode is Camera2D.AnchorModeEnum.DragCenter ? 
-            camera.GetTargetPosition() : 
+        Vector2 leftTop = camera.AnchorMode is Camera2D.AnchorModeEnum.DragCenter ?
+            camera.GetTargetPosition() :
             camera.GetTargetPosition() - size / 2;
         return new Rect2(leftTop, size);
     }

@@ -1,0 +1,22 @@
+{
+    "SceneId": "grasswalk",
+    "TotalWaves": 2,
+    "EnemiesSpawning": {
+        "EnemyPool": [
+            {
+                "Id": "zombie",
+                "Weight": 200,
+                "Cost": 100
+            },
+            {
+                "Id": "leat_zombie",
+                "Weight": 100,
+                "Cost": 200
+            }
+        ],
+        "PointsAddFactor": 50
+    },
+    "Inventory": {
+        "CardsAlwaysIncludes": [ "dispenser" ]
+    }
+}

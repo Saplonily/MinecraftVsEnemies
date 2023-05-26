@@ -15,7 +15,7 @@ public partial class TestBoard : Board
         LevelData = new()
         {
             SceneId = "grasswalk",
-            TotalWaves = 20,
+            TotalWaves = 2,
             EnemiesSpawning = esd
         };
     }
