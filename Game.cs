@@ -103,21 +103,26 @@ public partial class Game : Node
     {
         WeaponProperties = new()
         {
-            ["dispenser"] = new(
+            ["dispenser"] = new WeaponProperty(
                 GD.Load<PackedScene>("res://Board/Weapons/Dispenser/Dispenser.tscn"),
                 GD.Load<Texture2D>("res://Board/Weapons/Dispenser/Dispenser.png"),
                 100, 5
             ),
-            ["furnace"] = new(
+            ["furnace"] = new WeaponProperty(
                 GD.Load<PackedScene>("res://Board/Weapons/Furnace/Furnace.tscn"),
                 GD.Load<Texture2D>("res://Board/Weapons/Furnace/Furnace.png"),
                 50, 5
             ),
-            ["obsidian"] = new(
+            ["obsidian"] = new WeaponProperty(
                 GD.Load<PackedScene>("res://Board/Weapons/Obsidian/Obsidian.tscn"),
                 GD.Load<Texture2D>("res://Board/Weapons/Obsidian/Obsidian.png"),
                 50, 50
-            )
+            ),
+            ["heavy_plate"] = new WeaponProperty(
+                GD.Load<PackedScene>("res://Board/Weapons/HeavyPlate/HeavyPlate.tscn"),
+                GD.Load<Texture2D>("res://Board/Weapons/HeavyPlate/HeavyPlate.png"),
+                25, 50
+            ),
         };
     }
 

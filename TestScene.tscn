@@ -35,6 +35,10 @@ InitWeaponSid = "furnace"
 position = Vector2(192, 0)
 InitWeaponSid = "obsidian"
 
+[node name="Card4" parent="Board/LayerOverlay/MainBoardUIs" index="7" instance=ExtResource("3_yofg3")]
+position = Vector2(255, 0)
+InitWeaponSid = "heavy_plate"
+
 [node name="Label" parent="Board/LayerOverlay" index="1"]
 modulate = Color(1, 1, 1, 0.580392)
 offset_top = 0.0

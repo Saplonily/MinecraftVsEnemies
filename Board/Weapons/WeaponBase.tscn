@@ -1,15 +1,14 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=9 format=3 uid="uid://dy521wxpvmis1"]
 
 [ext_resource type="Texture2D" uid="uid://dyyawpfceu5do" path="res://Resource/ShadowGradient.tres" id="1_glbq7"]
 [ext_resource type="Script" path="res://SalExt/SalParticleSys.cs" id="2_bu466"]
 
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_e0cyl"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ifq1"]
 size = Vector2(60, 70)
 
 [sub_resource type="Gradient" id="Gradient_7y0h1"]
-offsets = PackedFloat32Array(0.00588235)
-colors = PackedColorArray(0.247059, 0.243137, 0.243137, 1)
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.695433, 0.689958, 0.689955, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_rhdgh"]
 gradient = SubResource("Gradient_7y0h1")
@@ -37,7 +36,7 @@ metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
 position = Vector2(0, -38)
-shape = SubResource("RectangleShape2D_e0cyl")
+shape = SubResource("RectangleShape2D_2ifq1")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]
@@ -48,7 +47,6 @@ metadata/_edit_lock_ = true
 [node name="DamagingParticleSys" type="Node2D" parent="."]
 script = ExtResource("2_bu466")
 LongShootingShootAmount = 0.1
-DebugDraw = true
 ParticleLifetime = 1.2
 ParticleTexture = [SubResource("GradientTexture2D_rhdgh")]
 ParticleTextureOrginal = Vector2(-0.5, -0.5)

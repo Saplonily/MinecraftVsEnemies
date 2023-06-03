@@ -76,7 +76,7 @@ public partial class Zombie : Enemy
     public void WalkingUpdate(double delta)
     {
         LevelPos += WalkingDirection * WalkingSpeed * (float)delta;
-        var collidedWeapons = GetCollidedWeapons();
+        var collidedWeapons = GetAttackableWeapons();
         Debug.Assert(!attackInfo.IsAttacking);
 
         if (collidedWeapons.Any())
@@ -88,21 +88,23 @@ public partial class Zombie : Enemy
 
     public void AttackingUpdate(double delta)
     {
-        var collidedWeapons = GetCollidedWeapons();
         Debug.Assert(attackInfo.IsAttacking);
+        var toAttacks = GetAttackableWeapons();
 
         attackInfo.Attacking!.BeHurt(this, 50 * delta);
 
-        if (!collidedWeapons.Contains(attackInfo.Attacking))
+        if (!toAttacks.Contains(attackInfo.Attacking))
         {
-            if (!collidedWeapons.Any())
+            if (!toAttacks.Any())
             {
+                // 当前正在破坏的器械不在了并且没有其他碰撞到的, 回到默认状态
                 attackInfo.IsAttacking = false;
                 stateMachine.TravelTo(ZombieState.Walking);
             }
             else
             {
-                attackInfo.Attacking = collidedWeapons.First();
+                // 否则破坏下一个器械
+                attackInfo.Attacking = toAttacks.First();
             }
         }
     }
@@ -111,6 +113,9 @@ public partial class Zombie : Enemy
         => hitBox.GetOverlappingAreas()
             .Where(a => a.Owner is Weapon wea && wea.IsCollidedInThicknessWith(this))
             .Select(a => (Weapon)a.Owner);
+
+    protected IEnumerable<Weapon> GetAttackableWeapons()
+        => GetCollidedWeapons().Where(w => w.Tag.Hasnt(WeaponTags.InGroundNotBeAttackable));
 
     public override void BeHit(Bullet sourceBullet)
     {

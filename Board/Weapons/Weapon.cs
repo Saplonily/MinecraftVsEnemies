@@ -12,6 +12,7 @@ public abstract partial class Weapon : LawnEntity
 
     protected bool enableHpLock = true;
 
+    public Tag<int> Tag;
     public double MaxHp { get; set; } = 200f;
     public double Hp { get; set; } = 200f;
 
@@ -21,6 +22,7 @@ public abstract partial class Weapon : LawnEntity
     public override void _Ready()
     {
         base._Ready();
+        Tag = 0;
         hitBoxArea = GetNode<Area2D>("HitArea") ?? throw new NodeNotFoundException("HitArea");
         damagingParticleSys = GetNode<SalParticleSys>("DamagingParticleSys") ??
             throw new NodeNotFoundException("DamagingParticleSys");
@@ -39,8 +41,9 @@ public abstract partial class Weapon : LawnEntity
             if (Board.Picking is PickingType.Pickaxe)
                 RestoreLight();
         };
-        hitBoxArea.InputEvent += this.HitBoxArea_InputEvent;
+        hitBoxArea.InputEvent += HitBoxArea_InputEvent;
     }
+
     protected void EnterLightCheck(PickingType from, PickingType to)
     {
         if (from is not PickingType.Pickaxe && to is PickingType.Pickaxe)
@@ -48,6 +51,7 @@ public abstract partial class Weapon : LawnEntity
         if (from is PickingType.Pickaxe && to is not PickingType.Pickaxe)
             RestoreLight();
     }
+
     protected void RestoreLight()
         => (sprite.Modulate, onPickingLighted) = (sprite.Modulate / 1.5f, false);
     protected void MakeLight()

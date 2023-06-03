@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://dnqoa40sjswx2"]
+
+[ext_resource type="PackedScene" uid="uid://dy521wxpvmis1" path="res://Board/Weapons/WeaponBase.tscn" id="1_xa3va"]
+[ext_resource type="Texture2D" uid="uid://cs2fmo3emjs8" path="res://Board/Weapons/HeavyPlate/HeavyPlate.png" id="2_pumjd"]
+[ext_resource type="Script" path="res://Board/Weapons/HeavyPlate/HeavyPlate.cs" id="2_rds2y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8c0s"]
+size = Vector2(60, 13)
+
+[sub_resource type="Gradient" id="Gradient_7y0h1"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.695433, 0.689958, 0.689955, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kw24f"]
+gradient = SubResource("Gradient_7y0h1")
+width = 5
+height = 5
+fill_to = Vector2(0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pryeq"]
+gradient = SubResource("Gradient_7y0h1")
+width = 5
+height = 5
+fill_to = Vector2(0, 0)
+
+[node name="HeavyPlate" instance=ExtResource("1_xa3va")]
+script = ExtResource("2_rds2y")
+
+[node name="CollisionShape2D" parent="HitArea" index="0"]
+position = Vector2(0, -9.5)
+shape = SubResource("RectangleShape2D_b8c0s")
+
+[node name="DamagingParticleSys" parent="." index="2"]
+ParticleTexture = [SubResource("GradientTexture2D_kw24f"), SubResource("GradientTexture2D_pryeq")]
+
+[node name="Sprite" type="Sprite2D" parent="." index="3"]
+position = Vector2(0, -37)
+texture = ExtResource("2_pumjd")

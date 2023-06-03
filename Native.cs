@@ -2,8 +2,8 @@
 
 #if GODOT_WINDOWS
 
-using HRESULT = System.Int32;
 using System.Runtime.InteropServices;
+using HRESULT = System.Int32;
 
 namespace MVE;
 

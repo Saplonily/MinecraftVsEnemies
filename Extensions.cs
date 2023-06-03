@@ -3,9 +3,7 @@ global using GodotFileAccess = Godot.FileAccess;
 global using Timer = Godot.Timer;
 global using Vector2 = Godot.Vector2;
 global using Vector3 = Godot.Vector3;
-global using Color = System.Drawing.Color;
 global using FileAccess = System.IO.FileAccess;
-using MVE.SalExt;
 using System.IO;
 
 namespace MVE;

@@ -38,7 +38,7 @@ public partial class Lawn : Node2D
             foreach (var (node, index) in sortedWithIndex)
                 if (node.GetIndex() != index)
                     MoveChild(node, index);
-            
+
             levelEntitiesSortDirty = false;
         }
     }
@@ -46,7 +46,7 @@ public partial class Lawn : Node2D
     public BoardEntity AddBoardEntity(BoardEntity entity, Vector3 levelPosition)
     {
         entity.LevelPos = levelPosition;
-        this.AddChild(entity);
+        AddChild(entity);
         return entity;
     }
 }
