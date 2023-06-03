@@ -5,3 +5,6 @@
 **/Release/**
 **/x64/**
 *.translation
+
+
+push.bat

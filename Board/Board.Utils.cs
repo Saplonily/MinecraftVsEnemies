@@ -2,6 +2,9 @@
 
 public partial class Board
 {
+    public IEnumerable<T> TrackerGet<T>(StringName name) where T : BoardEntity
+        => GetTree().GetNodesInGroup(name).Cast<T>().Where(n => n.Board == this && !n.IsQueuedForDeletion());
+
     public IEnumerable<Enemy> GetEnemies()
-        => GetTree().GetNodesInGroup(GroupNames.Enemy).Cast<Enemy>().Where(n => n.Board == this);
+        => TrackerGet<Enemy>(GroupNames.Enemy);
 }

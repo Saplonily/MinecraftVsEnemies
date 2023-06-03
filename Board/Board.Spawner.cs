@@ -164,8 +164,7 @@ public partial class Board : Node
         //刷怪开始
         updater = _ =>
         {
-            var enemyCount = GetTree().GetNodesInGroup(GroupNames.Enemy).Count;
-            if (enemyCount == 0 && SpawnerBeginningReadyed)
+            if (!GetEnemies().Any() && SpawnerBeginningReadyed)
             {
                 if (waveTimer.TimeLeft > 0.75d)
                     waveTimer.Start(0.75d);

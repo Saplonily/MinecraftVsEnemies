@@ -42,7 +42,6 @@ offset_right = 800.0
 metadata/_edit_lock_ = true
 
 [node name="Camera2D" parent="Board/LayerOverlay" index="3"]
-position = Vector2(110, 0)
 metadata/_edit_lock_ = true
 
 [editable path="Board"]

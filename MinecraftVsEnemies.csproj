@@ -21,6 +21,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Include="salext\readme.md" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Include="Godot" />
 		<Using Include="System" />
 		<Using Include="System.Collections.Generic" />

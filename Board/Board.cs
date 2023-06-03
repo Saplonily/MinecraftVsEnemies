@@ -26,6 +26,7 @@ public partial class Board : Node
     public PickingType Picking { get => picking; }
     public Lawn Lawn { get; protected set; } = default!;
     public DisplayServer.CursorShape ExpectCursorShape { get; set; }
+    /// <summary>储存所有<see cref="Board"/>上的数据, 比如红石量, 大招数量等</summary>
     public BoardBank Bank { get; protected set; }
     public Random Random { get; set; }
     public int ShadowZIndex => -1;
