@@ -39,14 +39,14 @@ public partial class Furnace : Weapon
     public void Produce()
     {
         var redstone = RedstoneScene.Instantiate<Redstone>();
-        float velocity = Board.Random.NextFloat(150, 250);
+        float velocity = Board.Random.NextSingle(150, 250);
         float dir =
             Board.Random.Next1m1() is 1 ?
-            Board.Random.NextFloat(MathF.PI / 8 * 2, MathF.PI / 8 * 3) :
-            Board.Random.NextFloat(MathF.PI / 8 * 5, MathF.PI / 8 * 6);
+            Board.Random.NextSingle(MathF.PI / 8 * 2, MathF.PI / 8 * 3) :
+            Board.Random.NextSingle(MathF.PI / 8 * 5, MathF.PI / 8 * 6);
         Vector2 vec2 = Vector2.FromAngle(-dir) * velocity;
         Vector3 result = new(vec2.X, 0f, -vec2.Y);
-        redstone.ApplyVelocity(result);
+        redstone.Velocity += result;
         Lawn.AddBoardEntity(redstone, LevelPos);
     }
 }

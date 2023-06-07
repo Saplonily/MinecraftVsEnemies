@@ -3,9 +3,7 @@ namespace MVE;
 public partial class Arrow : Bullet
 {
     public float LifeTime { get; set; } = 10.0f;
-
     public Vector3 Direction { get; set; } = Vector3.Right;
-
     public float Speed { get; set; } = 400.0f;
 
     public Arrow()
@@ -21,7 +19,7 @@ public partial class Arrow : Bullet
             LifeTime -= (float)delta;
             if (LifeTime <= 0.0f)
             {
-                this.QueueFree();
+                QueueFree();
             }
         }
     }
@@ -29,7 +27,7 @@ public partial class Arrow : Bullet
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-        this.LevelPos += Direction * Speed * (float)delta;
+        LevelPos += Direction * Speed * (float)delta;
     }
 
 }

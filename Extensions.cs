@@ -115,36 +115,18 @@ public static class Extensions
     #endregion
 
     #region random math
-    public static double NextDouble(this Random r, double min, double max)
-        => (r.NextDouble() * (max - min)) + min;
 
-    public static double NextDouble(this Random r, double max)
-        => r.NextDouble(0f, max);
+    // don't ask me why it called 1m1, idk either
 
-    // idk how to name it
-    public static double Next1m1Double(this Random r, double num)
-        => r.NextDouble(-num, num);
-
-    public static float NextFloat(this Random r)
-        => (float)r.NextDouble();
-
-    // idk how to name it too
-    public static float Next1m1Float(this Random r, float num)
-        => r.NextFloat(-num, num);
-
-    public static float NextFloat(this Random r, float min, float max)
-        => (r.NextFloat() * (max - min)) + min;
-
-    public static float NextFloat(this Random r, float max)
-        => r.NextFloat(0f, max);
-
-    // idk how to name it too too
-    public static int Next1m1(this Random r)
-        => r.Next(2) * 2 - 1;
-
-    // idk how to name it tooooo
-    public static float Next1m1Float(this Random r, float min, float max)
-        => r.NextFloat(min, max) * r.Next1m1();
+    public static double NextDouble(this Random r, double min, double max) => (r.NextDouble() * (max - min)) + min;
+    public static double NextDouble(this Random r, double max) => r.NextDouble(0f, max);
+    public static float NextSingle(this Random r) => (float)r.NextDouble();
+    public static float NextSingle(this Random r, float min, float max) => (NextSingle(r) * (max - min)) + min;
+    public static float NextSingle(this Random r, float max) => r.NextSingle(0f, max);
+    public static double Next1m1Double(this Random r, double num) => r.NextDouble(-num, num);
+    public static float Next1m1Single(this Random r, float num) => r.NextSingle(-num, num);
+    public static float Next1m1Single(this Random r, float min, float max) => r.NextSingle(min, max) * r.Next1m1();
+    public static int Next1m1(this Random r) => r.Next(2) * 2 - 1;
 
     #endregion
 

@@ -30,7 +30,7 @@ public partial class Board : Node
         [Command(CommandName = "produce")]
         public void Produce()
         {
-            foreach (var node in lawn.GetTree().GetNodesInGroup("Furnace"))
+            foreach (var node in board.TrackerGet<Furnace>("Furnace"))
             {
                 if (node is Furnace furnace)
                 {
@@ -48,11 +48,17 @@ public partial class Board : Node
         [Command(CommandName = "kill_all")]
         public void KillAll()
         {
-            var enemies = board.GetTree().GetNodesInGroup("Enemy").Cast<Enemy>();
+            var enemies = board.GetEnemies();
             foreach (var e in enemies)
-            {
-                e.Hp = 0d;
-            }
+                e.Die(DeathReason.Normal);
+        }
+
+        [Command(CommandName = "kill_weapon")]
+        public void KillWeapon()
+        {
+            var weapons = board.TrackerGet<Weapon>("Weapon");
+            foreach (var wea in weapons)
+                wea.Die(DeathReason.Normal);
         }
     }
 }

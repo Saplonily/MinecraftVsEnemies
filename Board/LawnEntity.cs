@@ -11,45 +11,52 @@ public abstract partial class LawnEntity : BoardEntity
     protected Sprite2D shadowSprite = default!;
 
     protected Vector2 shadowSpriteOffset;
-    protected Vector3 velocity;
 
+    public Vector3 Velocity;
     public Lawn Lawn { get; protected set; } = default!;
-
-    public ref Vector3 Velocity => ref velocity;
-
     public float Friction { get; set; } = 250f;
-
     public bool EnableGravity { get; protected set; } = true;
-
     public float Thickess { get; protected set; } = 35f;
+    public bool IsOnGround { get; private set; }
 
     public override void _Ready()
     {
         base._Ready();
         Lawn = this.FindParent<Lawn>() ?? throw new NodeNotFoundException(nameof(MVE.Lawn));
         shadowSprite = GetNode<Sprite2D>("ShadowSprite") ?? throw new NodeNotFoundException(nameof(Sprite2D));
-        shadowSpriteOffset = shadowSprite?.Position ?? Vector2.Zero;
+        shadowSprite.ZIndex = Board.ShadowZIndex;
+        shadowSpriteOffset = shadowSprite.Position;
     }
 
     public override void _Process(double delta)
     {
         base._Process(delta);
         shadowSprite.Position = shadowSpriteOffset + new Vector2(0, LevelPos.Z);
-        shadowSprite.ZIndex = Board.ShadowZIndex;
+#if GAME_DEBUG
+        if (Input.IsKeyPressed(Key.Q))
+        {
+            Velocity += new Vector3(0, 0, Board.Random.NextSingle(0, 15));
+        }
+        Modulate = IsOnGround ? Colors.White : Colors.Aqua;
+#endif
     }
 
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-        Velocity = MathM.ApproachNoZ(Velocity, Vector3.Zero, Friction * (float)delta);
+        float deltaf = (float)delta;
+        bool onGround = false;
+        Velocity = MathM.ApproachNoZ(Velocity, Vector3.Zero, Friction * deltaf);
         if (EnableGravity)
-            ApplyVelocity(Board.Gravity * (float)delta);
-        LevelPos += Velocity * (float)delta;
+            Velocity += Board.Gravity * deltaf;
+        LevelPos += Velocity * deltaf;
         if (LevelPos.Z < 0)
         {
             LevelPos.Z = 0;
             Velocity.Z = 0;
+            onGround = true;
         }
+        IsOnGround = onGround;
     }
 
     /// <summary>
@@ -65,7 +72,4 @@ public abstract partial class LawnEntity : BoardEntity
         float otherY2 = other.LevelPos.Y + other.Thickess;
         return thisY < otherY ? thisY2 >= otherY : thisY < otherY2;
     }
-
-    public void ApplyVelocity(Vector3 velocity)
-        => Velocity += velocity;
 }

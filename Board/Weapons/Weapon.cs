@@ -17,7 +17,7 @@ public abstract partial class Weapon : LawnEntity
     public double Hp { get; set; } = 200f;
 
     public event Action<double>? HpChanged;
-    public event Action? Destroyed;
+    public event Action<Weapon, DeathReason>? Died;
 
     public override void _Ready()
     {
@@ -79,9 +79,9 @@ public abstract partial class Weapon : LawnEntity
     {
         base._Process(delta);
         Hp = Math.Clamp(Hp, 0d, MaxHp);
-        if (Hp == 0d)
+        if (Hp == 0)
         {
-            OnHpUseUp();
+            Die(DeathReason.None);
         }
     }
 
@@ -90,23 +90,19 @@ public abstract partial class Weapon : LawnEntity
         Board.StoneSoundPlayerChooser.Choose().Play();
     }
 
-    public virtual void OnHpUseUp()
+    public virtual void Die(DeathReason deathReason)
     {
-        RemoveChild(damagingParticleSys);
-
-        LeftParticle lp = new(damagingParticleSys);
-        lp.LevelPos = LevelPos;
-        damagingParticleSys.EmitMany(50);
-
         Board.StoneSoundPlayerChooser.Choose().Play();
 
-        Lawn.AddChild(lp);
+        RemoveChild(damagingParticleSys);
+        LeftParticle lp = new(damagingParticleSys);
+        lp.LevelPos = LevelPos;
+        damagingParticleSys.EmitMany(50); Lawn.AddChild(lp);
+        Died?.Invoke(this, deathReason);
         QueueFree();
-        Destroyed?.Invoke();
-        Board.PickingChanged -= EnterLightCheck;
     }
 
-    public virtual void BeHurt(LawnEntity sourceEntity, double amount)
+    public virtual void BeHurt(double amount /*TODO: more arguments*/ )
     {
         if (Game.OnPhysicsInterval(8))
             damagingParticleSys.Emit();

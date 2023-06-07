@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnqoa40sjswx2"]
+[gd_scene load_steps=10 format=3 uid="uid://dnqoa40sjswx2"]
 
 [ext_resource type="PackedScene" uid="uid://dy521wxpvmis1" path="res://Board/Weapons/WeaponBase.tscn" id="1_xa3va"]
 [ext_resource type="Texture2D" uid="uid://cs2fmo3emjs8" path="res://Board/Weapons/HeavyPlate/HeavyPlate.png" id="2_pumjd"]
 [ext_resource type="Script" path="res://Board/Weapons/HeavyPlate/HeavyPlate.cs" id="2_rds2y"]
+[ext_resource type="AudioStream" uid="uid://cun0r5t8g1o8n" path="res://Board/Weapons/HeavyPlate/Pressed.ogg" id="3_qp27t"]
+[ext_resource type="AudioStream" uid="uid://cngxcpcxrmx0y" path="res://Board/Weapons/HeavyPlate/Released.ogg" id="4_2q673"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b8c0s"]
 size = Vector2(60, 13)
@@ -25,6 +27,8 @@ fill_to = Vector2(0, 0)
 
 [node name="HeavyPlate" instance=ExtResource("1_xa3va")]
 script = ExtResource("2_rds2y")
+audioStreamPressed = ExtResource("3_qp27t")
+audioStreamReleased = ExtResource("4_2q673")
 
 [node name="CollisionShape2D" parent="HitArea" index="0"]
 position = Vector2(0, -9.5)

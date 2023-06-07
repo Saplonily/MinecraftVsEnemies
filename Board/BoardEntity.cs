@@ -5,10 +5,7 @@ namespace MVE;
 [DebuggerDisplay("{GetType().Name,nq}, {LevelPos}")]
 public abstract partial class BoardEntity : Node2D
 {
-    [Export]
-    protected Vector3 levelPos;
-
-    public ref Vector3 LevelPos => ref levelPos;
+    [Export] public Vector3 LevelPos;
 
     public Board Board { get; protected set; } = default!;
 

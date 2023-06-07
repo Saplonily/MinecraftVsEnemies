@@ -32,6 +32,7 @@ public partial class Zombie : Enemy
 
     public Vector3 WalkingDirection { get; protected set; } = new(-1.0f, 0.0f, 0.0f);
     public float WalkingSpeed { get; protected set; } = 20.0f;
+    public override double Weight => 20d;
 
     public override void _Ready()
     {
@@ -42,10 +43,9 @@ public partial class Zombie : Enemy
         beHitAudioPlayerChooser = SalAudioPool.GetChooserFromArray(beHitAudios, (new(default!, Bus: "Board")));
         deathAudioPlayer = SalAudioPool.GetPlayer(new(deathAudio, Bus: "Board"));
 
-        hitBox.AreaEntered += Area2D_AreaEntered;
         animationTree.Active = true;
 
-        WalkingSpeed = Board.Random.NextFloat(15f, 23f);
+        WalkingSpeed = Board.Random.NextSingle(15f, 23f);
 
         stateMachine = new();
         stateMachine.RegisterState(ZombieState.Idle);
@@ -59,18 +59,15 @@ public partial class Zombie : Enemy
     {
         base._PhysicsProcess(delta);
         stateMachine.PhysicsUpdate(delta);
+
     }
 
     public override void _Process(double delta)
     {
         base._Process(delta);
         stateMachine.Update(delta);
-    }
-
-    public override void OnHpUseUp()
-    {
-        if (stateMachine.State != ZombieState.Dying)
-            Die(DieReason.None);
+        if (Hp <= 0 && stateMachine.State != ZombieState.Dying)
+            Die(DeathReason.None);
     }
 
     public void WalkingUpdate(double delta)
@@ -91,7 +88,7 @@ public partial class Zombie : Enemy
         Debug.Assert(attackInfo.IsAttacking);
         var toAttacks = GetAttackableWeapons();
 
-        attackInfo.Attacking!.BeHurt(this, 50 * delta);
+        attackInfo.Attacking!.BeHurt(50 * delta);
 
         if (!toAttacks.Contains(attackInfo.Attacking))
         {
@@ -126,27 +123,24 @@ public partial class Zombie : Enemy
         }
     }
 
-    public override void BeHurt(double amount)
+    public override void BeHurt(double amount/*TODO: more arguments*/)
     {
         Hp -= amount;
         beHitAudioPlayerChooser.Choose().Play();
-        animationTree.Set("parameters/HitOneShot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+        animationTree.Set("parameters/HitOneShot/request", (long)AnimationNodeOneShot.OneShotRequest.Fire);
+        if (Hp <= 0 && stateMachine.State != ZombieState.Dying)
+            Die(DeathReason.None);
     }
 
-    protected void Area2D_AreaEntered(Area2D area2d)
+    protected override void HitBox_AreaEntered(Area2D area)
     {
-        var nodeOwner = area2d.Owner;
         if (stateMachine.State != ZombieState.Dying)
-        {
-            if (nodeOwner is Bullet bullet)
-            {
-                BeHit(bullet);
-            }
-        }
+            base.HitBox_AreaEntered(area);
     }
 
-    public void Die(DieReason reason)
+    public override void Die(DeathReason reason)
     {
+        base.Die(reason);
         stateMachine.State = ZombieState.Dying;
         mainAtSmPlayBack.Travel("Die");
         hitBox.SetCollisionLayerValue(2, false);
@@ -165,16 +159,15 @@ public partial class Zombie : Enemy
         {
             var r = Game.Instance.Random;
             Vector2 pos = new();
-            pos.X = r.Next1m1Float(deathParticleSys.ParticlePositionRandomness.X);
-            pos.Y = r.Next1m1Float(deathParticleSys.ParticlePositionRandomness.Y);
-            pos.X = r.Next1m1Float(pos.X);
-            pos.Y = r.Next1m1Float(pos.Y);
+            pos.X = r.Next1m1Single(deathParticleSys.ParticlePositionRandomness.X);
+            pos.Y = r.Next1m1Single(deathParticleSys.ParticlePositionRandomness.Y);
+            pos.X = r.Next1m1Single(pos.X);
+            pos.Y = r.Next1m1Single(pos.Y);
             pos += deathParticleSys.ParticlePosition;
             deathParticleSys.EmitAt(pos);
         }
         Lawn.AddChild(lp);
         DropLoot();
-        OnDead();
         QueueFree();
     }
 }
@@ -185,10 +178,4 @@ public enum ZombieState
     Walking,
     Dying,
     Attacking
-}
-
-public enum DieReason
-{
-    None,
-    Hit
 }

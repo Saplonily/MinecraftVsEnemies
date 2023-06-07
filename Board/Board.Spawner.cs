@@ -249,7 +249,7 @@ public partial class Board : Node
             Rect2 cameraRect = GetViewport().GetCamera2D().GetCameraRect().Grow(-75f);
             Lawn.AddBoardEntity(award, position);
             award.LevelPos = MathM.ClampNoZ(award.LevelPos, cameraRect.Position, cameraRect.End);
-            award.ApplyVelocity(new Vector3(Random.Next1m1Float(100, 200), 0, Random.NextFloat(100, 200)));
+            award.Velocity += new Vector3(Random.Next1m1Single(100, 200), 0, Random.NextSingle(100, 200));
             awardDrop = award;
         }
     }

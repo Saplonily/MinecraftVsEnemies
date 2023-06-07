@@ -10,6 +10,7 @@ public partial class LeatZombie : Zombie
 
     public double CapHp { get; set; } = 400d;
     public double CapMaxHp { get; set; } = 400d;
+    public override double Weight => 50d;
 
     public override void _Ready()
     {

@@ -100,37 +100,30 @@ public partial class Board : Node
         if (ie is InputEventKey key && key.Pressed)
         {
             if (key.Keycode == Key.P)
-            {
                 Command.TargetInstance.Produce();
-            }
 
             if (key.Keycode == Key.K)
-            {
                 Command.TargetInstance.KillAll();
-            }
+
+            if (key.Keycode == Key.L)
+                Command.TargetInstance.KillWeapon();
 
             if (key.Keycode == Key.N)
-            {
                 waveTimer.Start(GetProcessDeltaTime());
-            }
 
             if (key.Keycode == Key.F && waveTimer.TimeLeft is >= 0.1d)
-            {
                 waveTimer.Start(GetProcessDeltaTime());
-            }
 
             if (key.Keycode == Key.H)
             {
-                foreach (var card in GetTree().GetNodesInGroup("Card").Cast<Card>())
+                foreach (var card in TrackerUIGet<Card>("Card"))
                 {
                     card.Cooldown = 0d;
                 }
             }
 
             if (key.Keycode == Key.M)
-            {
                 Bank.SetRedstone(2500);
-            }
         }
     }
 

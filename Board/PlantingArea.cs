@@ -99,7 +99,7 @@ public partial class PlantingArea : Area2D
         {
             var award = GD.Load<PackedScene>("res://Board/Drop/BluePrint.tscn").Instantiate<BluePrint>();
             board.Lawn.AddBoardEntity(award, lawn.GetLocalMousePosition().ToVec3WithZ0());
-            award.ApplyVelocity(new Vector3(board.Random.Next1m1Float(100, 200), 0, board.Random.NextFloat(100, 200)));
+            award.Velocity += new Vector3(board.Random.Next1m1Single(100, 200), 0, board.Random.NextSingle(100, 200));
         }
     }
 
@@ -145,11 +145,11 @@ public partial class PlantingArea : Area2D
 
             gridWeapons[gridPosition.X, gridPosition.Y] = ins;
             weapon = ins;
-            ins.Destroyed += OnWeaponDestroyed;
-            void OnWeaponDestroyed()
+            ins.Died += OnWeaponDied;
+            void OnWeaponDied(Weapon wea, DeathReason _)
             {
                 gridWeapons[gridPosition.X, gridPosition.Y] = null;
-                ins.Destroyed -= OnWeaponDestroyed;
+                wea.Died -= OnWeaponDied;
             }
             weapon.OnPlaced(this);
             return true;
